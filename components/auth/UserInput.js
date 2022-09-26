@@ -1,11 +1,16 @@
 import React from "react";
 import {TextInput, View} from "react-native";
-import Text from "@kaloraat/react-native-text";
+import {Text} from "react-native";
 
 function UserInput({name, value, setValue, keyboardType = "default", secureTextEntry = false}) {
     return (
         <View style={{marginHorizontal: 24}}>
-            <Text semi>{name}</Text>
+            <Text style={{
+                color: "#414959",
+                fontWeight: "300"
+            }}>
+                {name}
+            </Text>
             <TextInput
                 keyboardType={keyboardType}
                 secureTextEntry={secureTextEntry}

@@ -1,6 +1,6 @@
 import React from "react";
 import {TouchableOpacity} from "react-native";
-import Text from "@kaloraat/react-native-text";
+import {Text} from "react-native";
 
 function SubmitButton({handleSubmit, loading}) {
     return (
@@ -15,7 +15,12 @@ function SubmitButton({handleSubmit, loading}) {
                 marginHorizontal: 15
             }}
         >
-            <Text bold medium center color="#fff">
+            <Text style={{
+                color: "#fff",
+                fontSize: 24,
+                fontWeight: "300",
+                textAlign: "center"
+            }}>
                 {loading ? 'Proszę czekać...' : 'Zaloguj się'}
             </Text>
         </TouchableOpacity>
