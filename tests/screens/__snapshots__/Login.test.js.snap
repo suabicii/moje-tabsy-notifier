@@ -51,6 +51,7 @@ exports[`should correctly render Login screen 1`] = `
           "marginBottom": 30,
         }
       }
+      testID="email"
       value=""
     />
   </View>
@@ -83,6 +84,7 @@ exports[`should correctly render Login screen 1`] = `
           "marginBottom": 30,
         }
       }
+      testID="password"
       value=""
     />
   </View>
@@ -108,6 +110,7 @@ exports[`should correctly render Login screen 1`] = `
         "opacity": 1,
       }
     }
+    testID="submit"
   >
     <Text
       style={

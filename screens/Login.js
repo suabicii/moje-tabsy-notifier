@@ -6,7 +6,7 @@ import SubmitButton from "../components/auth/SubmitButton";
 import {API_URL} from "@env";
 import TextError from "../components/error/TextError";
 
-function Login() {
+function Login({navigation}) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -27,8 +27,12 @@ function Login() {
                 if (data.error || data.status !== 200) {
                     console.log('Not Logged In', data);
                     setLoginError(data.error);
+                    setTimeout(() => {
+                        setLoginError('');
+                    }, 5000);
                 } else {
                     console.log('Logged In', data);
+                    navigation.navigate('Home');
                 }
             })
             .catch(err => {

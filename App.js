@@ -1,10 +1,19 @@
 import Login from "./screens/Login";
-import AppRouter from "./routers/AppRouter";
+import {createStackNavigator} from "react-navigation-stack";
+import Home from "./screens/Home";
+import {createAppContainer} from "react-navigation";
+
+const AppNavigator = createStackNavigator({
+    Login,
+    Home
+});
+
+const Navigator = createAppContainer(AppNavigator);
 
 export default function App() {
     return (
-        <AppRouter>
+        <Navigator>
             <Login/>
-        </AppRouter>
+        </Navigator>
     );
 }

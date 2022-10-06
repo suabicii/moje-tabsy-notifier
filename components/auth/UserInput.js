@@ -2,7 +2,7 @@ import React from "react";
 import {TextInput, View} from "react-native";
 import {Text} from "react-native";
 
-function UserInput({name, value, setValue, keyboardType = "default", secureTextEntry = false}) {
+function UserInput({name, value, setValue, keyboardType = "default", secureTextEntry = false, testID}) {
     return (
         <View style={{marginHorizontal: 24}}>
             <Text style={{
@@ -12,6 +12,7 @@ function UserInput({name, value, setValue, keyboardType = "default", secureTextE
                 {name}
             </Text>
             <TextInput
+                testID={testID}
                 keyboardType={keyboardType}
                 secureTextEntry={secureTextEntry}
                 style={{

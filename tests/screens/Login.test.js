@@ -24,7 +24,12 @@ it('should correctly render Login screen', () => {
 });
 
 it('should navigate to notifications screen if logging in succeeded', async () => {
-    render(<Login/>);
+    const navigation = jest.fn().mockImplementation(() => ({
+        navigate(component) {
+            console.log(`Navigated to ${component}`);
+        },
+    }));
+    render(<Login navigation={navigation}/>);
 
     await act(async () => {
         fireEvent.changeText(screen.getByTestId('email'), 'dummy@email.com');
