@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should correctly render TextError component with some content 1`] = `
+<View>
+  <Text
+    style={
+      Object {
+        "color": "#ff5252",
+        "fontSize": 20,
+        "fontWeight": "200",
+        "marginBottom": 20,
+        "textAlign": "center",
+      }
+    }
+  >
+    Dummy error
+  </Text>
+</View>
+`;

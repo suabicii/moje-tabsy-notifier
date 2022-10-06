@@ -4,11 +4,13 @@ import {Text} from "react-native";
 import UserInput from "../components/auth/UserInput";
 import SubmitButton from "../components/auth/SubmitButton";
 import {API_URL} from "@env";
+import TextError from "../components/error/TextError";
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [loginError, setLoginError] = useState('');
 
     const handleSubmit = async () => {
         setLoading(true);
@@ -24,6 +26,7 @@ function Login() {
             .then(data => {
                 if (data.error || data.status !== 200) {
                     console.log('Not Logged In', data);
+                    setLoginError(data.error);
                 } else {
                     console.log('Logged In', data);
                 }
@@ -45,8 +48,9 @@ function Login() {
             }}>
                 Zaloguj się, aby otrzymywać powiadomienia
             </Text>
-            <UserInput name="EMAIL" value={email} setValue={setEmail}/>
-            <UserInput name="HASŁO" value={password} setValue={setPassword} secureTextEntry={true}/>
+            <UserInput testID="email" name="EMAIL" value={email} setValue={setEmail}/>
+            <UserInput testID="password" name="HASŁO" value={password} setValue={setPassword} secureTextEntry={true}/>
+            {loginError && <TextError content={loginError}/>}
             <SubmitButton loading={loading} handleSubmit={handleSubmit}/>
         </View>
     );

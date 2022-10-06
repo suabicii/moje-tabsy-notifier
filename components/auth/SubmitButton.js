@@ -5,6 +5,7 @@ import {Text} from "react-native";
 function SubmitButton({handleSubmit, loading}) {
     return (
         <TouchableOpacity
+            testID="submit"
             onPress={handleSubmit}
             style={{
                 backgroundColor: "#78c2ad",
