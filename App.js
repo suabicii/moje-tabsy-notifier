@@ -7,18 +7,30 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
     const appTitle = 'Moje-Tabsy.pl 💊';
+    const headerBarStyles = {
+        headerStyle: {
+            backgroundColor: "#78c2ad"
+        },
+        headerTintColor: '#fff'
+    };
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName="Login">
                 <Stack.Screen
                     name="Login"
                     component={Login}
-                    options={{title: `${appTitle} | Zaloguj się`}}
+                    options={{
+                        title: `${appTitle} | Zaloguj się`,
+                        ...headerBarStyles
+                    }}
                 />
                 <Stack.Screen
                     name="Home"
                     component={Home}
-                    options={{title: `${appTitle} | Powiadomienia`}}
+                    options={{
+                        title: `${appTitle} | Powiadomienia`,
+                        ...headerBarStyles
+                    }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
