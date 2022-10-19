@@ -29,6 +29,7 @@ export default function App() {
                     component={Home}
                     options={{
                         title: `${appTitle} | Powiadomienia`,
+                        headerBackVisible: false,
                         ...headerBarStyles
                     }}
                 />

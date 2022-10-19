@@ -25,21 +25,19 @@ function Login({navigation}) {
             .then(data => data.json())
             .then(data => {
                 if (data.error || data.status !== 200) {
-                    console.log('Not Logged In', data);
                     setLoginError(data.error);
                     setTimeout(() => {
                         setLoginError('');
                     }, 5000);
                 } else {
-                    console.log('Logged In', data);
-                    navigation.navigate('Home');
+                    navigation.navigate('Home', {logged: true});
                 }
             })
             .catch(err => {
                 console.log(err);
             });
         setLoading(false);
-    }
+    };
 
     return (
         <View style={{flex: 1, justifyContent: "center"}}>

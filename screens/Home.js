@@ -1,7 +1,24 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Text, TouchableOpacity, View} from "react-native";
 
-function Home({navigation}) {
+function Home({navigation, route}) {
+    const [isLogged, setIsLogged] = useState(route.params.logged);
+
+    // block going back until user pushed logout button
+    navigation.addListener('beforeRemove', e => {
+        if (!isLogged) {
+            navigation.dispatch(e.data.action); // unblock going back action
+            return;
+        }
+        e.preventDefault();
+    });
+
+    useEffect(() => {
+        if (!isLogged) {
+            navigation.navigate('Login');
+        }
+    }, [isLogged]);
+
     return (
         <View style={{flex: 1, justifyContent: "center"}}>
             <Text style={{
@@ -33,7 +50,7 @@ function Home({navigation}) {
                 przez Ciebie przyjęty ✅
             </Text>
             <TouchableOpacity
-                onPress={() => navigation.navigate('Login')}
+                onPress={() => setIsLogged(false)}
                 style={{
                     backgroundColor: "#f38c4c",
                     borderRadius: 24,
