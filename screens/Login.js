@@ -35,6 +35,7 @@ function Login({navigation}) {
             })
             .catch(err => {
                 console.log(err);
+                setLoginError(err.toString());
             });
         setLoading(false);
     };

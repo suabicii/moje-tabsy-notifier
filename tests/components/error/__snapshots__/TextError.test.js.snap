@@ -12,6 +12,7 @@ exports[`should correctly render TextError component with some content 1`] = `
         "textAlign": "center",
       }
     }
+    testID="error"
   >
     Dummy error
   </Text>
