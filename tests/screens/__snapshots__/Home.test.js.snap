@@ -67,6 +67,7 @@ exports[`should correctly render Home screen 1`] = `
         "opacity": 1,
       }
     }
+    testID="logoutButton"
   >
     <Text
       style={

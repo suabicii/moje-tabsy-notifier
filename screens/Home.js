@@ -50,6 +50,7 @@ function Home({navigation, route}) {
                 przez Ciebie przyjęty ✅
             </Text>
             <TouchableOpacity
+                testID="logoutButton"
                 onPress={() => setIsLogged(false)}
                 style={{
                     backgroundColor: "#f38c4c",
