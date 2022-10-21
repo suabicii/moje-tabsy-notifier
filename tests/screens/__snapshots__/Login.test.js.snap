@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should correctly render Login screen 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#414959",
+        "fontSize": 32,
+        "fontWeight": "400",
+        "marginBottom": 20,
+        "textAlign": "center",
+      }
+    }
+  >
+    Zaloguj się, aby otrzymywać powiadomienia
+  </Text>
+  <View
+    style={
+      Object {
+        "marginHorizontal": 24,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#414959",
+          "fontWeight": "300",
+        }
+      }
+    >
+      EMAIL
+    </Text>
+    <TextInput
+      keyboardType="default"
+      onChangeText={[Function]}
+      secureTextEntry={false}
+      style={
+        Object {
+          "borderBottomColor": "#8e93a1",
+          "borderBottomWidth": 0.5,
+          "height": 48,
+          "marginBottom": 30,
+        }
+      }
+      testID="email"
+      value=""
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "marginHorizontal": 24,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#414959",
+          "fontWeight": "300",
+        }
+      }
+    >
+      HASŁO
+    </Text>
+    <TextInput
+      keyboardType="default"
+      onChangeText={[Function]}
+      secureTextEntry={true}
+      style={
+        Object {
+          "borderBottomColor": "#8e93a1",
+          "borderBottomWidth": 0.5,
+          "height": 48,
+          "marginBottom": 30,
+        }
+      }
+      testID="password"
+      value=""
+    />
+  </View>
+  <View
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#78c2ad",
+        "borderRadius": 24,
+        "height": 50,
+        "justifyContent": "center",
+        "marginBottom": 20,
+        "marginHorizontal": 15,
+        "opacity": 1,
+      }
+    }
+    testID="submit"
+  >
+    <Text
+      style={
+        Object {
+          "color": "#fff",
+          "fontSize": 24,
+          "fontWeight": "300",
+          "textAlign": "center",
+        }
+      }
+    >
+      Zaloguj się
+    </Text>
+  </View>
+</View>
+`;
