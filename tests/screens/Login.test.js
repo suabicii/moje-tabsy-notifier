@@ -1,6 +1,4 @@
-/**
- * @jest-environment jsdom
- * */
+
 import React from "react";
 import renderer from "react-test-renderer";
 import Login from "../../screens/Login";
@@ -40,7 +38,7 @@ it('should navigate to Home screen if logging in succeeded', async () => {
     expect(navigate).toHaveBeenCalledWith('Home', {logged: true});
 });
 
-it('should display error message if logging in failed', async () => {
+it('should display error message if logging in failed due authentication error', async () => {
     const navigate = jest.fn();
     render(<Login navigation={{navigate}}/>);
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
