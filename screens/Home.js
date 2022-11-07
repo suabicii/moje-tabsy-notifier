@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {Text, TouchableOpacity, View} from "react-native";
+import {APP_ID, APP_TOKEN} from "@env";
 
 function Home({navigation, route}) {
-    const [isLogged, setIsLogged] = useState(route.params.logged);
+    const {userId, logged} = route.params;
+    const [isLogged, setIsLogged] = useState(logged);
 
     // block going back until user pushed logout button
     navigation.addListener('beforeRemove', e => {
@@ -18,6 +20,26 @@ function Home({navigation, route}) {
             navigation.navigate('Login');
         }
     }, [isLogged]);
+
+    // useEffect(() => {
+    //     async function sendNotificationAfterLogin() {
+    //         await fetch('https://app.nativenotify.com/api/indie/notification', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Accept': 'application/json',
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({
+    //                 subID: userId,
+    //                 appId: APP_ID,
+    //                 appToken: APP_TOKEN,
+    //                 title: 'Login success',
+    //                 message: 'Pomyślnie zalogowano'
+    //             })
+    //         });
+    //     }
+    //     sendNotificationAfterLogin();
+    // }, []);
 
     return (
         <View style={{flex: 1, justifyContent: "center"}}>

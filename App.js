@@ -2,10 +2,14 @@ import Login from "./screens/Login";
 import Home from "./screens/Home";
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import registerNNPushToken from 'native-notify';
+import {APP_ID, APP_TOKEN} from "@env";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+    registerNNPushToken(APP_ID, APP_TOKEN);
+
     const appTitle = 'Moje-Tabsy.pl 💊';
     const headerBarStyles = {
         headerStyle: {
@@ -13,6 +17,7 @@ export default function App() {
         },
         headerTintColor: '#fff'
     };
+
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName="Login">

@@ -5,6 +5,8 @@ import UserInput from "../components/auth/UserInput";
 import SubmitButton from "../components/auth/SubmitButton";
 import {API_URL} from "@env";
 import TextError from "../components/error/TextError";
+import {registerIndieID} from "native-notify";
+import {APP_ID, APP_TOKEN} from "@env";
 
 function Login({navigation}) {
     const [email, setEmail] = useState('');
@@ -23,20 +25,26 @@ function Login({navigation}) {
             body: JSON.stringify({email, password})
         })
             .then(data => data.json())
-            .then(data => {
+            .then(async data => {
                 if (data.error || data.status !== 200) {
                     setLoginError(data.error);
-                    setTimeout(() => {
-                        setLoginError('');
-                    }, 5000);
                 } else {
-                    navigation.navigate('Home', {logged: true});
+                    await registerIndieID(data.user_id, APP_ID, APP_TOKEN);
+                    navigation.navigate('Home', {
+                        logged: true,
+                        userId: data.user_id
+                    });
                 }
             })
             .catch(err => {
                 console.log(err);
-                setLoginError(err.toString());
+                setLoginError(`${err}`);
             });
+        if (!loginError) {
+            setTimeout(() => {
+                setLoginError('');
+            }, 5000);
+        }
         setLoading(false);
     };
 

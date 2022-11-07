@@ -16,7 +16,7 @@
       "\\.[jt]sx?$": "babel-jest"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|native-notify)"
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/setupTests.js"
@@ -26,9 +26,12 @@
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.1",
     "expo": "~46.0.9",
+    "expo-device": "~4.3.0",
+    "expo-notifications": "~0.16.1",
     "expo-status-bar": "~1.4.0",
     "jest": "^26.6.3",
     "jest-expo": "^46.0.1",
+    "native-notify": "^3.0.2",
     "react": "18.0.0",
     "react-native": "0.69.6",
     "react-native-dotenv": "^3.3.1",
