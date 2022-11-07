@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Text, TouchableOpacity, View} from "react-native";
-import {APP_ID, APP_TOKEN} from "@env";
+import {API_URL, APP_ID, APP_TOKEN} from "@env";
 
 function Home({navigation, route}) {
     const {userId, logged} = route.params;
     const [isLogged, setIsLogged] = useState(logged);
+    const [loading, setLoading] = useState(false);
 
     // block going back until user pushed logout button
     navigation.addListener('beforeRemove', e => {
@@ -20,6 +21,29 @@ function Home({navigation, route}) {
             navigation.navigate('Login');
         }
     }, [isLogged]);
+
+    const handleLogout = async () => {
+        setLoading(true);
+        await fetch(`${API_URL}/api/logout`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({userId})
+        })
+            .then(data => data.json())
+            .then(data => {
+                console.log(data);
+                if (data.status === 200) {
+                    setIsLogged(false);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        setLoading(false);
+    };
 
     // useEffect(() => {
     //     async function sendNotificationAfterLogin() {
@@ -73,7 +97,7 @@ function Home({navigation, route}) {
             </Text>
             <TouchableOpacity
                 testID="logoutButton"
-                onPress={() => setIsLogged(false)}
+                onPress={() => handleLogout()}
                 style={{
                     backgroundColor: "#f38c4c",
                     borderRadius: 24,
@@ -89,7 +113,7 @@ function Home({navigation, route}) {
                     fontWeight: "300",
                     textAlign: "center"
                 }}>
-                    Wyloguj się
+                    {loading ? 'Proszę czekać...' : 'Wyloguj się'}
                 </Text>
             </TouchableOpacity>
         </View>
