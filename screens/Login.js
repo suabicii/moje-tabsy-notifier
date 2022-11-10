@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {View} from "react-native";
 import {Text} from "react-native";
 import UserInput from "../components/auth/UserInput";
@@ -7,8 +7,45 @@ import {API_URL} from "@env";
 import TextError from "../components/error/TextError";
 import {registerIndieID} from "native-notify";
 import {APP_ID, APP_TOKEN} from "@env";
+import {generateToken} from "../utils/tokenGenerator";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Login({navigation}) {
+    // Check if user is already saved in back-end -> if yes, login automatically
+    const autoLogIn = async () => {
+        const token = await AsyncStorage.getItem('moje_tabsy_token');
+        if (token) {
+            await fetch(`${API_URL}/api/login-auto`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({token})
+            })
+                .then(data => data.json())
+                .then(async data => {
+                    if (data.status === 200 && data.message) {
+                        console.log(data.message);
+                    } else if (data.status === 200 && data.user_id) {
+                        await registerIndieID(data.user_id, APP_ID, APP_TOKEN);
+                        navigation.navigate('Home', {
+                            logged: true,
+                            userId: data.user_id
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+    };
+
+    useEffect(() => {
+        autoLogIn().then(() => {
+        });
+    }, []);
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -16,13 +53,15 @@ function Login({navigation}) {
 
     const handleSubmit = async () => {
         setLoading(true);
+        const token = generateToken();
+        await AsyncStorage.setItem('moje_tabsy_token', token);
         await fetch(`${API_URL}/api/login`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({email, password})
+            body: JSON.stringify({email, password, token})
         })
             .then(data => data.json())
             .then(async data => {
@@ -37,7 +76,7 @@ function Login({navigation}) {
                 }
             })
             .catch(err => {
-                console.log(err);
+                console.log(err.message);
                 setLoginError(`${err}`);
             });
         if (!loginError) {

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Text, TouchableOpacity, View} from "react-native";
 import {API_URL, APP_ID, APP_TOKEN} from "@env";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Home({navigation, route}) {
     const {userId, logged} = route.params;
@@ -33,11 +34,12 @@ function Home({navigation, route}) {
             body: JSON.stringify({userId})
         })
             .then(data => data.json())
-            .then(data => {
+            .then(async data => {
                 console.log(data);
                 if (data.status === 200) {
                     setIsLogged(false);
                 }
+                await AsyncStorage.clear();
             })
             .catch(err => {
                 console.log(err);
