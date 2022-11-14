@@ -1,13 +1,17 @@
-
 import React from "react";
 import renderer from "react-test-renderer";
 import Login from "../../screens/Login";
-import {fireEvent, render, screen} from "@testing-library/react-native";
+import {fireEvent, render, screen, waitFor} from "@testing-library/react-native";
 import {act} from "@testing-library/react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-beforeAll(() => {
+beforeEach(async () => {
+    await AsyncStorage.clear();
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
-        json: () => Promise.resolve({status: 200})
+        json: () => Promise.resolve({
+            status: 200,
+            user_id: 'john@doe.com'
+        })
     }));
 });
 
@@ -35,7 +39,10 @@ it('should navigate to Home screen if logging in succeeded', async () => {
 
     await submitUserData();
 
-    expect(navigate).toHaveBeenCalledWith('Home', {logged: true});
+    expect(navigate).toHaveBeenCalledWith('Home', {
+        logged: true,
+        userId: 'john@doe.com'
+    });
 });
 
 it('should display error message if logging in failed due authentication error', async () => {
@@ -58,4 +65,25 @@ it('should display error message if logging in failed due connection problem', a
     await submitUserData();
 
     expect(screen.getByTestId('error')).toBeTruthy();
+});
+
+it('should automatically log in if token is correct', async () => {
+    const navigate = jest.fn();
+    await AsyncStorage.setItem('moje_tabsy_token', 'correct_token');
+
+    render(<Login navigation={{navigate}}/>);
+
+    await waitFor(() => {
+        expect(navigate).toHaveBeenCalledWith('Home', {
+            logged: true,
+            userId: 'john@doe.com'
+        })
+    });
+});
+
+it('should stay in Login screen if token was not found', () => {
+    const navigate = jest.fn();
+    render(<Login navigation={{navigate}}/>);
+
+    expect(navigate).toBeCalledTimes(0);
 });

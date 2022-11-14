@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {View} from "react-native";
 import {Text} from "react-native";
 import UserInput from "../components/auth/UserInput";
@@ -12,7 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Login({navigation}) {
     // Check if user is already saved in back-end -> if yes, login automatically
-    const autoLogIn = async () => {
+    (async () => {
         const token = await AsyncStorage.getItem('moje_tabsy_token');
         if (token) {
             await fetch(`${API_URL}/api/login-auto`, {
@@ -39,12 +39,7 @@ function Login({navigation}) {
                     console.log(err);
                 });
         }
-    };
-
-    useEffect(() => {
-        autoLogIn().then(() => {
-        });
-    }, []);
+    })();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
