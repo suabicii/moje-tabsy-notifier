@@ -1,45 +1,47 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {View} from "react-native";
 import {Text} from "react-native";
 import UserInput from "../components/auth/UserInput";
 import SubmitButton from "../components/auth/SubmitButton";
-import {API_URL} from "@env";
 import TextError from "../components/error/TextError";
 import {registerIndieID} from "native-notify";
 import {APP_ID, APP_TOKEN} from "@env";
 import {generateToken} from "../utils/tokenGenerator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {ajaxCall} from "../utils/ajaxCall";
 
 function Login({navigation}) {
-    // Check if user is already saved in back-end -> if yes, login automatically
-    (async () => {
+    const registerIndieIDAndMoveToHomeScreen = async data => {
+        await registerIndieID(data.user_id, APP_ID, APP_TOKEN);
+        navigation.navigate('Home', {
+            logged: true,
+            userId: data.user_id
+        });
+    };
+
+// Check if user is already saved in back-end -> if yes, login automatically
+    const autoLogin = async () => {
         const token = await AsyncStorage.getItem('moje_tabsy_token');
         if (token) {
-            await fetch(`${API_URL}/api/login-auto`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({token})
-            })
-                .then(data => data.json())
+            await ajaxCall('post', 'login-auto', {token})
                 .then(async data => {
                     if (data.status === 200 && data.message) {
                         console.log(data.message);
+                        await AsyncStorage.clear();
                     } else if (data.status === 200 && data.user_id) {
-                        await registerIndieID(data.user_id, APP_ID, APP_TOKEN);
-                        navigation.navigate('Home', {
-                            logged: true,
-                            userId: data.user_id
-                        });
+                        await registerIndieIDAndMoveToHomeScreen(data);
                     }
                 })
                 .catch(err => {
                     console.log(err);
                 });
         }
-    })();
+    };
+
+    useEffect(() => {
+        autoLogin().then(() => {
+        });
+    }, []);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -50,28 +52,15 @@ function Login({navigation}) {
         setLoading(true);
         const token = generateToken();
         await AsyncStorage.setItem('moje_tabsy_token', token);
-        await fetch(`${API_URL}/api/login`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email, password, token})
-        })
-            .then(data => data.json())
+        await ajaxCall('post', 'login', {email, password, token})
             .then(async data => {
                 if (data.error || data.status !== 200) {
                     setLoginError(data.error);
                 } else {
-                    await registerIndieID(data.user_id, APP_ID, APP_TOKEN);
-                    navigation.navigate('Home', {
-                        logged: true,
-                        userId: data.user_id
-                    });
+                    await registerIndieIDAndMoveToHomeScreen(data);
                 }
             })
             .catch(err => {
-                console.log(err.message);
                 setLoginError(`${err}`);
             });
         if (!loginError) {

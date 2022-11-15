@@ -87,3 +87,19 @@ it('should stay in Login screen if token was not found', () => {
 
     expect(navigate).toBeCalledTimes(0);
 });
+
+it('should stay in Login screen and clear AsyncStorage if token was incorrect', async () => {
+    const navigate = jest.fn();
+    await AsyncStorage.setItem('moje_tabsy_token', 'incorrect_token');
+    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+        json: () => Promise.resolve({
+            status: 200,
+            message: 'Mobile app user is not logged in'
+        })
+    }));
+
+    render(<Login navigation={{navigate}}/>);
+    const token = await AsyncStorage.getItem('incorrect_token');
+
+    expect(token).toBeFalsy();
+});

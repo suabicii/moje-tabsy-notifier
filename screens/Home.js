@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {Text, TouchableOpacity, View} from "react-native";
-import {API_URL, APP_ID, APP_TOKEN} from "@env";
+import {APP_ID, APP_TOKEN} from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {ajaxCall} from "../utils/ajaxCall";
 
 function Home({navigation, route}) {
     const {userId, logged} = route.params;
@@ -25,15 +26,7 @@ function Home({navigation, route}) {
 
     const handleLogout = async () => {
         setLoading(true);
-        await fetch(`${API_URL}/api/logout`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({userId})
-        })
-            .then(data => data.json())
+        await ajaxCall('post', 'logout', {userId})
             .then(async data => {
                 console.log(data);
                 if (data.status === 200) {
