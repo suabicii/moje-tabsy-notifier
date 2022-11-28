@@ -8,6 +8,7 @@ function Home({navigation, route}) {
     const {userId, logged} = route.params;
     const [isLogged, setIsLogged] = useState(logged);
     const [loading, setLoading] = useState(false);
+    const [drugList, setDrugList] = useState([]);
 
     // block going back until user pushed logout button
     navigation.addListener('beforeRemove', e => {
@@ -23,6 +24,30 @@ function Home({navigation, route}) {
             navigation.navigate('Login');
         }
     }, [isLogged]);
+
+    useEffect(() => {
+        setInterval( async () => {
+            const token = await AsyncStorage.getItem('moje_tabsy_token');
+            await ajaxCall('get', `drug-notify/${token}`)
+                .then(data => {
+                    setDrugList(data);
+                    console.log(data);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }, 300000);
+    }, []);
+
+    useEffect(() => {
+        drugList.forEach(({dosing, dosingMoments, name, unit}) => {
+            for (const key in dosingMoments) {
+                if (dosingMoments.hasOwnProperty(key)) {
+                    console.log(`Weź ${name} ${dosing} ${unit} o godz. ${dosingMoments[key]}`);
+                }
+            }
+        });
+    }, [drugList]);
 
     const handleLogout = async () => {
         setLoading(true);
