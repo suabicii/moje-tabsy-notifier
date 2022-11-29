@@ -2,13 +2,22 @@ import React from "react";
 import {TouchableOpacity} from "react-native";
 import {Text} from "react-native";
 
-function SubmitButton({handleSubmit, loading}) {
+function PillButton({handlePress, loading, variant, text}) {
+    let backgroundColor;
+    if (variant === 'primary') {
+        backgroundColor = '#78c2ad';
+    } else if (variant === 'warning') {
+        backgroundColor = '#f38c4c';
+    } else {
+        backgroundColor = '#525252';
+    }
+    
     return (
         <TouchableOpacity
-            testID="submit"
-            onPress={handleSubmit}
+            testID="btn-pill"
+            onPress={handlePress}
             style={{
-                backgroundColor: "#78c2ad",
+                backgroundColor,
                 borderRadius: 24,
                 height: 50,
                 justifyContent: "center",
@@ -22,10 +31,10 @@ function SubmitButton({handleSubmit, loading}) {
                 fontWeight: "300",
                 textAlign: "center"
             }}>
-                {loading ? 'Proszę czekać...' : 'Zaloguj się'}
+                {loading ? 'Proszę czekać...' : text}
             </Text>
         </TouchableOpacity>
     );
 }
 
-export default SubmitButton;
+export default PillButton;

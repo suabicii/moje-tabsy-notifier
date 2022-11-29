@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {Text, TouchableOpacity, View} from "react-native";
+import {Text, View} from "react-native";
 import {APP_ID, APP_TOKEN} from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ajaxCall} from "../utils/ajaxCall";
+import PillButton from "../components/buttons/PillButton";
 
 function Home({navigation, route}) {
     const {userId, logged, token} = route.params;
@@ -26,7 +27,7 @@ function Home({navigation, route}) {
     }, [isLogged]);
 
     useEffect(() => {
-        setInterval( async () => {
+        setInterval(async () => {
             await ajaxCall('get', `drug-notify/${token}`)
                 .then(data => {
                     setDrugList(data);
@@ -38,15 +39,15 @@ function Home({navigation, route}) {
         }, 300000);
     }, []);
 
-    useEffect(() => {
-        drugList.forEach(({dosing, dosingMoments, name, unit}) => {
-            for (const key in dosingMoments) {
-                if (dosingMoments.hasOwnProperty(key)) {
-                    console.log(`Weź ${name} ${dosing} ${unit} o godz. ${dosingMoments[key]}`);
-                }
-            }
-        });
-    }, [drugList]);
+    // useEffect(() => {
+    //     drugList.forEach(({dosing, dosingMoments, name, unit}) => {
+    //         for (const key in dosingMoments) {
+    //             if (dosingMoments.hasOwnProperty(key)) {
+    //                 console.log(`Weź ${name} ${dosing} ${unit} o godz. ${dosingMoments[key]}`);
+    //             }
+    //         }
+    //     });
+    // }, [drugList]);
 
     const handleLogout = async () => {
         setLoading(true);
@@ -107,6 +108,7 @@ function Home({navigation, route}) {
                 color: "#525252",
                 fontSize: 22,
                 marginTop: 10,
+                marginBottom: 15,
                 paddingHorizontal: 5,
                 textAlign: "center"
             }}>
@@ -114,27 +116,7 @@ function Home({navigation, route}) {
                 dzięki któremu potwierdzisz, że właśnie został
                 przez Ciebie przyjęty ✅
             </Text>
-            <TouchableOpacity
-                testID="logoutButton"
-                onPress={() => handleLogout()}
-                style={{
-                    backgroundColor: "#f38c4c",
-                    borderRadius: 24,
-                    height: 50,
-                    justifyContent: "center",
-                    marginTop: 20,
-                    marginHorizontal: 15
-                }}
-            >
-                <Text style={{
-                    color: "#fff",
-                    fontSize: 24,
-                    fontWeight: "300",
-                    textAlign: "center"
-                }}>
-                    {loading ? 'Proszę czekać...' : 'Wyloguj się'}
-                </Text>
-            </TouchableOpacity>
+            <PillButton handlePress={handleLogout} loading={loading} variant="warning" text="Wyloguj się"/>
         </View>
     );
 }

@@ -54,7 +54,7 @@ it('should go back to Login screen after pressing logout button', async () => {
     );
 
     await act(async () => {
-        fireEvent.press(screen.getByTestId('logoutButton'));
+        fireEvent.press(screen.getByTestId('btn-pill'));
     });
 
     expect(navigate).toBeCalled();
@@ -77,7 +77,7 @@ it('should stay in Home screen if logout request failed', async () => {
     fetch.mockRejectedValueOnce(new Error('Something went wrong'));
 
     await act(async () => {
-        fireEvent.press(screen.getByTestId('logoutButton'));
+        fireEvent.press(screen.getByTestId('btn-pill'));
     });
 
     expect(navigate).toHaveBeenCalledTimes(0);

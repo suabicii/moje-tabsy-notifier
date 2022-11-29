@@ -4,6 +4,7 @@ import Login from "../../screens/Login";
 import {fireEvent, render, screen, waitFor} from "@testing-library/react-native";
 import {act} from "@testing-library/react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {generateToken} from "../../utils/tokenGenerator";
 
 beforeEach(async () => {
     await AsyncStorage.clear();
@@ -29,19 +30,23 @@ const submitUserData = async () => {
     await act(async () => {
         fireEvent.changeText(screen.getByTestId('email'), 'dummy@email.com');
         fireEvent.changeText(screen.getByTestId('password'), 'dummyPassword123^&!');
-        fireEvent.press(screen.getByTestId('submit'));
+        fireEvent.press(screen.getByTestId('btn-pill'));
     });
 };
 
 it('should navigate to Home screen if logging in succeeded', async () => {
     const navigate = jest.fn();
+    const tokenGenerator = require('../../utils/tokenGenerator');
+    const mockedToken = '123!#*&abc456';
+    jest.spyOn(tokenGenerator, 'generateToken').mockReturnValue(mockedToken);
     render(<Login navigation={{navigate}}/>);
 
     await submitUserData();
 
     expect(navigate).toHaveBeenCalledWith('Home', {
         logged: true,
-        userId: 'john@doe.com'
+        userId: 'john@doe.com',
+        token: mockedToken
     });
 });
 
@@ -76,7 +81,8 @@ it('should automatically log in if token is correct', async () => {
     await waitFor(() => {
         expect(navigate).toHaveBeenCalledWith('Home', {
             logged: true,
-            userId: 'john@doe.com'
+            userId: 'john@doe.com',
+            token: 'correct_token'
         })
     });
 });

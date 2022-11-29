@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {View} from "react-native";
 import {Text} from "react-native";
 import UserInput from "../components/auth/UserInput";
-import SubmitButton from "../components/auth/SubmitButton";
+import PillButton from "../components/buttons/PillButton";
 import TextError from "../components/error/TextError";
 import {registerIndieID} from "native-notify";
 import {APP_ID, APP_TOKEN} from "@env";
@@ -86,7 +86,7 @@ function Login({navigation}) {
             <UserInput testID="email" name="EMAIL" value={email} setValue={setEmail}/>
             <UserInput testID="password" name="HASŁO" value={password} setValue={setPassword} secureTextEntry={true}/>
             {loginError && <TextError content={loginError}/>}
-            <SubmitButton loading={loading} handleSubmit={handleSubmit}/>
+            <PillButton loading={loading} handlePress={handleSubmit} variant="primary" text="Zaloguj się"/>
         </View>
     );
 }

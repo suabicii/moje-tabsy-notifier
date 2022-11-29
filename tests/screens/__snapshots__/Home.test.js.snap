@@ -62,12 +62,12 @@ exports[`should correctly render Home screen 1`] = `
         "borderRadius": 24,
         "height": 50,
         "justifyContent": "center",
+        "marginBottom": 20,
         "marginHorizontal": 15,
-        "marginTop": 20,
         "opacity": 1,
       }
     }
-    testID="logoutButton"
+    testID="btn-pill"
   >
     <Text
       style={

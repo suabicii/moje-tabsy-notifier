@@ -110,7 +110,7 @@ exports[`should correctly render Login screen 1`] = `
         "opacity": 1,
       }
     }
-    testID="submit"
+    testID="btn-pill"
   >
     <Text
       style={
