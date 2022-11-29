@@ -11,11 +11,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ajaxCall} from "../utils/ajaxCall";
 
 function Login({navigation}) {
-    const registerIndieIDAndMoveToHomeScreen = async data => {
+    const registerIndieIDAndMoveToHomeScreen = async (data, token) => {
         await registerIndieID(data.user_id, APP_ID, APP_TOKEN);
         navigation.navigate('Home', {
             logged: true,
-            userId: data.user_id
+            userId: data.user_id,
+            token
         });
     };
 
@@ -29,7 +30,7 @@ function Login({navigation}) {
                         console.log(data.message);
                         await AsyncStorage.clear();
                     } else if (data.status === 200 && data.user_id) {
-                        await registerIndieIDAndMoveToHomeScreen(data);
+                        await registerIndieIDAndMoveToHomeScreen(data, token);
                     }
                 })
                 .catch(err => {
@@ -57,7 +58,7 @@ function Login({navigation}) {
                 if (data.error || data.status !== 200) {
                     setLoginError(data.error);
                 } else {
-                    await registerIndieIDAndMoveToHomeScreen(data);
+                    await registerIndieIDAndMoveToHomeScreen(data, token);
                 }
             })
             .catch(err => {

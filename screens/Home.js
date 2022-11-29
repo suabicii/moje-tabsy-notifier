@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ajaxCall} from "../utils/ajaxCall";
 
 function Home({navigation, route}) {
-    const {userId, logged} = route.params;
+    const {userId, logged, token} = route.params;
     const [isLogged, setIsLogged] = useState(logged);
     const [loading, setLoading] = useState(false);
     const [drugList, setDrugList] = useState([]);
@@ -27,7 +27,6 @@ function Home({navigation, route}) {
 
     useEffect(() => {
         setInterval( async () => {
-            const token = await AsyncStorage.getItem('moje_tabsy_token');
             await ajaxCall('get', `drug-notify/${token}`)
                 .then(data => {
                     setDrugList(data);
