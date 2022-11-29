@@ -4,6 +4,7 @@ import {APP_ID, APP_TOKEN} from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ajaxCall} from "../utils/ajaxCall";
 import PillButton from "../components/buttons/PillButton";
+import WelcomeModal from "../components/modals/WelcomeModal";
 
 function Home({navigation, route}) {
     const {userId, logged, token} = route.params;
@@ -94,28 +95,7 @@ function Home({navigation, route}) {
             }}>
                 Monitorowanie rozpoczęte 👁
             </Text>
-            <Text style={{
-                fontSize: 24,
-                marginTop: 25,
-                paddingHorizontal: 5,
-                textAlign: "center"
-            }}>
-                Od teraz będziesz otrzymywał/-a powiadomienia 🔔,
-                które będą Ci przypominać o zażyciu leków/suplementów 💊
-                lub kończących się zapasach
-            </Text>
-            <Text style={{
-                color: "#525252",
-                fontSize: 22,
-                marginTop: 10,
-                marginBottom: 15,
-                paddingHorizontal: 5,
-                textAlign: "center"
-            }}>
-                W godzinie zażycia medykamentu pojawi się przycisk,
-                dzięki któremu potwierdzisz, że właśnie został
-                przez Ciebie przyjęty ✅
-            </Text>
+            <WelcomeModal isVisible={true}/>
             <PillButton handlePress={handleLogout} loading={loading} variant="warning" text="Wyloguj się"/>
         </View>
     );
