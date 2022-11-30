@@ -10,7 +10,11 @@ function Home({navigation, route}) {
     const {userId, logged, token} = route.params;
     const [isLogged, setIsLogged] = useState(logged);
     const [loading, setLoading] = useState(false);
+    const [welcomeModalVisible, setWelcomeModalVisible] = useState(true);
     const [drugList, setDrugList] = useState([]);
+
+    // if user checked earlier checkbox in modal
+    const checkIfWelcomeMsgShouldBeVisible = async () => await AsyncStorage.getItem('welcome_msg_disable');
 
     // block going back until user pushed logout button
     navigation.addListener('beforeRemove', e => {
@@ -28,6 +32,13 @@ function Home({navigation, route}) {
     }, [isLogged]);
 
     useEffect(() => {
+        checkIfWelcomeMsgShouldBeVisible().then(msgDisabled => {
+            if (msgDisabled) {
+                setWelcomeModalVisible(false);
+            } else {
+                setWelcomeModalVisible(true);
+            }
+        });
         setInterval(async () => {
             await ajaxCall('get', `drug-notify/${token}`)
                 .then(data => {
@@ -87,7 +98,7 @@ function Home({navigation, route}) {
     // }, []);
 
     return (
-        <View style={{flex: 1, justifyContent: "center"}}>
+        <View style={{flex: 1, justifyContent: "space-between"}}>
             <Text style={{
                 fontSize: 32,
                 fontWeight: "500",
@@ -96,7 +107,7 @@ function Home({navigation, route}) {
             }}>
                 Monitorowanie rozpoczęte 👁
             </Text>
-            <WelcomeModal isVisible={true}/>
+            {welcomeModalVisible && <WelcomeModal isVisible={welcomeModalVisible}/>}
             <PillButton handlePress={handleLogout} loading={loading} variant="warning" text="Wyloguj się"/>
         </View>
     );

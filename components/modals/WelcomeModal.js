@@ -9,6 +9,7 @@ function WelcomeModal({isVisible = false}) {
     return (
         <View style={styles.centeredView}>
             <Modal
+                testID="welcomeModal"
                 animationType="fade"
                 visible={modalVisible}
                 onRequestClose={() => setModalVisible(!modalVisible)}

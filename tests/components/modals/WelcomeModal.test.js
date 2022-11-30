@@ -24,7 +24,7 @@ it('should save information about welcome message disability in AsyncStorage if 
     expect(msgDisable).toBeTruthy();
 });
 
-it('should remove information about welcome message disability in AsyncStorage if checkbox is unchecked', async () => {
+it('should remove information about welcome message disability from AsyncStorage if checkbox is unchecked', async () => {
     render(<WelcomeModal isVisible={true}/>);
 
     await act(async () => {
