@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import {Modal, Pressable, Text, View, StyleSheet} from "react-native";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function WelcomeModal({isVisible = false}) {
     const [modalVisible, setModalVisible] = useState(isVisible);
@@ -8,7 +10,6 @@ function WelcomeModal({isVisible = false}) {
         <View style={styles.centeredView}>
             <Modal
                 animationType="fade"
-                transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => setModalVisible(!modalVisible)}
             >
@@ -24,6 +25,20 @@ function WelcomeModal({isVisible = false}) {
                             dzięki któremu potwierdzisz, że właśnie został
                             przez Ciebie przyjęty ✅
                         </Text>
+                        <BouncyCheckbox
+                            testID="welcomeMsgDisableCheckbox"
+                            style={{marginBottom: 15}}
+                            fillColor="#78c2ad"
+                            text="Nie pokazuj mi tego więcej"
+                            textStyle={{textDecorationLine: "none"}}
+                            onPress={async isChecked => {
+                                if (isChecked) {
+                                    await AsyncStorage.setItem('welcome_msg_disable', 'true');
+                                } else {
+                                    await AsyncStorage.removeItem('welcome_msg_disable');
+                                }
+                            }}
+                        />
                         <Pressable
                             style={[styles.button, styles.buttonClose]}
                             onPress={() => setModalVisible(!modalVisible)}

@@ -15,7 +15,6 @@ exports[`should correctly render WelcomeModal 1`] = `
     animationType="fade"
     hardwareAccelerated={false}
     onRequestClose={[Function]}
-    transparent={true}
     visible={true}
   >
     <View
@@ -50,13 +49,127 @@ exports[`should correctly render WelcomeModal 1`] = `
         <Text
           style={
             Object {
+              "fontSize": 22,
               "marginBottom": 15,
               "textAlign": "center",
             }
           }
         >
-          Hello World!
+          Od teraz będziesz otrzymywał/-a powiadomienia 🔔, które będą Ci przypominać o zażyciu leków/suplementów 💊 lub kończących się zapasach
         </Text>
+        <Text
+          style={
+            Array [
+              Object {
+                "fontSize": 22,
+                "marginBottom": 15,
+                "textAlign": "center",
+              },
+              Object {
+                "color": "#525252",
+                "fontSize": 20,
+              },
+            ]
+          }
+        >
+          W godzinie zażycia medykamentu pojawi się przycisk, dzięki któremu potwierdzisz, że właśnie został przez Ciebie przyjęty ✅
+        </Text>
+        <View
+          accessible={true}
+          collapsable={false}
+          fillColor="#78c2ad"
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "flexDirection": "row",
+              },
+              Object {
+                "marginBottom": 15,
+              },
+            ]
+          }
+          testID="welcomeMsgDisableCheckbox"
+          text="Nie pokazuj mi tego więcej"
+          textStyle={
+            Object {
+              "textDecorationLine": "none",
+            }
+          }
+        >
+          <View
+            collapsable={false}
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "transparent",
+                "borderRadius": 12.5,
+                "height": 25,
+                "justifyContent": "center",
+                "transform": Array [
+                  Object {
+                    "scale": 1,
+                  },
+                ],
+                "width": 25,
+              }
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "borderColor": "#78c2ad",
+                    "borderRadius": 12.5,
+                    "borderWidth": 1,
+                    "height": 25,
+                    "justifyContent": "center",
+                    "width": 25,
+                  },
+                  undefined,
+                ]
+              }
+            />
+          </View>
+          <View
+            style={
+              Array [
+                Object {
+                  "marginLeft": 16,
+                },
+                undefined,
+              ]
+            }
+          >
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "#757575",
+                    "fontSize": 16,
+                    "textDecorationLine": "none",
+                  },
+                  Object {
+                    "textDecorationLine": "none",
+                  },
+                ]
+              }
+            >
+              Nie pokazuj mi tego więcej
+            </Text>
+          </View>
+        </View>
         <View
           accessible={true}
           collapsable={false}
@@ -73,9 +186,9 @@ exports[`should correctly render WelcomeModal 1`] = `
           style={
             Array [
               Object {
-                "borderRadius": 20,
+                "borderRadius": 25,
                 "elevation": 2,
-                "padding": 10,
+                "padding": 15,
               },
               Object {
                 "backgroundColor": "#2196F3",

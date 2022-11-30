@@ -91,6 +91,7 @@ function Home({navigation, route}) {
             <Text style={{
                 fontSize: 32,
                 fontWeight: "500",
+                marginTop: 10,
                 textAlign: "center"
             }}>
                 Monitorowanie rozpoczęte 👁

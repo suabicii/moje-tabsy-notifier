@@ -14,37 +14,224 @@ exports[`should correctly render Home screen 1`] = `
       Object {
         "fontSize": 32,
         "fontWeight": "500",
+        "marginTop": 10,
         "textAlign": "center",
       }
     }
   >
     Monitorowanie rozpoczęte 👁
   </Text>
-  <Text
+  <View
     style={
       Object {
-        "fontSize": 24,
-        "marginTop": 25,
-        "paddingHorizontal": 5,
-        "textAlign": "center",
+        "alignItems": "center",
+        "flex": 1,
+        "justifyContent": "center",
+        "marginTop": 22,
       }
     }
   >
-    Od teraz będziesz otrzymywał/-a powiadomienia 🔔, które będą Ci przypominać o zażyciu leków/suplementów 💊 lub kończących się zapasach
-  </Text>
-  <Text
-    style={
-      Object {
-        "color": "#525252",
-        "fontSize": 22,
-        "marginTop": 10,
-        "paddingHorizontal": 5,
-        "textAlign": "center",
-      }
-    }
-  >
-    W godzinie zażycia medykamentu pojawi się przycisk, dzięki któremu potwierdzisz, że właśnie został przez Ciebie przyjęty ✅
-  </Text>
+    <Modal
+      animationType="fade"
+      hardwareAccelerated={false}
+      onRequestClose={[Function]}
+      visible={true}
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "justifyContent": "center",
+            "marginTop": 22,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "white",
+              "borderRadius": 20,
+              "elevation": 5,
+              "margin": 20,
+              "padding": 35,
+              "shadowColor": "#000",
+              "shadowOffset": Object {
+                "height": 2,
+                "width": 0,
+              },
+              "shadowOpacity": 0.25,
+              "shadowRadius": 4,
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "fontSize": 22,
+                "marginBottom": 15,
+                "textAlign": "center",
+              }
+            }
+          >
+            Od teraz będziesz otrzymywał/-a powiadomienia 🔔, które będą Ci przypominać o zażyciu leków/suplementów 💊 lub kończących się zapasach
+          </Text>
+          <Text
+            style={
+              Array [
+                Object {
+                  "fontSize": 22,
+                  "marginBottom": 15,
+                  "textAlign": "center",
+                },
+                Object {
+                  "color": "#525252",
+                  "fontSize": 20,
+                },
+              ]
+            }
+          >
+            W godzinie zażycia medykamentu pojawi się przycisk, dzięki któremu potwierdzisz, że właśnie został przez Ciebie przyjęty ✅
+          </Text>
+          <View
+            accessible={true}
+            collapsable={false}
+            fillColor="#78c2ad"
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                },
+                Object {
+                  "marginBottom": 15,
+                },
+              ]
+            }
+            testID="welcomeMsgDisableCheckbox"
+            text="Nie pokazuj mi tego więcej"
+            textStyle={
+              Object {
+                "textDecorationLine": "none",
+              }
+            }
+          >
+            <View
+              collapsable={false}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "transparent",
+                  "borderRadius": 12.5,
+                  "height": 25,
+                  "justifyContent": "center",
+                  "transform": Array [
+                    Object {
+                      "scale": 1,
+                    },
+                  ],
+                  "width": 25,
+                }
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "borderColor": "#78c2ad",
+                      "borderRadius": 12.5,
+                      "borderWidth": 1,
+                      "height": 25,
+                      "justifyContent": "center",
+                      "width": 25,
+                    },
+                    undefined,
+                  ]
+                }
+              />
+            </View>
+            <View
+              style={
+                Array [
+                  Object {
+                    "marginLeft": 16,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "color": "#757575",
+                      "fontSize": 16,
+                      "textDecorationLine": "none",
+                    },
+                    Object {
+                      "textDecorationLine": "none",
+                    },
+                  ]
+                }
+              >
+                Nie pokazuj mi tego więcej
+              </Text>
+            </View>
+          </View>
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                Object {
+                  "borderRadius": 25,
+                  "elevation": 2,
+                  "padding": 15,
+                },
+                Object {
+                  "backgroundColor": "#2196F3",
+                },
+              ]
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "white",
+                  "fontWeight": "bold",
+                  "textAlign": "center",
+                }
+              }
+            >
+              OK
+            </Text>
+          </View>
+        </View>
+      </View>
+    </Modal>
+  </View>
   <View
     accessible={true}
     collapsable={false}
