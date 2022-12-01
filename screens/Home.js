@@ -16,6 +16,17 @@ function Home({navigation, route}) {
     // if user checked earlier checkbox in modal
     const checkIfWelcomeMsgShouldBeVisible = async () => await AsyncStorage.getItem('welcome_msg_disable');
 
+    const getDrugList = async () => {
+        await ajaxCall('get', `drug-notify/${token}`)
+            .then(data => {
+                setDrugList(data);
+                console.log(data);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+
     // block going back until user pushed logout button
     navigation.addListener('beforeRemove', e => {
         if (!isLogged) {
@@ -32,6 +43,7 @@ function Home({navigation, route}) {
     }, [isLogged]);
 
     useEffect(() => {
+        const drugListInterval = setInterval(getDrugList, 300000);
         checkIfWelcomeMsgShouldBeVisible().then(msgDisabled => {
             if (msgDisabled) {
                 setWelcomeModalVisible(false);
@@ -39,16 +51,8 @@ function Home({navigation, route}) {
                 setWelcomeModalVisible(true);
             }
         });
-        setInterval(async () => {
-            await ajaxCall('get', `drug-notify/${token}`)
-                .then(data => {
-                    setDrugList(data);
-                    console.log(data);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        }, 300000);
+
+        return () => clearInterval(drugListInterval);
     }, []);
 
     // useEffect(() => {
@@ -67,9 +71,9 @@ function Home({navigation, route}) {
             .then(async data => {
                 console.log(data);
                 if (data.status === 200) {
+                    await AsyncStorage.clear();
                     setIsLogged(false);
                 }
-                await AsyncStorage.clear();
             })
             .catch(err => {
                 console.log(err);
