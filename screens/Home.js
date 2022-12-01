@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ajaxCall} from "../utils/ajaxCall";
 import PillButton from "../components/buttons/PillButton";
 import WelcomeModal from "../components/modals/WelcomeModal";
+import {Card, Paragraph, Title} from "react-native-paper";
 
 function Home({navigation, route}) {
     const {userId, logged, token} = route.params;
@@ -20,7 +21,6 @@ function Home({navigation, route}) {
         await ajaxCall('get', `drug-notify/${token}`)
             .then(data => {
                 setDrugList(data);
-                console.log(data);
             })
             .catch(err => {
                 console.log(err);
@@ -43,7 +43,7 @@ function Home({navigation, route}) {
     }, [isLogged]);
 
     useEffect(() => {
-        const drugListInterval = setInterval(getDrugList, 300000);
+        const drugListInterval = setInterval(getDrugList, 5000);
         checkIfWelcomeMsgShouldBeVisible().then(msgDisabled => {
             if (msgDisabled) {
                 setWelcomeModalVisible(false);
@@ -54,16 +54,6 @@ function Home({navigation, route}) {
 
         return () => clearInterval(drugListInterval);
     }, []);
-
-    // useEffect(() => {
-    //     drugList.forEach(({dosing, dosingMoments, name, unit}) => {
-    //         for (const key in dosingMoments) {
-    //             if (dosingMoments.hasOwnProperty(key)) {
-    //                 console.log(`Weź ${name} ${dosing} ${unit} o godz. ${dosingMoments[key]}`);
-    //             }
-    //         }
-    //     });
-    // }, [drugList]);
 
     const handleLogout = async () => {
         setLoading(true);
@@ -111,6 +101,35 @@ function Home({navigation, route}) {
             }}>
                 Monitorowanie rozpoczęte 👁
             </Text>
+            <Card style={{alignContent: "center", margin: 10}}>
+                <Card.Title title="W najbliższym czasie muszę zażyć:"/>
+                <Card.Content>
+                    {
+                        drugList.map(({dosing, name, unit, dosingMoments}, index) => {
+                            const DosingMoments = () => {
+                                const result = [];
+                                for (const key in dosingMoments) {
+                                    if (dosingMoments.hasOwnProperty(key)) {
+                                        result.push(
+                                            <Paragraph style={{textAlign: "center"}} key={`${name}${key}`}>
+                                                - {dosingMoments[key]}
+                                            </Paragraph>
+                                        );
+                                    }
+                                }
+                                return result;
+                            };
+
+                            return (
+                                <View key={`${name}${index}`}>
+                                    <Title style={{textAlign: "center"}}>{name} {dosing} {unit} w godz.</Title>
+                                    <DosingMoments/>
+                                </View>
+                            );
+                        })
+                    }
+                </Card.Content>
+            </Card>
             {welcomeModalVisible && <WelcomeModal isVisible={welcomeModalVisible}/>}
             <PillButton handlePress={handleLogout} loading={loading} variant="warning" text="Wyloguj się"/>
         </View>
