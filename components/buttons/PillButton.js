@@ -4,12 +4,20 @@ import {Text} from "react-native";
 
 function PillButton({handlePress, loading, variant, text}) {
     let backgroundColor;
-    if (variant === 'primary') {
-        backgroundColor = '#78c2ad';
-    } else if (variant === 'warning') {
-        backgroundColor = '#f38c4c';
-    } else {
-        backgroundColor = '#525252';
+
+    switch (variant) {
+        case 'primary':
+            backgroundColor = '#78c2ad';
+            break;
+        case 'info':
+            backgroundColor = '#6cc3d5';
+            break;
+        case 'warning':
+            backgroundColor = '#f38c4c';
+            break;
+        default:
+            backgroundColor = '#525252';
+            break;
     }
     
     return (
