@@ -130,7 +130,7 @@ function Home({navigation, route}) {
                     }
                 </Card.Content>
             </Card>
-            {welcomeModalVisible && <WelcomeModal isVisible={welcomeModalVisible}/>}
+            {welcomeModalVisible && <WelcomeModal/>}
             <PillButton handlePress={handleLogout} loading={loading} variant="warning" text="Wyloguj się"/>
         </View>
     );

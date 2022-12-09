@@ -15,6 +15,7 @@ exports[`should correctly render WelcomeModal 1`] = `
     animationType="fade"
     hardwareAccelerated={false}
     onRequestClose={[Function]}
+    testID="welcomeModal"
     visible={true}
   >
     <View

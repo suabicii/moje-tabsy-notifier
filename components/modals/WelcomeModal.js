@@ -3,8 +3,8 @@ import {Modal, Pressable, Text, View, StyleSheet} from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-function WelcomeModal({isVisible = false}) {
-    const [modalVisible, setModalVisible] = useState(isVisible);
+function WelcomeModal() {
+    const [modalVisible, setModalVisible] = useState(true);
 
     return (
         <View style={styles.centeredView}>

@@ -8,13 +8,13 @@ import {render, act, fireEvent, screen} from "@testing-library/react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 it('should correctly render WelcomeModal', () => {
-    const tree = renderer.create(<WelcomeModal isVisible={true}/>).toJSON();
+    const tree = renderer.create(<WelcomeModal/>).toJSON();
 
     expect(tree).toMatchSnapshot();
 });
 
 it('should save information about welcome message disability in AsyncStorage if checkbox is checked', async () => {
-    render(<WelcomeModal isVisible={true}/>);
+    render(<WelcomeModal/>);
 
     await act(async () => {
         fireEvent.press(screen.getByTestId('welcomeMsgDisableCheckbox'));
@@ -25,7 +25,7 @@ it('should save information about welcome message disability in AsyncStorage if 
 });
 
 it('should remove information about welcome message disability from AsyncStorage if checkbox is unchecked', async () => {
-    render(<WelcomeModal isVisible={true}/>);
+    render(<WelcomeModal/>);
 
     await act(async () => {
         fireEvent.press(screen.getByTestId('welcomeMsgDisableCheckbox')); // check
