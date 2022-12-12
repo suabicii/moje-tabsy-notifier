@@ -1,0 +1,408 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should correctly render drug data 1`] = `
+Array [
+  <View>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#000000",
+            "fontFamily": "System",
+            "fontWeight": "400",
+          },
+          Object {
+            "textAlign": "left",
+          },
+          Array [
+            Object {
+              "textAlign": "left",
+            },
+            Object {
+              "color": "rgba(0, 0, 0, 0.87)",
+              "fontFamily": "System",
+              "fontWeight": "500",
+              "writingDirection": "ltr",
+            },
+            Array [
+              Object {
+                "fontSize": 20,
+                "letterSpacing": 0.15,
+                "lineHeight": 30,
+                "marginVertical": 2,
+              },
+              Object {
+                "textAlign": "center",
+              },
+            ],
+          ],
+        ]
+      }
+    >
+      Xanax
+       
+      1
+       
+      szt.
+       w godz.
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#000000",
+            "fontFamily": "System",
+            "fontWeight": "400",
+          },
+          Object {
+            "textAlign": "left",
+          },
+          Array [
+            Object {
+              "textAlign": "left",
+            },
+            Object {
+              "color": "rgba(0, 0, 0, 0.87)",
+              "fontFamily": "System",
+              "fontWeight": "400",
+              "writingDirection": "ltr",
+            },
+            Array [
+              Object {
+                "fontSize": 14,
+                "letterSpacing": 0.25,
+                "lineHeight": 20,
+                "marginVertical": 2,
+              },
+              Object {
+                "textAlign": "center",
+              },
+            ],
+          ],
+        ]
+      }
+    >
+      - 
+      07:00
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#000000",
+            "fontFamily": "System",
+            "fontWeight": "400",
+          },
+          Object {
+            "textAlign": "left",
+          },
+          Array [
+            Object {
+              "textAlign": "left",
+            },
+            Object {
+              "color": "rgba(0, 0, 0, 0.87)",
+              "fontFamily": "System",
+              "fontWeight": "400",
+              "writingDirection": "ltr",
+            },
+            Array [
+              Object {
+                "fontSize": 14,
+                "letterSpacing": 0.25,
+                "lineHeight": 20,
+                "marginVertical": 2,
+              },
+              Object {
+                "textAlign": "center",
+              },
+            ],
+          ],
+        ]
+      }
+    >
+      - 
+      18:00
+    </Text>
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#6cc3d5",
+          "borderRadius": 24,
+          "height": 50,
+          "justifyContent": "center",
+          "marginBottom": 20,
+          "marginHorizontal": 15,
+          "opacity": 1,
+        }
+      }
+      testID="btn-pill"
+    >
+      <Text
+        style={
+          Object {
+            "color": "#fff",
+            "fontSize": 24,
+            "fontWeight": "300",
+            "textAlign": "center",
+          }
+        }
+      >
+        Już zażyłem/-am 👍
+      </Text>
+    </View>
+  </View>,
+  <View>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#000000",
+            "fontFamily": "System",
+            "fontWeight": "400",
+          },
+          Object {
+            "textAlign": "left",
+          },
+          Array [
+            Object {
+              "textAlign": "left",
+            },
+            Object {
+              "color": "rgba(0, 0, 0, 0.87)",
+              "fontFamily": "System",
+              "fontWeight": "500",
+              "writingDirection": "ltr",
+            },
+            Array [
+              Object {
+                "fontSize": 20,
+                "letterSpacing": 0.15,
+                "lineHeight": 30,
+                "marginVertical": 2,
+              },
+              Object {
+                "textAlign": "center",
+              },
+            ],
+          ],
+        ]
+      }
+    >
+      Witamina C
+       
+      1
+       
+      szt.
+       w godz.
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#000000",
+            "fontFamily": "System",
+            "fontWeight": "400",
+          },
+          Object {
+            "textAlign": "left",
+          },
+          Array [
+            Object {
+              "textAlign": "left",
+            },
+            Object {
+              "color": "rgba(0, 0, 0, 0.87)",
+              "fontFamily": "System",
+              "fontWeight": "400",
+              "writingDirection": "ltr",
+            },
+            Array [
+              Object {
+                "fontSize": 14,
+                "letterSpacing": 0.25,
+                "lineHeight": 20,
+                "marginVertical": 2,
+              },
+              Object {
+                "textAlign": "center",
+              },
+            ],
+          ],
+        ]
+      }
+    >
+      - 
+      12:00
+    </Text>
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#6cc3d5",
+          "borderRadius": 24,
+          "height": 50,
+          "justifyContent": "center",
+          "marginBottom": 20,
+          "marginHorizontal": 15,
+          "opacity": 1,
+        }
+      }
+      testID="btn-pill"
+    >
+      <Text
+        style={
+          Object {
+            "color": "#fff",
+            "fontSize": 24,
+            "fontWeight": "300",
+            "textAlign": "center",
+          }
+        }
+      >
+        Już zażyłem/-am 👍
+      </Text>
+    </View>
+  </View>,
+  <View>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#000000",
+            "fontFamily": "System",
+            "fontWeight": "400",
+          },
+          Object {
+            "textAlign": "left",
+          },
+          Array [
+            Object {
+              "textAlign": "left",
+            },
+            Object {
+              "color": "rgba(0, 0, 0, 0.87)",
+              "fontFamily": "System",
+              "fontWeight": "500",
+              "writingDirection": "ltr",
+            },
+            Array [
+              Object {
+                "fontSize": 20,
+                "letterSpacing": 0.15,
+                "lineHeight": 30,
+                "marginVertical": 2,
+              },
+              Object {
+                "textAlign": "center",
+              },
+            ],
+          ],
+        ]
+      }
+    >
+      Metanabol
+       
+      1
+       
+      amp. 10 ml
+       w godz.
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#000000",
+            "fontFamily": "System",
+            "fontWeight": "400",
+          },
+          Object {
+            "textAlign": "left",
+          },
+          Array [
+            Object {
+              "textAlign": "left",
+            },
+            Object {
+              "color": "rgba(0, 0, 0, 0.87)",
+              "fontFamily": "System",
+              "fontWeight": "400",
+              "writingDirection": "ltr",
+            },
+            Array [
+              Object {
+                "fontSize": 14,
+                "letterSpacing": 0.25,
+                "lineHeight": 20,
+                "marginVertical": 2,
+              },
+              Object {
+                "textAlign": "center",
+              },
+            ],
+          ],
+        ]
+      }
+    >
+      - 
+      12:00
+    </Text>
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#6cc3d5",
+          "borderRadius": 24,
+          "height": 50,
+          "justifyContent": "center",
+          "marginBottom": 20,
+          "marginHorizontal": 15,
+          "opacity": 1,
+        }
+      }
+      testID="btn-pill"
+    >
+      <Text
+        style={
+          Object {
+            "color": "#fff",
+            "fontSize": 24,
+            "fontWeight": "300",
+            "textAlign": "center",
+          }
+        }
+      >
+        Już zażyłem/-am 👍
+      </Text>
+    </View>
+  </View>,
+]
+`;

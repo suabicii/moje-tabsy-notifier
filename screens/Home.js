@@ -5,7 +5,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ajaxCall} from "../utils/ajaxCall";
 import PillButton from "../components/buttons/PillButton";
 import WelcomeModal from "../components/modals/WelcomeModal";
-import {Card, Paragraph, Title} from "react-native-paper";
+import {Card} from "react-native-paper";
+import Drugs from "../components/content/Drugs";
 
 function Home({navigation, route}) {
     const {userId, logged, token} = route.params;
@@ -104,30 +105,7 @@ function Home({navigation, route}) {
             <Card style={{alignContent: "center", margin: 10}}>
                 <Card.Title title="W najbliższym czasie muszę zażyć:"/>
                 <Card.Content>
-                    {
-                        drugList.map(({dosing, name, unit, dosingMoments}, index) => {
-                            const DosingMoments = () => {
-                                const result = [];
-                                for (const key in dosingMoments) {
-                                    if (dosingMoments.hasOwnProperty(key)) {
-                                        result.push(
-                                            <Paragraph style={{textAlign: "center"}} key={`${name}${key}`}>
-                                                - {dosingMoments[key]}
-                                            </Paragraph>
-                                        );
-                                    }
-                                }
-                                return result;
-                            };
-
-                            return (
-                                <View key={`${name}${index}`}>
-                                    <Title style={{textAlign: "center"}}>{name} {dosing} {unit} w godz.</Title>
-                                    <DosingMoments/>
-                                </View>
-                            );
-                        })
-                    }
+                    <Drugs drugList={drugList}/>
                 </Card.Content>
             </Card>
             {welcomeModalVisible && <WelcomeModal/>}
