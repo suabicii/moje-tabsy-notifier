@@ -1,7 +1,6 @@
 import React from "react";
-import {Paragraph, Title} from "react-native-paper";
+import {Button, Paragraph, Title} from "react-native-paper";
 import {View} from "react-native";
-import PillButton from "../buttons/PillButton";
 
 function Drugs({drugList}) {
     const dummyFn = () => {
@@ -16,9 +15,33 @@ function Drugs({drugList}) {
                         for (const key in dosingMoments) {
                             if (dosingMoments.hasOwnProperty(key)) {
                                 result.push(
-                                    <Paragraph style={{textAlign: "center"}} key={`${name}${key}`}>
-                                        - {dosingMoments[key]}
-                                    </Paragraph>
+                                    <View
+                                        style={{
+                                            alignItems: "center",
+                                            flexDirection: "row",
+                                            justifyContent: "center",
+                                            marginBottom: 10
+                                        }}
+                                        key={`${name}${key}`}
+                                    >
+                                        <Paragraph style={{textAlign: "center", fontSize: 16}}>
+                                            - {dosingMoments[key]}
+                                        </Paragraph>
+                                        <Button
+                                            style={{
+                                                backgroundColor: "#6cc3d5",
+                                                color: "#e8e8e8",
+                                                marginLeft: 5
+                                            }}
+                                            contentStyle={{flexDirection: "row-reverse"}}
+                                            icon="check"
+                                            mode="contained"
+                                            compact={true}
+                                            onPress={() => dummyFn}
+                                        >
+                                            Już zażyłem/-am
+                                        </Button>
+                                    </View>
                                 );
                             }
                         }
@@ -29,12 +52,6 @@ function Drugs({drugList}) {
                         <View key={`${name}${index}`}>
                             <Title style={{textAlign: "center"}}>{name} {dosing} {unit} w godz.</Title>
                             <DosingMoments/>
-                            <PillButton
-                                handlePress={dummyFn}
-                                loading={false}
-                                text={'Już zażyłem/-am 👍'}
-                                variant={'info'}
-                            />
                         </View>
                     );
                 })
