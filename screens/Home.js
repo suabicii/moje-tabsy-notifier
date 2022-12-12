@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Text, View} from "react-native";
+import {ScrollView, Text} from "react-native";
 import {APP_ID, APP_TOKEN} from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ajaxCall} from "../utils/ajaxCall";
@@ -93,7 +93,7 @@ function Home({navigation, route}) {
     // }, []);
 
     return (
-        <View style={{flex: 1, justifyContent: "space-between"}}>
+        <ScrollView>
             <Text style={{
                 fontSize: 32,
                 fontWeight: "500",
@@ -110,7 +110,7 @@ function Home({navigation, route}) {
             </Card>
             {welcomeModalVisible && <WelcomeModal/>}
             <PillButton handlePress={handleLogout} loading={loading} variant="warning" text="Wyloguj się"/>
-        </View>
+        </ScrollView>
     );
 }
 
