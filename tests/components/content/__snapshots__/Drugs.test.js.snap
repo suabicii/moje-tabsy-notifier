@@ -93,7 +93,7 @@ Array [
           ]
         }
       >
-        - 
+        – 
         07:00
       </Text>
       <View
@@ -145,6 +145,7 @@ Array [
               },
             ]
           }
+          testID="Xanaxhour1"
         >
           <View
             style={
@@ -263,7 +264,7 @@ Array [
           ]
         }
       >
-        - 
+        – 
         18:00
       </Text>
       <View
@@ -315,6 +316,7 @@ Array [
               },
             ]
           }
+          testID="Xanaxhour2"
         >
           <View
             style={
@@ -478,7 +480,7 @@ Array [
           ]
         }
       >
-        - 
+        – 
         12:00
       </Text>
       <View
@@ -530,6 +532,7 @@ Array [
               },
             ]
           }
+          testID="Witamina Chour1"
         >
           <View
             style={
@@ -693,7 +696,7 @@ Array [
           ]
         }
       >
-        - 
+        – 
         12:00
       </Text>
       <View
@@ -745,6 +748,7 @@ Array [
               },
             ]
           }
+          testID="Metanabolhour1"
         >
           <View
             style={
