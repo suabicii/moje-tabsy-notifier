@@ -3,7 +3,7 @@ import {View} from "react-native";
 import {Button, Paragraph} from "react-native-paper";
 
 function DosingMoments({drugName, content, handleConfirmDose}) {
-    const [dosingMomentsToShow, setDosingMomentsToShow] = useState(Object.entries(content));
+    const [dosingMomentsToShow, setDosingMomentsToShow] = useState(content);
 
     const result = [];
 

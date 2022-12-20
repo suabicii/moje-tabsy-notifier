@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ajaxCall} from "../utils/ajaxCall";
 import PillButton from "../components/buttons/PillButton";
 import WelcomeModal from "../components/modals/WelcomeModal";
-import {Card} from "react-native-paper";
+import {Button, Card} from "react-native-paper";
 import Drugs from "../components/content/Drugs";
 
 function Home({navigation, route}) {
@@ -14,6 +14,8 @@ function Home({navigation, route}) {
     const [loading, setLoading] = useState(false);
     const [welcomeModalVisible, setWelcomeModalVisible] = useState(true);
     const [drugList, setDrugList] = useState([]);
+    const [drugsVisible, setDrugsVisible] = useState(true);
+    const [refreshBtnLoading, setRefreshBtnLoading] = useState(false);
 
     // if user checked earlier checkbox in modal
     const checkIfWelcomeMsgShouldBeVisible = async () => await AsyncStorage.getItem('welcome_msg_disable');
@@ -105,7 +107,23 @@ function Home({navigation, route}) {
             <Card style={{alignContent: "center", margin: 10}}>
                 <Card.Title title="W najbliższym czasie muszę zażyć:"/>
                 <Card.Content>
-                    <Drugs drugList={drugList}/>
+                    {drugsVisible && <Drugs drugList={drugList}/>}
+                    <Button
+                        testID="refreshBtn"
+                        style={{backgroundColor: '#78c2ad'}}
+                        mode="contained"
+                        icon="refresh"
+                        onPress={async () => {
+                            setDrugsVisible(false);
+                            setRefreshBtnLoading(true);
+                            await getDrugList();
+                            setDrugsVisible(true);
+                            setRefreshBtnLoading(false);
+                        }}
+                        loading={refreshBtnLoading}
+                    >
+                        Odśwież
+                    </Button>
                 </Card.Content>
             </Card>
             {welcomeModalVisible && <WelcomeModal/>}

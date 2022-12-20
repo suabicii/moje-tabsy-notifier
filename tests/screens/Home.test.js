@@ -146,3 +146,27 @@ it('should not show modal with welcome message after login if AsyncStorage has i
         expect(screen.queryByTestId('welcomeModal')).toBeNull();
     });
 });
+
+it('should reload Drug component with drug list after pressing refresh button', async () => {
+    const addListener = jest.fn();
+    const navigate = jest.fn();
+    render(
+        <Home
+            route={{
+                params: {logged: true}
+            }}
+            navigation={{
+                navigate,
+                addListener
+            }}
+        />
+    );
+
+    await act(() => {
+        fireEvent.press(screen.getByTestId('refreshBtn'));
+    });
+
+    await waitFor(() => {
+        expect(fetch).toBeCalled();
+    });
+});

@@ -18,7 +18,7 @@ function Drugs({drugList}) {
                             <Title style={{textAlign: "center"}}>{name} {dosing} {unit} w godz.</Title>
                             <DosingMoments
                                 drugName={name}
-                                content={dosingMoments}
+                                content={Object.entries(dosingMoments)}
                                 handleConfirmDose={handleConfirmDose}
                             />
                         </View>
