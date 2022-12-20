@@ -23,7 +23,9 @@ function Home({navigation, route}) {
     const getDrugList = async () => {
         await ajaxCall('get', `drug-notify/${token}`)
             .then(data => {
+                setDrugsVisible(false);
                 setDrugList(data);
+                setDrugsVisible(true);
             })
             .catch(err => {
                 console.log(err);
