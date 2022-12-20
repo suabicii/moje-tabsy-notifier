@@ -121,7 +121,10 @@ exports[`should correctly render Home screen 1`] = `
                         Object {
                           "marginBottom": 2,
                         },
-                        undefined,
+                        Object {
+                          "color": "#252525",
+                          "textAlign": "center",
+                        },
                       ],
                     ],
                   ],

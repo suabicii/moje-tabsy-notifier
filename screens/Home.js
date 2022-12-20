@@ -107,7 +107,13 @@ function Home({navigation, route}) {
                 Monitorowanie rozpoczęte 👁
             </Text>
             <Card style={{alignContent: "center", margin: 10}}>
-                <Card.Title title="W najbliższym czasie muszę zażyć:"/>
+                <Card.Title
+                    title="W najbliższym czasie muszę zażyć:"
+                    titleStyle={{
+                        color: "#252525",
+                        textAlign: "center"
+                    }}
+                />
                 <Card.Content>
                     {drugsVisible && <Drugs drugList={drugList}/>}
                     <Button
