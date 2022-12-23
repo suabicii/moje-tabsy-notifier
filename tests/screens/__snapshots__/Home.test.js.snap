@@ -25,6 +25,7 @@ exports[`should correctly render Home screen 1`] = `
           "borderRadius": 4,
           "elevation": 1,
           "margin": 10,
+          "marginBottom": 20,
           "shadowColor": "#000000",
           "shadowOffset": Object {
             "height": 0.5,

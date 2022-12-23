@@ -27,7 +27,7 @@ it('should shorten dosing moment list after pressing the button to confirm the d
         />
     );
 
-    fireEvent.press(screen.getByTestId('Xanaxhour1'));
+    fireEvent.press(screen.getByTestId('Xanax_hour1'));
 
-    expect(screen.queryByTestId('Xanaxhour1')).toBeNull();
+    expect(screen.queryByTestId('Xanax_hour1')).toBeNull();
 });

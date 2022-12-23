@@ -1,14 +1,19 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {View} from "react-native";
 import {Button, Paragraph} from "react-native-paper";
+import {DrugTakenContext} from "../../context/DrugTakenContext";
 
 function DosingMoments({drugName, content, handleConfirmDose}) {
+    const {drugTakenChecker, setDrugTakenChecker} = useContext(DrugTakenContext);
     const [dosingMomentsToShow, setDosingMomentsToShow] = useState(content);
 
     const result = [];
 
     for (const [key, value] of dosingMomentsToShow) {
-        const viewKey = `${drugName}${key}`;
+        const viewKey = `${drugName}_${key}`;
+        if (drugTakenChecker.find(string => string === viewKey)) {
+            continue;
+        }
         result.push(
             <View
                 style={{
@@ -38,6 +43,7 @@ function DosingMoments({drugName, content, handleConfirmDose}) {
                         setDosingMomentsToShow(
                             dosingMomentsToShow.filter(dosingMoment => dosingMoment[0] !== key)
                         );
+                        setDrugTakenChecker([...drugTakenChecker, viewKey]);
                     }}
                 >
                     Już zażyłem/-am
