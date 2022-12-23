@@ -1,12 +1,49 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {View} from "react-native";
 import {Text} from "react-native";
 import UserInput from "../components/auth/UserInput";
-import SubmitButton from "../components/auth/SubmitButton";
-import {API_URL} from "@env";
+import PillButton from "../components/buttons/PillButton";
 import TextError from "../components/error/TextError";
+import {registerIndieID} from "native-notify";
+import {APP_ID, APP_TOKEN} from "@env";
+import {generateToken} from "../utils/tokenGenerator";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {ajaxCall} from "../utils/ajaxCall";
 
 function Login({navigation}) {
+    const registerIndieIDAndMoveToHomeScreen = async (data, token) => {
+        await registerIndieID(data.user_id, APP_ID, APP_TOKEN);
+        navigation.navigate('Home', {
+            logged: true,
+            userId: data.user_id,
+            token
+        });
+    };
+
+// Check if user is already saved in back-end -> if yes, login automatically
+    const autoLogin = async () => {
+        const token = await AsyncStorage.getItem('moje_tabsy_token');
+        if (token) {
+            await ajaxCall('post', 'login-auto', {token})
+                .then(async data => {
+                    if (data.status === 200 && data.message) {
+                        console.log(data.message);
+                        await AsyncStorage.clear();
+                    } else if (data.status === 200 && data.user_id) {
+                        await registerIndieIDAndMoveToHomeScreen(data, token);
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+    };
+
+    useEffect(() => {
+        autoLogin().then(() => {
+        });
+    }, []);
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -14,29 +51,24 @@ function Login({navigation}) {
 
     const handleSubmit = async () => {
         setLoading(true);
-        await fetch(`${API_URL}/api/login`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email, password})
-        })
-            .then(data => data.json())
-            .then(data => {
+        const token = generateToken();
+        await AsyncStorage.setItem('moje_tabsy_token', token);
+        await ajaxCall('post', 'login', {email, password, token})
+            .then(async data => {
                 if (data.error || data.status !== 200) {
                     setLoginError(data.error);
-                    setTimeout(() => {
-                        setLoginError('');
-                    }, 5000);
                 } else {
-                    navigation.navigate('Home', {logged: true});
+                    await registerIndieIDAndMoveToHomeScreen(data, token);
                 }
             })
             .catch(err => {
-                console.log(err);
-                setLoginError(err.toString());
+                setLoginError(`${err}`);
             });
+        if (!loginError) {
+            setTimeout(() => {
+                setLoginError('');
+            }, 5000);
+        }
         setLoading(false);
     };
 
@@ -54,7 +86,7 @@ function Login({navigation}) {
             <UserInput testID="email" name="EMAIL" value={email} setValue={setEmail}/>
             <UserInput testID="password" name="HASŁO" value={password} setValue={setPassword} secureTextEntry={true}/>
             {loginError && <TextError content={loginError}/>}
-            <SubmitButton loading={loading} handleSubmit={handleSubmit}/>
+            <PillButton loading={loading} handlePress={handleSubmit} variant="primary" text="Zaloguj się"/>
         </View>
     );
 }

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should correctly render SubmitButton 1`] = `
+exports[`should correctly render PillButton 1`] = `
 <View
   accessible={true}
   collapsable={false}
@@ -14,7 +14,7 @@ exports[`should correctly render SubmitButton 1`] = `
   onStartShouldSetResponder={[Function]}
   style={
     Object {
-      "backgroundColor": "#78c2ad",
+      "backgroundColor": "#525252",
       "borderRadius": 24,
       "height": 50,
       "justifyContent": "center",
@@ -23,7 +23,7 @@ exports[`should correctly render SubmitButton 1`] = `
       "opacity": 1,
     }
   }
-  testID="submit"
+  testID="btn-pill"
 >
   <Text
     style={
@@ -34,8 +34,6 @@ exports[`should correctly render SubmitButton 1`] = `
         "textAlign": "center",
       }
     }
-  >
-    Zaloguj się
-  </Text>
+  />
 </View>
 `;

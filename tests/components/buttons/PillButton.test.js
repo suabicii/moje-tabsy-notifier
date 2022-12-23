@@ -1,20 +1,20 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import SubmitButton from "../../../components/auth/SubmitButton";
+import PillButton from "../../../components/buttons/PillButton";
 
-it('should correctly render SubmitButton', () => {
-    const handleSubmit = jest.fn();
-    const tree = renderer.create(<SubmitButton handleSubmit={handleSubmit}/>).toJSON();
+it('should correctly render PillButton', () => {
+    const handlePress = jest.fn();
+    const tree = renderer.create(<PillButton handlePress={handlePress}/>).toJSON();
     expect(tree).toMatchSnapshot();
 });
 
 it('should change text value when loading is true', () => {
-    const handleSubmit = jest.fn();
+    const handlePress = jest.fn();
     const btnBeforeLoading = renderer.create(
-        <SubmitButton handleSubmit={handleSubmit}/>
+        <PillButton handlePress={handlePress}/>
     ).toJSON();
     const btnAfterLoading = renderer.create(
-        <SubmitButton handleSubmit={handleSubmit} loading={true}/>
+        <PillButton handlePress={handlePress} loading={true}/>
     ).toJSON();
     expect(btnBeforeLoading.children[0].children)
         .not
