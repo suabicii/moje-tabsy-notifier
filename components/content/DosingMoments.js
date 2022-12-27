@@ -3,9 +3,13 @@ import {View} from "react-native";
 import {Button, Paragraph} from "react-native-paper";
 import {DrugTakenContext} from "../../context/DrugTakenContext";
 
-function DosingMoments({drugName, content, handleConfirmDose}) {
+function DosingMoments({drugName, content}) {
     const {drugTakenChecker, setDrugTakenChecker} = useContext(DrugTakenContext);
     const [dosingMomentsToShow, setDosingMomentsToShow] = useState(content);
+
+    const handleConfirmDose = drugName => {
+
+    };
 
     const result = [];
 
@@ -39,7 +43,7 @@ function DosingMoments({drugName, content, handleConfirmDose}) {
                     mode="contained"
                     compact={true}
                     onPress={() => {
-                        handleConfirmDose(viewKey);
+                        handleConfirmDose(drugName);
                         setDosingMomentsToShow(
                             dosingMomentsToShow.filter(dosingMoment => dosingMoment[0] !== key)
                         );

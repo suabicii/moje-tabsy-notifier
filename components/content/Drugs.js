@@ -4,11 +4,6 @@ import {View} from "react-native";
 import DosingMoments from "./DosingMoments";
 
 function Drugs({drugList}) {
-
-    const handleConfirmDose = () => {
-
-    };
-
     return (
         <>
             {
@@ -19,7 +14,6 @@ function Drugs({drugList}) {
                             <DosingMoments
                                 drugName={name}
                                 content={Object.entries(dosingMoments)}
-                                handleConfirmDose={handleConfirmDose}
                             />
                         </View>
                     )
