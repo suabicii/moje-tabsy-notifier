@@ -1,24 +1,42 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useMemo, useState} from "react";
 import {ScrollView, Text} from "react-native";
 import {APP_ID, APP_TOKEN} from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ajaxCall} from "../utils/ajaxCall";
 import PillButton from "../components/buttons/PillButton";
 import WelcomeModal from "../components/modals/WelcomeModal";
-import {Button, Card} from "react-native-paper";
+import {ActivityIndicator, Button, Card, Colors} from "react-native-paper";
 import Drugs from "../components/content/Drugs";
+import {DrugTakenContext} from "../context/DrugTakenContext";
+import {TimeContext} from "../context/TimeContext";
+import dayjs from "dayjs";
 
 function Home({navigation, route}) {
+    const [drugTakenChecker, setDrugTakenChecker] = useState([]); // Array for storing strings associated
+    // with dosing moment keys -> if user clicks confirmation button, key will be pushed to the array, so thanks to it
+    // dosing moment won't be rendered again later
+
     const {userId, logged, token} = route.params;
+    const {currentTime, setCurrentTime} = useContext(TimeContext);
+    const [tomorrowTime, setTomorrowTime] = useState(undefined);
     const [isLogged, setIsLogged] = useState(logged);
     const [loading, setLoading] = useState(false);
     const [welcomeModalVisible, setWelcomeModalVisible] = useState(true);
     const [drugList, setDrugList] = useState([]);
-    const [drugsVisible, setDrugsVisible] = useState(true);
+    const [drugsVisible, setDrugsVisible] = useState(false);
     const [refreshBtnLoading, setRefreshBtnLoading] = useState(false);
+
+    const drugTakenContextValue = useMemo(
+        () => ({drugTakenChecker, setDrugTakenChecker}),
+        [drugTakenChecker]
+    );
 
     // if user checked earlier checkbox in modal
     const checkIfWelcomeMsgShouldBeVisible = async () => await AsyncStorage.getItem('welcome_msg_disable');
+
+    const getTomorrowTimeFromLocalStorage = async () => await AsyncStorage.getItem('tomorrow_time');
+
+    const updateCurrentTime = () => setCurrentTime(dayjs());
 
     const getDrugList = async () => {
         await ajaxCall('get', `drug-notify/${token}`)
@@ -49,6 +67,17 @@ function Home({navigation, route}) {
 
     useEffect(() => {
         const drugListInterval = setInterval(getDrugList, 5000);
+        const updateTimeInterval = setInterval(updateCurrentTime, 1000);
+
+        getTomorrowTimeFromLocalStorage().then(async tomorrowTimeStr => {
+            if (tomorrowTimeStr) {
+                console.log(tomorrowTimeStr);
+            } else {
+                setTomorrowTime(dayjs().add(1, 'd').startOf('d')); // Midnight
+                await AsyncStorage.setItem('tomorrow_time', JSON.stringify(tomorrowTime));
+            }
+        });
+
         checkIfWelcomeMsgShouldBeVisible().then(msgDisabled => {
             if (msgDisabled) {
                 setWelcomeModalVisible(false);
@@ -57,7 +86,10 @@ function Home({navigation, route}) {
             }
         });
 
-        return () => clearInterval(drugListInterval);
+        return () => {
+            clearInterval(drugListInterval);
+            clearInterval(updateTimeInterval);
+        };
     }, []);
 
     const handleLogout = async () => {
@@ -115,7 +147,20 @@ function Home({navigation, route}) {
                     }}
                 />
                 <Card.Content>
-                    {drugsVisible && <Drugs drugList={drugList}/>}
+                    {
+                        drugsVisible
+                            ?
+                            <DrugTakenContext.Provider value={drugTakenContextValue}>
+                                <Drugs drugList={drugList}/>
+                            </DrugTakenContext.Provider>
+                            :
+                            <ActivityIndicator
+                                animating={true}
+                                size="large"
+                                style={{marginBottom: 10}}
+                                color={Colors.lightBlueA100}
+                            />
+                    }
                     <Button
                         testID="refreshBtn"
                         style={{backgroundColor: '#78c2ad'}}
