@@ -101,7 +101,6 @@ Array [
             },
           ]
         }
-        testID="Xanax_hour1"
       >
         <View
           style={
@@ -272,7 +271,6 @@ Array [
             },
           ]
         }
-        testID="Xanax_hour2"
       >
         <View
           style={

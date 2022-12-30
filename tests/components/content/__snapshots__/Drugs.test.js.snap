@@ -145,7 +145,6 @@ Array [
               },
             ]
           }
-          testID="Xanax_hour1"
         >
           <View
             style={
@@ -316,7 +315,6 @@ Array [
               },
             ]
           }
-          testID="Xanax_hour2"
         >
           <View
             style={
@@ -532,7 +530,6 @@ Array [
               },
             ]
           }
-          testID="Witamina C_hour1"
         >
           <View
             style={
@@ -748,7 +745,6 @@ Array [
               },
             ]
           }
-          testID="Metanabol_hour1"
         >
           <View
             style={
