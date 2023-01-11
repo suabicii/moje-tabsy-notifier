@@ -1,3 +1,7 @@
-import React, {createContext} from "react";
+import React, {createContext, useContext} from "react";
 
-export const DrugTakenContext = createContext([]);
+const DrugTakenContext = createContext([]);
+
+export const useDrugTakenContext = () => useContext(DrugTakenContext);
+
+export default DrugTakenContext;

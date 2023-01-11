@@ -1,13 +1,21 @@
-import React, {useContext} from "react";
+import React, {useEffect} from "react";
 import {Button, Paragraph} from "react-native-paper";
 import {View} from "react-native";
-import {DrugTakenContext} from "../../context/DrugTakenContext";
+import {useDrugTakenContext} from "../../context/DrugTakenContext";
 
-function DosingMoment({drugName, hour, id}) {
-    const {drugTakenChecker, setDrugTakenChecker} = useContext(DrugTakenContext);
+function DosingMoment({name, drugName, hour, id, handleSetDosingMomentsToShow}) {
+    const {drugTakenChecker, setDrugTakenChecker} = useDrugTakenContext();
+
     const handleConfirmDose = drugName => {
 
     };
+
+    useEffect(() => {
+
+        return () => {
+
+        };
+    }, []);
 
     // const [hour, minutes] = value.split(':');
     // const dosingDateTime = dayjs().hour(hour).minute(minutes);
@@ -33,15 +41,12 @@ function DosingMoment({drugName, hour, id}) {
                     marginLeft: 5
                 }}
                 contentStyle={{flexDirection: "row-reverse"}}
-                // disabled={true}
                 icon="check"
                 mode="contained"
                 compact={true}
                 onPress={() => {
                     handleConfirmDose(drugName);
-                    // setDosingMomentsToShow(
-                    //     dosingMomentsToShow.filter(dosingMoment => dosingMoment[0] !== key)
-                    // );
+                    handleSetDosingMomentsToShow(name);
                     setDrugTakenChecker([...drugTakenChecker, id]);
                     // Todo: zapis do AsyncStorage
                 }}

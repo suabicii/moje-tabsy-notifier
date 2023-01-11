@@ -62,16 +62,16 @@ Array [
           "borderStyle": "solid",
           "borderWidth": 0,
           "color": "#e8e8e8",
-          "elevation": 2,
+          "elevation": 0,
           "marginLeft": 5,
           "minWidth": "auto",
           "shadowColor": "#000000",
           "shadowOffset": Object {
-            "height": 0.75,
+            "height": 0,
             "width": 0,
           },
-          "shadowOpacity": 0.24,
-          "shadowRadius": 1.5,
+          "shadowOpacity": 0,
+          "shadowRadius": 0,
         }
       }
     >
@@ -79,7 +79,7 @@ Array [
         accessibilityRole="button"
         accessibilityState={
           Object {
-            "disabled": false,
+            "disabled": true,
           }
         }
         accessible={true}
@@ -101,6 +101,7 @@ Array [
             },
           ]
         }
+        testID="Xanax_hour1"
       >
         <View
           style={
@@ -153,7 +154,7 @@ Array [
                     "textTransform": "uppercase",
                   },
                   Object {
-                    "color": "#ffffff",
+                    "color": "rgba(0, 0, 0, 0.32)",
                     "fontFamily": "System",
                     "fontWeight": "500",
                   },
@@ -232,16 +233,16 @@ Array [
           "borderStyle": "solid",
           "borderWidth": 0,
           "color": "#e8e8e8",
-          "elevation": 2,
+          "elevation": 0,
           "marginLeft": 5,
           "minWidth": "auto",
           "shadowColor": "#000000",
           "shadowOffset": Object {
-            "height": 0.75,
+            "height": 0,
             "width": 0,
           },
-          "shadowOpacity": 0.24,
-          "shadowRadius": 1.5,
+          "shadowOpacity": 0,
+          "shadowRadius": 0,
         }
       }
     >
@@ -249,7 +250,7 @@ Array [
         accessibilityRole="button"
         accessibilityState={
           Object {
-            "disabled": false,
+            "disabled": true,
           }
         }
         accessible={true}
@@ -271,6 +272,7 @@ Array [
             },
           ]
         }
+        testID="Xanax_hour2"
       >
         <View
           style={
@@ -323,7 +325,7 @@ Array [
                     "textTransform": "uppercase",
                   },
                   Object {
-                    "color": "#ffffff",
+                    "color": "rgba(0, 0, 0, 0.32)",
                     "fontFamily": "System",
                     "fontWeight": "500",
                   },

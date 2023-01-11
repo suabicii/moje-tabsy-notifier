@@ -4,25 +4,38 @@ import DosingMoments from "../../../components/content/DosingMoments";
 import {drugList} from "../../fixtures/drugList";
 import {fireEvent, render, screen} from "@testing-library/react-native";
 import {DrugTakenContext} from "../../../context/DrugTakenContext";
+import {TimeContext} from "../../../context/TimeContext";
+import dayjs from "dayjs";
+import MockDate from "mockdate";
+
+let currentTime;
+
+beforeAll(() => {
+    MockDate.set('2020-01-01');
+    currentTime = dayjs();
+});
 
 const drug = drugList[0];
 const handleConfirmDose = jest.fn();
 const dosingMomentsContent = Object.entries(drug.dosingMoments);
 const drugTakenChecker = [];
 const setDrugTakenChecker = jest.fn();
+const setCurrentTime = jest.fn();
 const mockUseContext = jest.fn().mockImplementation(() => ({drugTakenChecker, setDrugTakenChecker}));
 
 React.useContext = mockUseContext;
 
 function WrappedComponent() {
     return (
-        <DrugTakenContext.Provider value={{drugTakenChecker, setDrugTakenChecker}}>
-            <DosingMoments
-                drugName={drug.name}
-                content={dosingMomentsContent}
-                handleConfirmDose={handleConfirmDose}
-            />
-        </DrugTakenContext.Provider>
+        <TimeContext.Provider value={{currentTime, setCurrentTime}}>
+            <DrugTakenContext.Provider value={{drugTakenChecker, setDrugTakenChecker}}>
+                <DosingMoments
+                    drugName={drug.name}
+                    content={dosingMomentsContent}
+                    handleConfirmDose={handleConfirmDose}
+                />
+            </DrugTakenContext.Provider>
+        </TimeContext.Provider>
     );
 }
 
