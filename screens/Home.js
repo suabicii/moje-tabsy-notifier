@@ -7,9 +7,12 @@ import PillButton from "../components/buttons/PillButton";
 import WelcomeModal from "../components/modals/WelcomeModal";
 import {ActivityIndicator, Button, Card, Colors} from "react-native-paper";
 import Drugs from "../components/content/Drugs";
-import {DrugTakenContext} from "../context/DrugTakenContext";
+import DrugTakenContext from "../context/DrugTakenContext";
 import {TimeContext} from "../context/TimeContext";
 import dayjs from "dayjs";
+
+const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
+dayjs.extend(isSameOrAfter);
 
 function Home({navigation, route}) {
     const [drugTakenChecker, setDrugTakenChecker] = useState([]); // Array for storing strings associated
@@ -18,7 +21,6 @@ function Home({navigation, route}) {
 
     const {userId, logged, token} = route.params;
     const {currentTime, setCurrentTime} = useContext(TimeContext);
-    const [tomorrowTime, setTomorrowTime] = useState(undefined);
     const [isLogged, setIsLogged] = useState(logged);
     const [loading, setLoading] = useState(false);
     const [welcomeModalVisible, setWelcomeModalVisible] = useState(true);
@@ -35,6 +37,15 @@ function Home({navigation, route}) {
     const checkIfWelcomeMsgShouldBeVisible = async () => await AsyncStorage.getItem('welcome_msg_disable');
 
     const getTomorrowTimeFromLocalStorage = async () => await AsyncStorage.getItem('tomorrow_time');
+    const saveTomorrowTimeToLocalStorage = async () => {
+        await AsyncStorage.setItem(
+            'tomorrow_time', JSON.stringify(
+                dayjs()
+                    .add(1, 'd')
+                    .startOf('d')
+            )
+        ); // Midnight
+    };
 
     const updateCurrentTime = () => setCurrentTime(dayjs());
 
@@ -49,8 +60,8 @@ function Home({navigation, route}) {
                 console.log(err);
             });
     };
-
     // block going back until user pushed logout button
+
     navigation.addListener('beforeRemove', e => {
         if (!isLogged) {
             navigation.dispatch(e.data.action); // unblock going back action
@@ -71,11 +82,15 @@ function Home({navigation, route}) {
 
         getTomorrowTimeFromLocalStorage().then(async tomorrowTimeStr => {
             if (tomorrowTimeStr) {
-                console.log(tomorrowTimeStr);
+                const tomorrowTimeParsed = dayjs(JSON.parse(tomorrowTimeStr));
+                if (currentTime.isSameOrAfter(tomorrowTimeParsed)) {
+                    await saveTomorrowTimeToLocalStorage();
+                }
             } else {
-                setTomorrowTime(dayjs().add(1, 'd').startOf('d')); // Midnight
-                await AsyncStorage.setItem('tomorrow_time', JSON.stringify(tomorrowTime));
+                await saveTomorrowTimeToLocalStorage();
             }
+        }).catch(err => {
+            console.log(err);
         });
 
         checkIfWelcomeMsgShouldBeVisible().then(msgDisabled => {
@@ -84,6 +99,8 @@ function Home({navigation, route}) {
             } else {
                 setWelcomeModalVisible(true);
             }
+        }).catch(err => {
+            console.log(err);
         });
 
         return () => {

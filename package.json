@@ -53,6 +53,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react-native": "^11.2.0",
     "babel-jest": "^29.0.3",
+    "mockdate": "^3.0.5",
     "react-test-renderer": "18",
     "whatwg-fetch": "^3.6.2"
   },

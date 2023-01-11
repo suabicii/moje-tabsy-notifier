@@ -8,7 +8,10 @@ import {act, render, screen, fireEvent, waitFor} from "@testing-library/react-na
 import {BackHandler} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {TimeContext} from "../../context/TimeContext";
+import MockDate from "mockdate";
+import dayjs from "dayjs";
 
+let currentTime;
 beforeAll(() => {
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
         json: () => Promise.resolve({
@@ -16,6 +19,13 @@ beforeAll(() => {
             message: 'successfully logged out'
         })
     }));
+
+    MockDate.set('2020-01-01');
+    currentTime = dayjs();
+});
+
+afterEach(() => {
+    MockDate.reset();
 });
 
 afterAll(() => {
@@ -23,7 +33,6 @@ afterAll(() => {
     delete global.fetch;
 });
 
-const currentTime = undefined;
 const setCurrentTime = jest.fn();
 const mockUseContext = jest.fn().mockImplementation(() => ({currentTime, setCurrentTime}));
 
@@ -125,3 +134,13 @@ it('should reload Drug component with drug list after pressing refresh button', 
         expect(fetch).toBeCalled();
     });
 });
+
+// it('should save tomorrow time to local storage', async () => {
+//     render(<WrappedComponent/>);
+//
+//     const tomorrowTime = await AsyncStorage.getItem('tomorrow_time');
+//
+//     await waitFor(() => {
+//         expect(tomorrowTime).toBeTruthy();
+//     });
+// });
