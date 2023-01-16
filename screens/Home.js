@@ -47,6 +47,8 @@ function Home({navigation, route}) {
         ); // Midnight
     };
 
+    const getDrugTakenCheckerFromLocalStorage = async () => await AsyncStorage.getItem('drugTakenChecker');
+
     const updateCurrentTime = () => setCurrentTime(dayjs());
 
     const getDrugList = async () => {
@@ -60,8 +62,8 @@ function Home({navigation, route}) {
                 console.log(err);
             });
     };
-    // block going back until user pushed logout button
 
+    // block going back until user pushed logout button
     navigation.addListener('beforeRemove', e => {
         if (!isLogged) {
             navigation.dispatch(e.data.action); // unblock going back action
@@ -85,12 +87,19 @@ function Home({navigation, route}) {
                 const tomorrowTimeParsed = dayjs(JSON.parse(tomorrowTimeStr));
                 if (currentTime.isSameOrAfter(tomorrowTimeParsed)) {
                     await saveTomorrowTimeToLocalStorage();
+                    await AsyncStorage.removeItem('drugTakenChecker');
                 }
             } else {
                 await saveTomorrowTimeToLocalStorage();
             }
         }).catch(err => {
             console.log(err);
+        });
+
+        getDrugTakenCheckerFromLocalStorage().then(value => {
+            if (value) {
+                setDrugTakenChecker(JSON.parse(value));
+            }
         });
 
         checkIfWelcomeMsgShouldBeVisible().then(msgDisabled => {

@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import {Button, Paragraph} from "react-native-paper";
 import {View} from "react-native";
 import {useDrugTakenContext} from "../../context/DrugTakenContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function DosingMoment({name, drugName, hour, id, handleSetDosingMomentsToShow}) {
     const {drugTakenChecker, setDrugTakenChecker} = useDrugTakenContext();
@@ -44,11 +45,11 @@ function DosingMoment({name, drugName, hour, id, handleSetDosingMomentsToShow}) 
                 icon="check"
                 mode="contained"
                 compact={true}
-                onPress={() => {
+                onPress={async () => {
                     handleConfirmDose(drugName);
-                    handleSetDosingMomentsToShow(name);
                     setDrugTakenChecker([...drugTakenChecker, id]);
-                    // Todo: zapis do AsyncStorage
+                    await AsyncStorage.setItem('drugTakenChecker', JSON.stringify(drugTakenChecker));
+                    handleSetDosingMomentsToShow(name);
                 }}
             >
                 Już zażyłem/-am
