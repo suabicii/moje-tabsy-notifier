@@ -2,7 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 import Drugs from "../../../components/content/Drugs";
 import {drugList} from "../../fixtures/drugList";
-import {DrugTakenContext} from "../../../context/DrugTakenContext";
+import DrugTakenContext from "../../../context/DrugTakenContext";
 import {TimeContext} from "../../../context/TimeContext";
 import MockDate from "mockdate";
 import dayjs from "dayjs";

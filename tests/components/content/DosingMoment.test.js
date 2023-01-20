@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import {TimeContext} from "../../../context/TimeContext";
-import {DrugTakenContext} from "../../../context/DrugTakenContext";
+import DrugTakenContext from "../../../context/DrugTakenContext";
 import DosingMoment from "../../../components/content/DosingMoment";
 import {drugList} from "../../fixtures/drugList";
 import MockDate from "mockdate";
@@ -32,6 +32,7 @@ function WrappedComponent() {
                     name={`${Object.keys(drug.dosingMoments)[0]}`}
                     drugName={drug.name}
                     hour={`${Object.values(drug.dosingMoments)[0]}`}
+                    disabled={false}
                     id={`${drug.name}_${Object.keys(drug.dosingMoments)[0]}`}
                     handleSetDosingMomentsToShow={handleSetDosingMomentsToShow}
                 />

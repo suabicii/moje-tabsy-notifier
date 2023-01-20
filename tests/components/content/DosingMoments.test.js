@@ -2,8 +2,8 @@ import React from "react";
 import renderer from "react-test-renderer";
 import DosingMoments from "../../../components/content/DosingMoments";
 import {drugList} from "../../fixtures/drugList";
-import {fireEvent, render, screen} from "@testing-library/react-native";
-import {DrugTakenContext} from "../../../context/DrugTakenContext";
+import {fireEvent, render, screen, act} from "@testing-library/react-native";
+import DrugTakenContext from "../../../context/DrugTakenContext";
 import {TimeContext} from "../../../context/TimeContext";
 import dayjs from "dayjs";
 import MockDate from "mockdate";
@@ -12,7 +12,7 @@ let currentTime;
 
 beforeAll(() => {
     MockDate.set('2020-01-01');
-    currentTime = dayjs();
+    currentTime = dayjs().hour(7).minute(2);
 });
 
 const drug = drugList[0];
@@ -44,10 +44,12 @@ it('should correctly render DosingMoments component', () => {
     expect(tree).toMatchSnapshot();
 });
 
-it('should shorten dosing moment list after pressing the button to confirm the dose', () => {
+it('should shorten dosing moment list after pressing the button to confirm the dose', async () => {
     render(<WrappedComponent/>);
 
-    fireEvent.press(screen.getByTestId('Xanax_hour1'));
+    await act(() => {
+        fireEvent.press(screen.getByTestId('Xanax_hour1'));
+    });
 
     expect(screen.queryByTestId('Xanax_hour1')).toBeNull();
 });

@@ -1,26 +1,15 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Button, Paragraph} from "react-native-paper";
 import {View} from "react-native";
 import {useDrugTakenContext} from "../../context/DrugTakenContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-function DosingMoment({name, drugName, hour, id, handleSetDosingMomentsToShow}) {
+function DosingMoment({name, drugName, time, id, disabled, handleSetDosingMomentsToShow}) {
     const {drugTakenChecker, setDrugTakenChecker} = useDrugTakenContext();
 
     const handleConfirmDose = drugName => {
 
     };
-
-    useEffect(() => {
-
-        return () => {
-
-        };
-    }, []);
-
-    // const [hour, minutes] = value.split(':');
-    // const dosingDateTime = dayjs().hour(hour).minute(minutes);
-    // console.log(dayjs().isSameOrAfter(dosingDateTime));
 
     return (
         <View
@@ -32,7 +21,7 @@ function DosingMoment({name, drugName, hour, id, handleSetDosingMomentsToShow}) 
             }}
         >
             <Paragraph style={{textAlign: "center", fontSize: 16}}>
-                – {`${hour}`}
+                – {`${time}`}
             </Paragraph>
             <Button
                 testID={id}
@@ -41,6 +30,7 @@ function DosingMoment({name, drugName, hour, id, handleSetDosingMomentsToShow}) 
                     color: "#e8e8e8",
                     marginLeft: 5
                 }}
+                disabled={disabled}
                 contentStyle={{flexDirection: "row-reverse"}}
                 icon="check"
                 mode="contained"
