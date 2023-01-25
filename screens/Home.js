@@ -79,7 +79,6 @@ function Home({navigation, route}) {
     }, [isLogged]);
 
     useEffect(() => {
-        const drugListInterval = setInterval(getDrugList, 5000);
         const updateTimeInterval = setInterval(updateCurrentTime, 1000);
 
         getTomorrowTimeFromLocalStorage().then(async tomorrowTimeStr => {
@@ -111,6 +110,8 @@ function Home({navigation, route}) {
         }).catch(err => {
             console.log(err);
         });
+
+        const drugListInterval = setInterval(getDrugList, 5000);
 
         return () => {
             clearInterval(drugListInterval);
