@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useMemo, useState} from "react";
 import {ScrollView, Text} from "react-native";
-import {APP_ID, APP_TOKEN} from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ajaxCall} from "../utils/ajaxCall";
 import PillButton from "../components/buttons/PillButton";
@@ -10,6 +9,7 @@ import Drugs from "../components/content/Drugs";
 import DrugTakenContext from "../context/DrugTakenContext";
 import {TimeContext} from "../context/TimeContext";
 import dayjs from "dayjs";
+import sendNotification from "../utils/notifier";
 
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
@@ -27,6 +27,7 @@ function Home({navigation, route}) {
     const [drugList, setDrugList] = useState([]);
     const [drugsVisible, setDrugsVisible] = useState(false);
     const [refreshBtnLoading, setRefreshBtnLoading] = useState(false);
+    const [sentNotifications, setSentNotifications] = useState([]); // For sent notifications ids
 
     const drugTakenContextValue = useMemo(
         () => ({drugTakenChecker, setDrugTakenChecker}),
@@ -51,12 +52,30 @@ function Home({navigation, route}) {
 
     const updateCurrentTime = () => setCurrentTime(dayjs());
 
-    const getDrugList = async () => {
+    const getDrugListAndSendNotification = async () => {
         await ajaxCall('get', `drug-notify/${token}`)
             .then(data => {
                 setDrugsVisible(false);
                 setDrugList(data);
                 setDrugsVisible(true);
+                // Check dosing time and send notification in suitable time
+                drugList.forEach(async drug => {
+                    const dosingMoments = Object.entries(drug.dosingMoments);
+                    for (const [key, value] of dosingMoments) {
+                        const drugTakenIdentifier = `${drug.name}_${key}`; // Used also as id of sent notification (no idea for other variable's name :) )
+                        if (drugTakenChecker.find(string => string === drugTakenIdentifier)) {
+                            continue;
+                        }
+
+                        const [hour, minutes] = value.split(':');
+                        const dosingDateTime = dayjs().hour(hour).minute(minutes);
+                        if (currentTime.isSameOrAfter(dosingDateTime) && sentNotifications.indexOf(drugTakenIdentifier) === -1) {
+                            await sendNotification(drug.name, drug.dosing, drug.unit, userId);
+                            const sentNotificationsNewValue = [...sentNotifications, drugTakenIdentifier];
+                            setSentNotifications(sentNotificationsNewValue);
+                        }
+                    }
+                });
             })
             .catch(err => {
                 console.log(err);
@@ -111,7 +130,7 @@ function Home({navigation, route}) {
             console.log(err);
         });
 
-        const drugListInterval = setInterval(getDrugList, 5000);
+        const drugListInterval = setInterval(getDrugListAndSendNotification, 5000);
 
         return () => {
             clearInterval(drugListInterval);
@@ -134,26 +153,6 @@ function Home({navigation, route}) {
             });
         setLoading(false);
     };
-
-    // useEffect(() => {
-    //     async function sendNotificationAfterLogin() {
-    //         await fetch('https://app.nativenotify.com/api/indie/notification', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Accept': 'application/json',
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify({
-    //                 subID: userId,
-    //                 appId: APP_ID,
-    //                 appToken: APP_TOKEN,
-    //                 title: 'Login success',
-    //                 message: 'Pomyślnie zalogowano'
-    //             })
-    //         });
-    //     }
-    //     sendNotificationAfterLogin();
-    // }, []);
 
     return (
         <ScrollView>
@@ -196,7 +195,7 @@ function Home({navigation, route}) {
                         onPress={async () => {
                             setDrugsVisible(false);
                             setRefreshBtnLoading(true);
-                            await getDrugList();
+                            await getDrugListAndSendNotification();
                             setDrugsVisible(true);
                             setRefreshBtnLoading(false);
                         }}

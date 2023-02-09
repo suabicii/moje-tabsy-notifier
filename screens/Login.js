@@ -24,7 +24,7 @@ function Login({navigation}) {
     const autoLogin = async () => {
         const token = await AsyncStorage.getItem('moje_tabsy_token');
         if (token) {
-            await ajaxCall('post', 'login-auto', {token})
+            await ajaxCall('post', 'login-auto', {body: {token}})
                 .then(async data => {
                     if (data.status === 200 && data.message) {
                         console.log(data.message);
