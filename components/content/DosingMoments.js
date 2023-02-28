@@ -7,7 +7,7 @@ import {TimeContext} from "../../context/TimeContext";
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
 
-function DosingMoments({drugName, content}) {
+function DosingMoments({drugId, drugName, content}) {
     const {drugTakenChecker} = useDrugTakenContext();
     const {currentTime} = useContext(TimeContext);
     const [dosingMomentsToShow, setDosingMomentsToShow] = useState(content);
@@ -35,7 +35,7 @@ function DosingMoments({drugName, content}) {
             <DosingMoment
                 key={viewKey}
                 name={key}
-                drugName={drugName}
+                drugId={drugId}
                 time={value}
                 id={viewKey}
                 disabled={confirmationBtnDisabled}

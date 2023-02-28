@@ -10,7 +10,7 @@ function Drugs({drugList}) {
     return (
         <>
             {
-                drugList.map(({dosing, name, unit, dosingMoments}, index) => {
+                drugList.map(({id, dosing, name, unit, dosingMoments}, index) => {
                     const dosingMomentsArray = Object.entries(dosingMoments);
                     let currentDrugTakenChecker = [];
 
@@ -34,6 +34,7 @@ function Drugs({drugList}) {
                                         {name} {dosing} {unit} w godz.
                                     </Title>
                                     <DosingMoments
+                                        drugId={id}
                                         drugName={name}
                                         content={dosingMomentsArray}
                                     />

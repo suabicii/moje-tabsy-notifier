@@ -3,20 +3,29 @@ import {Button, Paragraph} from "react-native-paper";
 import {View} from "react-native";
 import {useDrugTakenContext} from "../../context/DrugTakenContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {ajaxCall} from "../../utils/ajaxCall";
 
-function DosingMoment({name, drugName, time, id, disabled, handleSetDosingMomentsToShow}) {
+function DosingMoment({name, drugId, time, id, disabled, handleSetDosingMomentsToShow}) {
     const {drugTakenChecker, setDrugTakenChecker} = useDrugTakenContext();
     const [btnLoading, setBtnLoading] = useState(false);
 
     const handleConfirmDose = async () => {
         setBtnLoading(true);
-        await (new Promise(resolve => {
-            setTimeout(() => { // Temporarily to silence warning in IDE about unused property –> to be deleted
-                resolve(`${drugName} was taken`);
-            }, 2000);
-        })).then(data => {
-            console.log(data);
-        });
+        const token = await AsyncStorage.getItem('moje_tabsy_token');
+        await ajaxCall('put', `drug-taken/${token}/${drugId}`)
+            .then(async response => {
+                if (response.status === 200) {
+                    const drugTakenCheckerNewValue = [...drugTakenChecker, id];
+                    setDrugTakenChecker(drugTakenCheckerNewValue);
+                    await AsyncStorage.setItem('drugTakenChecker', JSON.stringify(drugTakenCheckerNewValue));
+                    handleSetDosingMomentsToShow(name);
+                } else {
+                    console.log(response);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
     };
 
     return (
@@ -46,10 +55,6 @@ function DosingMoment({name, drugName, time, id, disabled, handleSetDosingMoment
                 compact={true}
                 onPress={async () => {
                     await handleConfirmDose();
-                    const drugTakenCheckerNewValue = [...drugTakenChecker, id];
-                    setDrugTakenChecker(drugTakenCheckerNewValue);
-                    await AsyncStorage.setItem('drugTakenChecker', JSON.stringify(drugTakenCheckerNewValue));
-                    handleSetDosingMomentsToShow(name);
                 }}
             >
                 Już zażyłem/-am
