@@ -1,12 +1,14 @@
 import React, {useState} from "react";
 import {Button, Paragraph} from "react-native-paper";
 import {View} from "react-native";
-import {useDrugTakenContext} from "../../context/DrugTakenContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ajaxCall} from "../../utils/ajaxCall";
+import {useDispatch, useSelector} from "react-redux";
+import {setDrugsTaken} from "../../features/drugsTaken/drugsTakenSlice";
 
 function DosingMoment({name, drugId, time, id, disabled, handleSetDosingMomentsToShow}) {
-    const {drugTakenChecker, setDrugTakenChecker} = useDrugTakenContext();
+    const drugsTaken = useSelector(state => state.drugsTaken);
+    const dispatch = useDispatch();
     const [btnLoading, setBtnLoading] = useState(false);
 
     const handleConfirmDose = async () => {
@@ -15,9 +17,9 @@ function DosingMoment({name, drugId, time, id, disabled, handleSetDosingMomentsT
         await ajaxCall('put', `drug-taken/${token}/${drugId}`)
             .then(async response => {
                 if (response.status === 200) {
-                    const drugTakenCheckerNewValue = [...drugTakenChecker, id];
-                    setDrugTakenChecker(drugTakenCheckerNewValue);
-                    await AsyncStorage.setItem('drugTakenChecker', JSON.stringify(drugTakenCheckerNewValue));
+                    const drugsTakenNewValue = [...drugsTaken, id];
+                    dispatch(setDrugsTaken(drugsTakenNewValue));
+                    await AsyncStorage.setItem('drugs_taken', JSON.stringify(drugsTakenNewValue));
                     handleSetDosingMomentsToShow(name);
                 } else {
                     console.log(response);

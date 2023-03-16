@@ -7,9 +7,13 @@ import Home from "../../screens/Home";
 import {act, render, screen, fireEvent, waitFor} from "@testing-library/react-native";
 import {BackHandler} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {TimeContext} from "../../context/TimeContext";
 import MockDate from "mockdate";
 import dayjs from "dayjs";
+import {Provider} from "react-redux";
+import store from "../../store";
+import {drugList} from "../fixtures/drugList";
+import {fetchDrugs} from "../../features/drugs/drugsSlice";
+import {setCurrentTime} from "../../features/time/timeSlice";
 
 let currentTime;
 beforeAll(() => {
@@ -22,6 +26,8 @@ beforeAll(() => {
 
     MockDate.set('2020-01-01');
     currentTime = dayjs();
+
+    store.dispatch(setCurrentTime(JSON.stringify(currentTime)));
 });
 
 afterEach(() => {
@@ -33,25 +39,15 @@ afterAll(() => {
     delete global.fetch;
 });
 
-const setCurrentTime = jest.fn();
-const mockUseContext = jest.fn().mockImplementation(() => ({currentTime, setCurrentTime}));
-
-React.useContext = mockUseContext;
-
 const addListener = jest.fn();
 const navigate = jest.fn();
 const dispatch = jest.fn();
 
 function WrappedComponent({navigateCustom}) {
-    let navigateLocal;
-    if (navigateCustom) {
-        navigateLocal = navigateCustom;
-    } else {
-        navigateLocal = navigate;
-    }
+    const navigateLocal = navigateCustom || navigate;
 
     return (
-        <TimeContext.Provider value={{currentTime, setCurrentTime}}>
+        <Provider store={store}>
             <Home
                 route={{
                     params: {logged: true}
@@ -62,7 +58,7 @@ function WrappedComponent({navigateCustom}) {
                     dispatch
                 }}
             />
-        </TimeContext.Provider>
+        </Provider>
     );
 }
 
@@ -80,7 +76,9 @@ it('should go back to Login screen after pressing logout button', async () => {
         fireEvent.press(screen.getByTestId('btn-pill'));
     });
 
-    expect(navigate).toBeCalled();
+    await waitFor(() => {
+        expect(navigate).toBeCalled();
+    });
 });
 
 it('should stay in Home screen if logout request failed', async () => {
@@ -124,6 +122,10 @@ it('should not show modal with welcome message after login if AsyncStorage has i
 });
 
 it('should reload Drug component with drug list after pressing refresh button', async () => {
+    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+        json: () => Promise.resolve(drugList)
+    }));
+    store.dispatch(fetchDrugs('mock_token'));
     render(<WrappedComponent/>);
 
     await act(() => {
@@ -135,12 +137,29 @@ it('should reload Drug component with drug list after pressing refresh button', 
     });
 });
 
-// it('should save tomorrow time to local storage', async () => {
-//     render(<WrappedComponent/>);
-//
-//     const tomorrowTime = await AsyncStorage.getItem('tomorrow_time');
-//
-//     await waitFor(() => {
-//         expect(tomorrowTime).toBeTruthy();
-//     });
-// });
+it('should save tomorrow time to local storage', async () => {
+    render(<WrappedComponent/>);
+
+    const tomorrowTime = dayjs().add(1, 'd').startOf('d');
+    const tomorrowTimeJSON = JSON.stringify(tomorrowTime);
+
+    await waitFor(() => {
+        expect(AsyncStorage.setItem).toBeCalledWith('tomorrow_time', tomorrowTimeJSON);
+    });
+});
+
+it('should remove tomorrow time and save new value in local storage if current time is same or after tomorrow time', async () => {
+    const tomorrowTime = dayjs().subtract(1, 'd');
+    const tomorrowTimeJSON = JSON.stringify(tomorrowTime);
+
+    await AsyncStorage.setItem('tomorrow_time', tomorrowTimeJSON);
+
+    render(<WrappedComponent/>);
+
+    const tomorrowTimeNewValue = dayjs().add(1, 'd').startOf('d');
+    const tomorrowTimeNewValueJSON = JSON.stringify(tomorrowTimeNewValue);
+
+    await waitFor(() => {
+        expect(AsyncStorage.setItem).toBeCalledWith('tomorrow_time', tomorrowTimeNewValueJSON);
+    });
+});

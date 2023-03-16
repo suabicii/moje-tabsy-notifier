@@ -2,40 +2,39 @@ import React from "react";
 import renderer from "react-test-renderer";
 import Drugs from "../../../components/content/Drugs";
 import {drugList} from "../../fixtures/drugList";
-import DrugTakenContext from "../../../context/DrugTakenContext";
-import {TimeContext} from "../../../context/TimeContext";
 import MockDate from "mockdate";
 import dayjs from "dayjs";
 import {render, screen} from "@testing-library/react-native";
+import {Provider} from "react-redux";
+import store from "../../../store";
+import {setDrugsTaken} from "../../../features/drugsTaken/drugsTakenSlice";
+import {setCurrentTime} from "../../../features/time/timeSlice";
 
 let currentTime;
 beforeAll(() => {
     MockDate.set('2020-01-01');
     currentTime = dayjs();
+    store.dispatch(setCurrentTime(JSON.stringify(currentTime)));
 });
 
 const drug = drugList[0];
 
-let drugTakenChecker = [];
-const setDrugTakenChecker = jest.fn();
-const setCurrentTime = jest.fn();
-const mockUseContext = jest.fn().mockImplementation(() => ({drugTakenChecker, setDrugTakenChecker}));
-
-React.useContext = mockUseContext;
-
-function WrappedComponent({customDrugTakenChecker}) {
-    if (customDrugTakenChecker) {
-        drugTakenChecker = customDrugTakenChecker;
-    }
-
+function WrappedComponent() {
     return (
-        <TimeContext.Provider value={{currentTime, setCurrentTime}}>
-            <DrugTakenContext.Provider value={{drugTakenChecker, setDrugTakenChecker}}>
-                <Drugs drugList={drugList}/>
-            </DrugTakenContext.Provider>
-        </TimeContext.Provider>
+        <Provider store={store}>
+            <Drugs drugList={drugList}/>
+        </Provider>
     );
 }
+
+const dispatchDrugsTaken = () => {
+    const dosingMoments = Object.entries(drug.dosingMoments);
+    const drugsTaken = [];
+    for (const [key] of dosingMoments) {
+        drugsTaken.push(`${drug.name}_${key}`);
+    }
+    store.dispatch(setDrugsTaken(drugsTaken));
+};
 
 it('should correctly render drug data', () => {
     const tree = renderer.create(<WrappedComponent/>).toJSON();
@@ -43,9 +42,9 @@ it('should correctly render drug data', () => {
 });
 
 it('should not render single drug component if all doses was already taken', () => {
-    const dosingMomentKeys = Object.keys(drug.dosingMoments);
-    const customDrugTakenChecker = [`${drug.name}_${dosingMomentKeys[0]}`, `${drug.name}_${dosingMomentKeys[1]}`];
-    render(<WrappedComponent customDrugTakenChecker={customDrugTakenChecker}/>);
+    dispatchDrugsTaken();
+
+    render(<WrappedComponent/>);
 
     expect(screen.queryByTestId(drug.name)).toBeFalsy();
 });

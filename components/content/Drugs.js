@@ -2,22 +2,22 @@ import React from "react";
 import {Title} from "react-native-paper";
 import {View} from "react-native";
 import DosingMoments from "./DosingMoments";
-import {useDrugTakenContext} from "../../context/DrugTakenContext";
+import {useSelector} from "react-redux";
 
 function Drugs({drugList}) {
-    const {drugTakenChecker} = useDrugTakenContext();
+    const drugsTaken = useSelector(state => state.drugsTaken);
 
     return (
         <>
             {
                 drugList.map(({id, dosing, name, unit, dosingMoments}, index) => {
                     const dosingMomentsArray = Object.entries(dosingMoments);
-                    let currentDrugTakenChecker = [];
+                    let currentDrugsTaken = [];
 
                     for (const [key] of dosingMomentsArray) {
-                        currentDrugTakenChecker = [
-                            ...currentDrugTakenChecker,
-                            ...drugTakenChecker.filter(string => string === `${name}_${key}`)
+                        currentDrugsTaken = [
+                            ...currentDrugsTaken,
+                            ...drugsTaken.filter(string => string === `${name}_${key}`)
                         ];
                     }
 
@@ -25,7 +25,7 @@ function Drugs({drugList}) {
                         <View key={`${name}${index}`}>
                             {
                                 // do not render drug component (content) if all doses was already taken
-                                currentDrugTakenChecker.length !== dosingMomentsArray.length
+                                currentDrugsTaken.length !== dosingMomentsArray.length
                                 &&
                                 <>
                                     <Title

@@ -1,4 +1,4 @@
-import {API_URL} from "@env";
+const API_URL = process.env['API_URL'];
 
 export const ajaxCall = async (method, route, {body, customApiUrl} = {}) => {
     try {
@@ -10,7 +10,7 @@ export const ajaxCall = async (method, route, {body, customApiUrl} = {}) => {
             }
         };
         if (body) {
-            options.body = JSON.stringify(body)
+            options.body = JSON.stringify(body);
         }
         const apiUrl = customApiUrl || API_URL;
         const response = await fetch(`${apiUrl}/api/${route}`, options);

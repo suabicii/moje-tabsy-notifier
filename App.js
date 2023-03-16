@@ -4,15 +4,12 @@ import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import registerNNPushToken from 'native-notify';
 import {APP_ID, APP_TOKEN} from "@env";
-import {TimeContext} from "./context/TimeContext";
-import dayjs from "dayjs";
-import {useMemo, useState} from "react";
+import {Provider} from "react-redux";
+import store from "./store";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-    const [currentTime, setCurrentTime] = useState(dayjs());
-
     registerNNPushToken(APP_ID, APP_TOKEN);
 
     const appTitle = 'Moje-Tabsy.pl 💊';
@@ -23,14 +20,9 @@ export default function App() {
         headerTintColor: '#fff'
     };
 
-    const value = useMemo(
-        () => ({currentTime, setCurrentTime}),
-        [currentTime]
-    );
-
     return (
         <NavigationContainer>
-            <TimeContext.Provider value={value}>
+            <Provider store={store}>
                 <Stack.Navigator initialRouteName="Login">
                     <Stack.Screen
                         name="Login"
@@ -50,7 +42,7 @@ export default function App() {
                         }}
                     />
                 </Stack.Navigator>
-            </TimeContext.Provider>
+            </Provider>
         </NavigationContainer>
     );
 }

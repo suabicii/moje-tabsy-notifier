@@ -3,39 +3,36 @@ import renderer from "react-test-renderer";
 import DosingMoments from "../../../components/content/DosingMoments";
 import {drugList} from "../../fixtures/drugList";
 import {fireEvent, render, screen, act} from "@testing-library/react-native";
-import DrugTakenContext from "../../../context/DrugTakenContext";
-import {TimeContext} from "../../../context/TimeContext";
 import dayjs from "dayjs";
 import MockDate from "mockdate";
-
-let currentTime;
+import {Provider} from "react-redux";
+import store from "../../../store";
+import {setCurrentTime} from "../../../features/time/timeSlice";
 
 beforeAll(() => {
     MockDate.set('2020-01-01');
-    currentTime = dayjs().hour(7).minute(2);
+    const mockedCurrentTime = dayjs().hour(7).minute(2);
+    store.dispatch(setCurrentTime(JSON.stringify(mockedCurrentTime)));
+});
+
+afterAll(() => {
+    jest.clearAllMocks();
+    delete global.fetch;
 });
 
 const drug = drugList[0];
 const handleConfirmDose = jest.fn();
 const dosingMomentsContent = Object.entries(drug.dosingMoments);
-const drugTakenChecker = [];
-const setDrugTakenChecker = jest.fn();
-const setCurrentTime = jest.fn();
-const mockUseContext = jest.fn().mockImplementation(() => ({drugTakenChecker, setDrugTakenChecker}));
-
-React.useContext = mockUseContext;
 
 function WrappedComponent() {
     return (
-        <TimeContext.Provider value={{currentTime, setCurrentTime}}>
-            <DrugTakenContext.Provider value={{drugTakenChecker, setDrugTakenChecker}}>
-                <DosingMoments
-                    drugName={drug.name}
-                    content={dosingMomentsContent}
-                    handleConfirmDose={handleConfirmDose}
-                />
-            </DrugTakenContext.Provider>
-        </TimeContext.Provider>
+        <Provider store={store}>
+            <DosingMoments
+                drugName={drug.name}
+                content={dosingMomentsContent}
+                handleConfirmDose={handleConfirmDose}
+            />
+        </Provider>
     );
 }
 
@@ -45,6 +42,12 @@ it('should correctly render DosingMoments component', () => {
 });
 
 it('should shorten dosing moment list after pressing the button to confirm the dose', async () => {
+    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+        json: () => Promise.resolve({
+            status: 200
+        })
+    }));
+
     render(<WrappedComponent/>);
 
     await act(() => {

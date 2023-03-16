@@ -1,15 +1,14 @@
-import React, {useContext, useState} from "react";
-import {useDrugTakenContext} from "../../context/DrugTakenContext";
+import React, {useState} from "react";
 import dayjs from "dayjs";
 import DosingMoment from "./DosingMoment";
-import {TimeContext} from "../../context/TimeContext";
+import {useSelector} from "react-redux";
 
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
 
 function DosingMoments({drugId, drugName, content}) {
-    const {drugTakenChecker} = useDrugTakenContext();
-    const {currentTime} = useContext(TimeContext);
+    const drugsTaken = useSelector(state => state.drugsTaken);
+    const time = useSelector(state => state.time);
     const [dosingMomentsToShow, setDosingMomentsToShow] = useState(content);
 
     const result = [];
@@ -23,13 +22,14 @@ function DosingMoments({drugId, drugName, content}) {
     for (const [key, value] of dosingMomentsToShow) {
         const viewKey = `${drugName}_${key}`;
 
-        if (drugTakenChecker.find(string => string === viewKey)) {
+        if (drugsTaken.find(string => string === viewKey)) {
             continue;
         }
 
         const [hour, minutes] = value.split(':');
         const dosingDateTime = dayjs().hour(hour).minute(minutes);
-        const confirmationBtnDisabled = !currentTime.isSameOrAfter(dosingDateTime);
+        const currentTimeParsed = dayjs(JSON.parse(time.now));
+        const confirmationBtnDisabled = !currentTimeParsed.isSameOrAfter(dosingDateTime);
 
         result.push(
             <DosingMoment
