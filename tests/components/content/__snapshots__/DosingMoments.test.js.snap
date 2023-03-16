@@ -62,16 +62,16 @@ Array [
           "borderStyle": "solid",
           "borderWidth": 0,
           "color": "#e8e8e8",
-          "elevation": 0,
+          "elevation": 2,
           "marginLeft": 5,
           "minWidth": "auto",
           "shadowColor": "#000000",
           "shadowOffset": Object {
-            "height": 0,
+            "height": 0.75,
             "width": 0,
           },
-          "shadowOpacity": 0,
-          "shadowRadius": 0,
+          "shadowOpacity": 0.24,
+          "shadowRadius": 1.5,
         }
       }
     >
@@ -79,7 +79,7 @@ Array [
         accessibilityRole="button"
         accessibilityState={
           Object {
-            "disabled": true,
+            "disabled": false,
           }
         }
         accessible={true}
@@ -154,7 +154,7 @@ Array [
                     "textTransform": "uppercase",
                   },
                   Object {
-                    "color": "rgba(0, 0, 0, 0.32)",
+                    "color": "#ffffff",
                     "fontFamily": "System",
                     "fontWeight": "500",
                   },
