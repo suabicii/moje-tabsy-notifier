@@ -19,7 +19,6 @@ function Home({navigation, route}) {
     const {userId, logged, token} = route.params;
 
     const time = useSelector(state => state.time);
-    const drugList = useSelector(state => state.drugs);
     const dispatch = useDispatch();
 
     const [isLogged, setIsLogged] = useState(logged);
@@ -147,7 +146,7 @@ function Home({navigation, route}) {
                     {
                         drugsVisible
                             ?
-                            <Drugs drugList={drugList}/>
+                            <Drugs/>
                             :
                             <ActivityIndicator
                                 animating={true}

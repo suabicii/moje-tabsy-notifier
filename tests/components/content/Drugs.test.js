@@ -4,17 +4,18 @@ import Drugs from "../../../components/content/Drugs";
 import {drugList} from "../../fixtures/drugList";
 import MockDate from "mockdate";
 import dayjs from "dayjs";
-import {render, screen} from "@testing-library/react-native";
+import {render, screen, waitFor} from "@testing-library/react-native";
 import {Provider} from "react-redux";
 import store from "../../../store";
 import {setDrugsTaken} from "../../../features/drugsTaken/drugsTakenSlice";
 import {setCurrentTime} from "../../../features/time/timeSlice";
+import {setDrugs} from "../../../features/drugs/drugsSlice";
 
-let currentTime;
 beforeAll(() => {
     MockDate.set('2020-01-01');
-    currentTime = dayjs();
+    const currentTime = dayjs();
     store.dispatch(setCurrentTime(JSON.stringify(currentTime)));
+    store.dispatch(setDrugs(drugList));
 });
 
 const drug = drugList[0];
@@ -22,7 +23,7 @@ const drug = drugList[0];
 function WrappedComponent() {
     return (
         <Provider store={store}>
-            <Drugs drugList={drugList}/>
+            <Drugs/>
         </Provider>
     );
 }
@@ -41,10 +42,12 @@ it('should correctly render drug data', () => {
     expect(tree).toMatchSnapshot();
 });
 
-it('should not render single drug component if all doses was already taken', () => {
+it('should not render single drug component if all doses was already taken', async () => {
     dispatchDrugsTaken();
 
     render(<WrappedComponent/>);
 
-    expect(screen.queryByTestId(drug.name)).toBeFalsy();
+    await waitFor(() => {
+        expect(screen.queryByTestId(drug.name)).toBeFalsy();
+    });
 });

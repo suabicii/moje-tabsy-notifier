@@ -4,8 +4,9 @@ import {View} from "react-native";
 import DosingMoments from "./DosingMoments";
 import {useSelector} from "react-redux";
 
-function Drugs({drugList}) {
+function Drugs() {
     const drugsTaken = useSelector(state => state.drugsTaken);
+    const drugList = useSelector(state => state.drugs);
 
     return (
         <>
