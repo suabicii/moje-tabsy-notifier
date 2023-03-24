@@ -28,7 +28,7 @@ function WrappedComponent() {
     return (
         <Provider store={store}>
             <DosingMoments
-                drugName={drug.name}
+                drug={drug}
                 content={dosingMomentsContent}
                 handleConfirmDose={handleConfirmDose}
             />

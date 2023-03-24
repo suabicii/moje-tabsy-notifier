@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
 
-function DosingMoments({drugId, drugName, content}) {
+function DosingMoments({drug, content}) {
     const drugsTaken = useSelector(state => state.drugsTaken);
     const time = useSelector(state => state.time);
     const [dosingMomentsToShow, setDosingMomentsToShow] = useState(content);
@@ -20,7 +20,7 @@ function DosingMoments({drugId, drugName, content}) {
     };
 
     for (const [key, value] of dosingMomentsToShow) {
-        const viewKey = `${drugName}_${key}`;
+        const viewKey = `${drug.name}_${key}`;
 
         if (drugsTaken.find(string => string === viewKey)) {
             continue;
@@ -35,7 +35,7 @@ function DosingMoments({drugId, drugName, content}) {
             <DosingMoment
                 key={viewKey}
                 name={key}
-                drugId={drugId}
+                drugId={drug.id}
                 time={value}
                 id={viewKey}
                 disabled={confirmationBtnDisabled}
