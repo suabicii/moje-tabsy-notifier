@@ -11,6 +11,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {setCurrentTime, setTomorrowTime} from "../features/time/timeSlice";
 import {fetchDrugs} from "../features/drugs/drugsSlice";
 import {setDrugsTaken} from "../features/drugsTaken/drugsTakenSlice";
+import {addNotification, removeNotification} from "../features/notificationsQueue/notificationsQueueSlice";
+import sendNotification from "../utils/notifier";
 
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
@@ -19,6 +21,9 @@ function Home({navigation, route}) {
     const {userId, logged, token} = route.params;
 
     const time = useSelector(state => state.time);
+    const drugList = useSelector(state => state.drugs);
+    const notificationsQueue = useSelector(state => state.notificationsQueue);
+    const drugsTaken = useSelector(state => state.drugsTaken);
     const dispatch = useDispatch();
 
     const [isLogged, setIsLogged] = useState(logged);
@@ -59,6 +64,46 @@ function Home({navigation, route}) {
         }
         e.preventDefault();
     });
+
+    // queue notifications
+    useEffect(() => {
+        drugList.forEach(({dosing, dosingMoments, name, unit}) => {
+            const dosingMomentsArray = Object.entries(dosingMoments);
+
+            const id = notificationsQueue.length > 0 ? notificationsQueue[notificationsQueue.length - 1].id + 1 : 1;
+
+            for (const [key, value] of dosingMomentsArray) {
+                const notificationName = `${name}_${key}`;
+
+                if (!notificationsQueue.find(notification => notification.name === notificationName)) {
+                    if (!drugsTaken.find(drugTakenId => drugTakenId === notificationName)) {
+                        dispatch(addNotification({
+                            id,
+                            name: `${name}_${key}`,
+                            drugName: name,
+                            dosing: dosing,
+                            unit: unit,
+                            hour: value
+                        }));
+                    }
+                }
+            }
+        });
+    }, [drugList]);
+
+    // send notifications
+    /*useEffect(() => {
+        notificationsQueue.forEach(async ({id, dosing, drugName, hour, unit}) => {
+            const currentTimeParsed = dayjs(JSON.parse(time));
+            const [hours, minutes] = hour.split(':');
+            const notificationDateTime = dayjs().hour(hours).minute(minutes);
+
+            if (currentTimeParsed.isSameOrAfter(notificationDateTime)) {
+                await sendNotification(drugName, dosing, unit, userId);
+                dispatch(removeNotification(id));
+            }
+        });
+    }, [time]);*/
 
     useEffect(() => {
         if (!isLogged) {

@@ -14,6 +14,7 @@ import store from "../../store";
 import {drugList} from "../fixtures/drugList";
 import {fetchDrugs} from "../../features/drugs/drugsSlice";
 import {setCurrentTime} from "../../features/time/timeSlice";
+import sendNotification from "../../utils/notifier";
 
 let currentTime;
 beforeAll(() => {
@@ -43,6 +44,8 @@ const addListener = jest.fn();
 const navigate = jest.fn();
 const dispatch = jest.fn();
 
+const userId = 'john@doe.com';
+
 function WrappedComponent({navigateCustom}) {
     const navigateLocal = navigateCustom || navigate;
 
@@ -50,7 +53,7 @@ function WrappedComponent({navigateCustom}) {
         <Provider store={store}>
             <Home
                 route={{
-                    params: {logged: true}
+                    params: {logged: true, userId}
                 }}
                 navigation={{
                     navigate: navigateLocal,
@@ -161,5 +164,38 @@ it('should remove tomorrow time and save new value in local storage if current t
 
     await waitFor(() => {
         expect(AsyncStorage.setItem).toBeCalledWith('tomorrow_time', tomorrowTimeNewValueJSON);
+    });
+});
+
+describe('Queue/send notifications', () => {
+    beforeAll(() => {
+        jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+            json: () => Promise.resolve(drugList)
+        }));
+    });
+
+    it('should queue notifications', async () => {
+        store.dispatch(fetchDrugs('mock_token'));
+        render(<WrappedComponent/>);
+
+        await waitFor(() => {
+            expect(store.getState().notificationsQueue.length).toBeGreaterThan(0);
+        });
+    });
+
+    it('should send notification at the appropriate time', async () => {
+        const drug = drugList[0];
+        const dosingTime = dayjs().hour(7).minute(2);
+        store.dispatch(setCurrentTime(JSON.stringify(dosingTime)));
+        jest.mock('../../utils/notifier', () => ({
+            ajaxCall: jest.fn(),
+            default: jest.fn()
+        }));
+
+        render(<WrappedComponent/>);
+
+        await waitFor(() => {
+            expect(sendNotification).toBeCalledWith(drug.name, drug.dosing, drug.unit, userId);
+        });
     });
 });
