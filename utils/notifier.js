@@ -1,7 +1,7 @@
 import {APP_ID, APP_TOKEN} from "@env";
 import {ajaxCall} from "./ajaxCall";
 
-export default async (drugName, dosing, unit, userId) => {
+const sendNotification = async (drugName, dosing, unit, userId) => {
     await ajaxCall(
         'post',
         'indie/notification',
@@ -17,3 +17,5 @@ export default async (drugName, dosing, unit, userId) => {
         }
     );
 };
+
+export default sendNotification;
