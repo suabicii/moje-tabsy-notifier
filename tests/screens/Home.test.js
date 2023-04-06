@@ -184,18 +184,18 @@ describe('Queue/send notifications', () => {
     });
 
     it('should send notification at the appropriate time', async () => {
-        const drug = drugList[0];
+        const {dosing, name, unit} = drugList[0];
         const dosingTime = dayjs().hour(7).minute(2);
         store.dispatch(setCurrentTime(JSON.stringify(dosingTime)));
-        jest.mock('../../utils/notifier', () => ({
-            ajaxCall: jest.fn(),
-            default: jest.fn()
-        }));
+        store.dispatch(fetchDrugs('mock_token'));
+
+        const notifier = require('../../utils/notifier');
+        jest.spyOn(notifier, 'default');
 
         render(<WrappedComponent/>);
 
         await waitFor(() => {
-            expect(sendNotification).toBeCalledWith(drug.name, drug.dosing, drug.unit, userId);
+            expect(sendNotification).toBeCalledWith(name, dosing, unit, userId);
         });
     });
 });

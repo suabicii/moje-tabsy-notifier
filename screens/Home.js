@@ -31,6 +31,7 @@ function Home({navigation, route}) {
     const [welcomeModalVisible, setWelcomeModalVisible] = useState(true);
     const [drugsVisible, setDrugsVisible] = useState(false);
     const [refreshBtnLoading, setRefreshBtnLoading] = useState(false);
+    const [sentNotifications, setSentNotifications] = useState([]);
 
     // if user checked earlier checkbox in modal
     const checkIfWelcomeMsgShouldBeVisible = async () => await AsyncStorage.getItem('welcome_msg_disable');
@@ -67,43 +68,42 @@ function Home({navigation, route}) {
 
     // queue notifications
     useEffect(() => {
+        let i = 0;
         drugList.forEach(({dosing, dosingMoments, name, unit}) => {
             const dosingMomentsArray = Object.entries(dosingMoments);
 
-            const id = notificationsQueue.length > 0 ? notificationsQueue[notificationsQueue.length - 1].id + 1 : 1;
-
             for (const [key, value] of dosingMomentsArray) {
                 const notificationName = `${name}_${key}`;
-
-                if (!notificationsQueue.find(notification => notification.name === notificationName)) {
-                    if (!drugsTaken.find(drugTakenId => drugTakenId === notificationName)) {
-                        dispatch(addNotification({
-                            id,
-                            name: `${name}_${key}`,
-                            drugName: name,
-                            dosing: dosing,
-                            unit: unit,
-                            hour: value
-                        }));
-                    }
+                if (!sentNotifications.find(notification => notification.name === notificationName) && !notificationsQueue.find(notification => notification.name === notificationName) && !drugsTaken.find(drugTakenId => drugTakenId === notificationName)) {
+                    dispatch(addNotification({
+                        id: ++i,
+                        name: `${name}_${key}`,
+                        drugName: name,
+                        dosing: dosing,
+                        unit: unit,
+                        hour: value
+                    }));
                 }
             }
         });
     }, [drugList]);
 
     // send notifications
-    /*useEffect(() => {
-        notificationsQueue.forEach(async ({id, dosing, drugName, hour, unit}) => {
-            const currentTimeParsed = dayjs(JSON.parse(time));
-            const [hours, minutes] = hour.split(':');
-            const notificationDateTime = dayjs().hour(hours).minute(minutes);
+    useEffect(() => {
+        if (notificationsQueue.length > 0) {
+            notificationsQueue.forEach(async notification => {
+                const currentTimeParsed = dayjs(JSON.parse(time.now));
+                const [hours, minutes] = notification.hour.split(':');
+                const notificationDateTime = dayjs().hour(hours).minute(minutes);
 
-            if (currentTimeParsed.isSameOrAfter(notificationDateTime)) {
-                await sendNotification(drugName, dosing, unit, userId);
-                dispatch(removeNotification(id));
-            }
-        });
-    }, [time]);*/
+                if (currentTimeParsed.isSameOrAfter(notificationDateTime)) {
+                    await sendNotification(notification.drugName, notification.dosing, notification.unit, userId);
+                    setSentNotifications([...sentNotifications, notification]);
+                    dispatch(removeNotification(notification.id));
+                }
+            });
+        }
+    }, [notificationsQueue]);
 
     useEffect(() => {
         if (!isLogged) {
