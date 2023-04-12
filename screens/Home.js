@@ -67,9 +67,11 @@ function Home({navigation, route}) {
     });
 
     const checkIfNotificationWasSentOrDrugTaken = notificationName => {
-        return !sentNotifications.find(notification => notification.name === notificationName) &&
-            !notificationsQueue.find(notification => notification.name === notificationName) ||
-            !drugsTaken.find(drugTakenId => drugTakenId === notificationName);
+        return !(
+            sentNotifications.find(notification => notification.name === notificationName) ||
+            notificationsQueue.find(notification => notification.name === notificationName) ||
+            drugsTaken.find(drugTakenId => drugTakenId === notificationName)
+        );
     };
 
 // queue notifications
