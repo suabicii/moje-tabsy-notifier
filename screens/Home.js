@@ -1,35 +1,60 @@
 import React, {useEffect, useState} from "react";
 import {ScrollView, Text} from "react-native";
-import {APP_ID, APP_TOKEN} from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ajaxCall} from "../utils/ajaxCall";
 import PillButton from "../components/buttons/PillButton";
 import WelcomeModal from "../components/modals/WelcomeModal";
-import {Button, Card} from "react-native-paper";
+import {ActivityIndicator, Button, Card, Colors} from "react-native-paper";
 import Drugs from "../components/content/Drugs";
+import dayjs from "dayjs";
+import {useDispatch, useSelector} from "react-redux";
+import {setCurrentTime, setTomorrowTime} from "../features/time/timeSlice";
+import {fetchDrugs} from "../features/drugs/drugsSlice";
+import {setDrugsTaken} from "../features/drugsTaken/drugsTakenSlice";
+import {addNotification, removeNotification} from "../features/notificationsQueue/notificationsQueueSlice";
+import sendNotification from "../utils/notifier";
+
+const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
+dayjs.extend(isSameOrAfter);
 
 function Home({navigation, route}) {
     const {userId, logged, token} = route.params;
+
+    const time = useSelector(state => state.time);
+    const drugList = useSelector(state => state.drugs);
+    const notificationsQueue = useSelector(state => state.notificationsQueue);
+    const drugsTaken = useSelector(state => state.drugsTaken);
+    const dispatch = useDispatch();
+
     const [isLogged, setIsLogged] = useState(logged);
     const [loading, setLoading] = useState(false);
     const [welcomeModalVisible, setWelcomeModalVisible] = useState(true);
-    const [drugList, setDrugList] = useState([]);
-    const [drugsVisible, setDrugsVisible] = useState(true);
+    const [drugsVisible, setDrugsVisible] = useState(false);
     const [refreshBtnLoading, setRefreshBtnLoading] = useState(false);
+    const [sentNotifications, setSentNotifications] = useState([]);
 
     // if user checked earlier checkbox in modal
     const checkIfWelcomeMsgShouldBeVisible = async () => await AsyncStorage.getItem('welcome_msg_disable');
 
+    const getTomorrowTimeFromLocalStorage = async () => await AsyncStorage.getItem('tomorrow_time');
+    const saveTomorrowTime = async () => {
+        const tomorrowTime = dayjs().add(1, 'd').startOf('d'); // Midnight
+        const tomorrowTimeJSON = JSON.stringify(tomorrowTime);
+        dispatch(setTomorrowTime(tomorrowTimeJSON));
+        await AsyncStorage.setItem('tomorrow_time', tomorrowTimeJSON);
+    };
+
+    const getDrugsTakenFromLocalStorage = async () => await AsyncStorage.getItem('drugs_taken');
+
+    const updateCurrentTime = () => {
+        const currentTimeJSON = JSON.stringify(dayjs());
+        dispatch(setCurrentTime(currentTimeJSON));
+    };
+
     const getDrugList = async () => {
-        await ajaxCall('get', `drug-notify/${token}`)
-            .then(data => {
-                setDrugsVisible(false);
-                setDrugList(data);
-                setDrugsVisible(true);
-            })
-            .catch(err => {
-                console.log(err);
-            });
+        setDrugsVisible(false);
+        dispatch(fetchDrugs(token));
+        setDrugsVisible(true);
     };
 
     // block going back until user pushed logout button
@@ -41,6 +66,51 @@ function Home({navigation, route}) {
         e.preventDefault();
     });
 
+    const checkIfNotificationWasSentOrDrugTaken = notificationName => {
+        return !sentNotifications.find(notification => notification.name === notificationName) &&
+            !notificationsQueue.find(notification => notification.name === notificationName) ||
+            !drugsTaken.find(drugTakenId => drugTakenId === notificationName);
+    };
+
+// queue notifications
+    useEffect(() => {
+        let i = 0;
+        drugList.forEach(({dosing, dosingMoments, name, unit}) => {
+            const dosingMomentsArray = Object.entries(dosingMoments);
+
+            for (const [key, value] of dosingMomentsArray) {
+                const notificationName = `${name}_${key}`;
+                if (checkIfNotificationWasSentOrDrugTaken(notificationName)) {
+                    dispatch(addNotification({
+                        id: ++i,
+                        name: `${name}_${key}`,
+                        drugName: name,
+                        dosing: dosing,
+                        unit: unit,
+                        hour: value
+                    }));
+                }
+            }
+        });
+    }, [drugList]);
+
+    // send notifications
+    useEffect(() => {
+        if (notificationsQueue.length > 0) {
+            notificationsQueue.forEach(async notification => {
+                const currentTimeParsed = dayjs(JSON.parse(time.now));
+                const [hours, minutes] = notification.hour.split(':');
+                const notificationDateTime = dayjs().hour(hours).minute(minutes);
+
+                if (currentTimeParsed.isSameOrAfter(notificationDateTime)) {
+                    await sendNotification(notification.drugName, notification.dosing, notification.unit, userId);
+                    setSentNotifications([...sentNotifications, notification]);
+                    dispatch(removeNotification(notification.id));
+                }
+            });
+        }
+    }, [notificationsQueue]);
+
     useEffect(() => {
         if (!isLogged) {
             navigation.navigate('Login');
@@ -48,23 +118,52 @@ function Home({navigation, route}) {
     }, [isLogged]);
 
     useEffect(() => {
-        const drugListInterval = setInterval(getDrugList, 5000);
+        getTomorrowTimeFromLocalStorage().then(async tomorrowTimeStr => {
+            if (tomorrowTimeStr) {
+                const currentTimeParsed = dayjs(JSON.parse(time.now));
+                const tomorrowTimeParsed = dayjs(JSON.parse(tomorrowTimeStr));
+                dispatch(setTomorrowTime(tomorrowTimeStr));
+                if (currentTimeParsed.isSameOrAfter(tomorrowTimeParsed)) {
+                    await saveTomorrowTime();
+                    await AsyncStorage.removeItem('drugs_taken');
+                }
+            } else {
+                await saveTomorrowTime();
+            }
+
+            await getDrugsTakenFromLocalStorage().then(value => {
+                if (value) {
+                    dispatch(setDrugsTaken(JSON.parse(value)));
+                }
+            });
+        }).catch(err => {
+            console.log(err);
+        });
+
+        const updateCurrentTimeInterval = setInterval(updateCurrentTime, 1000);
+
         checkIfWelcomeMsgShouldBeVisible().then(msgDisabled => {
             if (msgDisabled) {
                 setWelcomeModalVisible(false);
             } else {
                 setWelcomeModalVisible(true);
             }
+        }).catch(err => {
+            console.log(err);
         });
 
-        return () => clearInterval(drugListInterval);
+        const drugListInterval = setInterval(getDrugList, 5000);
+
+        return () => {
+            clearInterval(drugListInterval);
+            clearInterval(updateCurrentTimeInterval);
+        };
     }, []);
 
     const handleLogout = async () => {
         setLoading(true);
-        await ajaxCall('post', 'logout', {userId})
+        await ajaxCall('post', 'logout', {body: {userId}})
             .then(async data => {
-                console.log(data);
                 if (data.status === 200) {
                     await AsyncStorage.clear();
                     setIsLogged(false);
@@ -75,26 +174,6 @@ function Home({navigation, route}) {
             });
         setLoading(false);
     };
-
-    // useEffect(() => {
-    //     async function sendNotificationAfterLogin() {
-    //         await fetch('https://app.nativenotify.com/api/indie/notification', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Accept': 'application/json',
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify({
-    //                 subID: userId,
-    //                 appId: APP_ID,
-    //                 appToken: APP_TOKEN,
-    //                 title: 'Login success',
-    //                 message: 'Pomyślnie zalogowano'
-    //             })
-    //         });
-    //     }
-    //     sendNotificationAfterLogin();
-    // }, []);
 
     return (
         <ScrollView>
@@ -115,18 +194,29 @@ function Home({navigation, route}) {
                     }}
                 />
                 <Card.Content>
-                    {drugsVisible && <Drugs drugList={drugList}/>}
+                    {
+                        drugsVisible
+                            ?
+                            <Drugs/>
+                            :
+                            <ActivityIndicator
+                                animating={true}
+                                size="large"
+                                style={{marginBottom: 10}}
+                                color={Colors.lightBlueA100}
+                            />
+                    }
                     <Button
                         testID="refreshBtn"
                         style={{backgroundColor: '#78c2ad'}}
                         mode="contained"
                         icon="refresh"
-                        onPress={async () => {
-                            setDrugsVisible(false);
+                        onPress={() => {
                             setRefreshBtnLoading(true);
-                            await getDrugList();
-                            setDrugsVisible(true);
-                            setRefreshBtnLoading(false);
+                            setTimeout(async () => {
+                                await getDrugList();
+                                setRefreshBtnLoading(false);
+                            }, 500);
                         }}
                         loading={refreshBtnLoading}
                     >

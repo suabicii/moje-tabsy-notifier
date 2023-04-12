@@ -9,10 +9,19 @@ import {APP_ID, APP_TOKEN} from "@env";
 import {generateToken} from "../utils/tokenGenerator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ajaxCall} from "../utils/ajaxCall";
+import {useDispatch} from "react-redux";
+import dayjs from "dayjs";
+import {setCurrentTime} from "../features/time/timeSlice";
 
 function Login({navigation}) {
+    const dispatch = useDispatch();
+
     const registerIndieIDAndMoveToHomeScreen = async (data, token) => {
         await registerIndieID(data.user_id, APP_ID, APP_TOKEN);
+
+        const currentTimeJSON = JSON.stringify(dayjs());
+        dispatch(dispatch(setCurrentTime(currentTimeJSON)));
+
         navigation.navigate('Home', {
             logged: true,
             userId: data.user_id,
@@ -24,7 +33,7 @@ function Login({navigation}) {
     const autoLogin = async () => {
         const token = await AsyncStorage.getItem('moje_tabsy_token');
         if (token) {
-            await ajaxCall('post', 'login-auto', {token})
+            await ajaxCall('post', 'login-auto', {body: {token}})
                 .then(async data => {
                     if (data.status === 200 && data.message) {
                         console.log(data.message);
@@ -53,7 +62,7 @@ function Login({navigation}) {
         setLoading(true);
         const token = generateToken();
         await AsyncStorage.setItem('moje_tabsy_token', token);
-        await ajaxCall('post', 'login', {email, password, token})
+        await ajaxCall('post', 'login', {body: {email, password, token}})
             .then(async data => {
                 if (data.error || data.status !== 200) {
                     setLoginError(data.error);

@@ -23,7 +23,16 @@ it.each`
     ${'put'}
     ${'delete'}
 `("should send $method request and retrieve positive information",  async ({method}) => {
-    await ajaxCall(method, 'some-route', {foo: 'bar'}).then(data => {
+    await ajaxCall(
+        method,
+        'some-route',
+        {
+            body: {
+                foo: 'bar'
+            },
+            customApiUrl: 'https://some-url.com'
+        }
+    ).then(data => {
         setData(data);
     });
 
@@ -38,7 +47,7 @@ it.each`
     ${'delete'}
 `("should throw error when $method request failed",  async ({method}) => {
     fetch.mockRejectedValueOnce(new Error('Something went wrong'));
-    await ajaxCall(method, 'some-route', {foo: 'bar'}).then(data => {
+    await ajaxCall(method, 'some-route', {body: {foo: 'bar'}}).then(data => {
         setData(data);
     });
 

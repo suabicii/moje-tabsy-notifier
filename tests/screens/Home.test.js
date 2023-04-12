@@ -7,7 +7,16 @@ import Home from "../../screens/Home";
 import {act, render, screen, fireEvent, waitFor} from "@testing-library/react-native";
 import {BackHandler} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import MockDate from "mockdate";
+import dayjs from "dayjs";
+import {Provider} from "react-redux";
+import store from "../../store";
+import {drugList} from "../fixtures/drugList";
+import {fetchDrugs} from "../../features/drugs/drugsSlice";
+import {setCurrentTime} from "../../features/time/timeSlice";
+import sendNotification from "../../utils/notifier";
 
+let currentTime;
 beforeAll(() => {
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
         json: () => Promise.resolve({
@@ -15,6 +24,15 @@ beforeAll(() => {
             message: 'successfully logged out'
         })
     }));
+
+    MockDate.set('2020-01-01');
+    currentTime = dayjs();
+
+    store.dispatch(setCurrentTime(JSON.stringify(currentTime)));
+});
+
+afterEach(() => {
+    MockDate.reset();
 });
 
 afterAll(() => {
@@ -22,59 +40,53 @@ afterAll(() => {
     delete global.fetch;
 });
 
-it('should correctly render Home screen', () => {
-    const addListener = jest.fn();
-    const navigate = jest.fn();
-    const tree = renderer.create(
-        <Home
-            route={{
-                params: {logged: true}
-            }}
-            navigation={{
-                navigate,
-                addListener
-            }}
-        />
-    ).toJSON();
-    expect(tree).toMatchSnapshot();
+const addListener = jest.fn();
+const navigate = jest.fn();
+const dispatch = jest.fn();
+
+const userId = 'john@doe.com';
+
+function WrappedComponent({navigateCustom}) {
+    const navigateLocal = navigateCustom || navigate;
+
+    return (
+        <Provider store={store}>
+            <Home
+                route={{
+                    params: {logged: true, userId}
+                }}
+                navigation={{
+                    navigate: navigateLocal,
+                    addListener,
+                    dispatch
+                }}
+            />
+        </Provider>
+    );
+}
+
+it('should correctly render Home screen', async () => {
+    const tree = renderer.create(<WrappedComponent/>).toJSON();
+    await waitFor(() => {
+        expect(tree).toMatchSnapshot();
+    });
 });
 
 it('should go back to Login screen after pressing logout button', async () => {
-    const addListener = jest.fn();
-    const navigate = jest.fn();
-    render(
-        <Home
-            route={{
-                params: {logged: true}
-            }}
-            navigation={{
-                navigate,
-                addListener
-            }}
-        />
-    );
+    render(<WrappedComponent/>);
 
     await act(async () => {
         fireEvent.press(screen.getByTestId('btn-pill'));
     });
 
-    expect(navigate).toBeCalled();
+    await waitFor(() => {
+        expect(navigate).toBeCalled();
+    });
 });
 
 it('should stay in Home screen if logout request failed', async () => {
-    const addListener = jest.fn();
     const navigate = jest.fn();
-    render(
-        <Home
-            route={{
-                params: {logged: true}
-            }}
-            navigation={{
-                navigate,
-                addListener
-            }}
-        />
-    );
+    render(<WrappedComponent navigateCustom={navigate}/>);
     fetch.mockRejectedValueOnce(new Error('Something went wrong'));
 
     await act(async () => {
@@ -84,42 +96,19 @@ it('should stay in Home screen if logout request failed', async () => {
     expect(navigate).toHaveBeenCalledTimes(0);
 });
 
-it('should block going back if user is logged in', () => {
-    const addListener = jest.fn();
+it('should block going back if user is logged in', async () => {
     const navigate = jest.fn();
-    const dispatch = jest.fn();
-    render(
-        <Home
-            route={{
-                params: {logged: true}
-            }}
-            navigation={{
-                navigate,
-                addListener,
-                dispatch
-            }}
-        />
-    );
+    render(<WrappedComponent navigateCustom={navigate}/>);
 
     BackHandler.mockPressBack();
 
-    expect(navigate).toBeCalledTimes(0);
+    await waitFor(() => {
+        expect(navigate).toBeCalledTimes(0);
+    });
 });
 
 it('should show modal with welcome message on first screen load after login', async () => {
-    const addListener = jest.fn();
-    const navigate = jest.fn();
-    render(
-        <Home
-            route={{
-                params: {logged: true},
-            }}
-            navigation={{
-                navigate,
-                addListener
-            }}
-        />
-    );
+    render(<WrappedComponent/>);
 
     await waitFor(() => {
         expect(screen.getByTestId('welcomeModal')).toBeTruthy();
@@ -127,20 +116,8 @@ it('should show modal with welcome message on first screen load after login', as
 });
 
 it('should not show modal with welcome message after login if AsyncStorage has information about it', async () => {
-    const addListener = jest.fn();
-    const navigate = jest.fn();
     await AsyncStorage.setItem('welcome_msg_disable', 'true');
-    render(
-        <Home
-            route={{
-                params: {logged: true},
-            }}
-            navigation={{
-                navigate,
-                addListener
-            }}
-        />
-    );
+    render(<WrappedComponent/>);
 
     await waitFor(() => {
         expect(screen.queryByTestId('welcomeModal')).toBeNull();
@@ -148,19 +125,11 @@ it('should not show modal with welcome message after login if AsyncStorage has i
 });
 
 it('should reload Drug component with drug list after pressing refresh button', async () => {
-    const addListener = jest.fn();
-    const navigate = jest.fn();
-    render(
-        <Home
-            route={{
-                params: {logged: true}
-            }}
-            navigation={{
-                navigate,
-                addListener
-            }}
-        />
-    );
+    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+        json: () => Promise.resolve(drugList)
+    }));
+    store.dispatch(fetchDrugs('mock_token'));
+    render(<WrappedComponent/>);
 
     await act(() => {
         fireEvent.press(screen.getByTestId('refreshBtn'));
@@ -168,5 +137,65 @@ it('should reload Drug component with drug list after pressing refresh button', 
 
     await waitFor(() => {
         expect(fetch).toBeCalled();
+    });
+});
+
+it('should save tomorrow time to local storage', async () => {
+    render(<WrappedComponent/>);
+
+    const tomorrowTime = dayjs().add(1, 'd').startOf('d');
+    const tomorrowTimeJSON = JSON.stringify(tomorrowTime);
+
+    await waitFor(() => {
+        expect(AsyncStorage.setItem).toBeCalledWith('tomorrow_time', tomorrowTimeJSON);
+    });
+});
+
+it('should remove tomorrow time and save new value in local storage if current time is same or after tomorrow time', async () => {
+    const tomorrowTime = dayjs().subtract(1, 'd');
+    const tomorrowTimeJSON = JSON.stringify(tomorrowTime);
+
+    await AsyncStorage.setItem('tomorrow_time', tomorrowTimeJSON);
+
+    render(<WrappedComponent/>);
+
+    const tomorrowTimeNewValue = dayjs().add(1, 'd').startOf('d');
+    const tomorrowTimeNewValueJSON = JSON.stringify(tomorrowTimeNewValue);
+
+    await waitFor(() => {
+        expect(AsyncStorage.setItem).toBeCalledWith('tomorrow_time', tomorrowTimeNewValueJSON);
+    });
+});
+
+describe('Queue/send notifications', () => {
+    beforeAll(() => {
+        jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+            json: () => Promise.resolve(drugList)
+        }));
+    });
+
+    it('should queue notifications', async () => {
+        store.dispatch(fetchDrugs('mock_token'));
+        render(<WrappedComponent/>);
+
+        await waitFor(() => {
+            expect(store.getState().notificationsQueue.length).toBeGreaterThan(0);
+        });
+    });
+
+    it('should send notification at the appropriate time', async () => {
+        const {dosing, name, unit} = drugList[0];
+        const dosingTime = dayjs().hour(7).minute(2);
+        store.dispatch(setCurrentTime(JSON.stringify(dosingTime)));
+        store.dispatch(fetchDrugs('mock_token'));
+
+        const notifier = require('../../utils/notifier');
+        jest.spyOn(notifier, 'default');
+
+        render(<WrappedComponent/>);
+
+        await waitFor(() => {
+            expect(sendNotification).toBeCalledWith(name, dosing, unit, userId);
+        });
     });
 });

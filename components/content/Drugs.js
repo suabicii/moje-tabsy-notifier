@@ -2,28 +2,49 @@ import React from "react";
 import {Title} from "react-native-paper";
 import {View} from "react-native";
 import DosingMoments from "./DosingMoments";
+import {useSelector} from "react-redux";
 
-function Drugs({drugList}) {
-
-    const handleConfirmDose = () => {
-
-    };
+function Drugs() {
+    const drugsTaken = useSelector(state => state.drugsTaken);
+    const drugList = useSelector(state => state.drugs);
 
     return (
         <>
             {
-                drugList.map(({dosing, name, unit, dosingMoments}, index) =>
-                    (
+                drugList.map((drug, index) => {
+                    const {dosing, name, unit, dosingMoments} = drug;
+                    const dosingMomentsArray = Object.entries(dosingMoments);
+                    let currentDrugsTaken = [];
+
+                    for (const [key] of dosingMomentsArray) {
+                        currentDrugsTaken = [
+                            ...currentDrugsTaken,
+                            ...drugsTaken.filter(string => string === `${name}_${key}`)
+                        ];
+                    }
+
+                    return (
                         <View key={`${name}${index}`}>
-                            <Title style={{textAlign: "center"}}>{name} {dosing} {unit} w godz.</Title>
-                            <DosingMoments
-                                drugName={name}
-                                content={Object.entries(dosingMoments)}
-                                handleConfirmDose={handleConfirmDose}
-                            />
+                            {
+                                // do not render drug component (content) if all doses was already taken
+                                currentDrugsTaken.length !== dosingMomentsArray.length
+                                &&
+                                <>
+                                    <Title
+                                        testID={name}
+                                        style={{textAlign: "center"}}
+                                    >
+                                        {name} {dosing} {unit} w godz.
+                                    </Title>
+                                    <DosingMoments
+                                        drug={drug}
+                                        content={dosingMomentsArray}
+                                    />
+                                </>
+                            }
                         </View>
-                    )
-                )
+                    );
+                })
             }
         </>
     );

@@ -4,16 +4,12 @@ import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import registerNNPushToken from 'native-notify';
 import {APP_ID, APP_TOKEN} from "@env";
-import {DrugTakenContext} from "./context/DrugTakenContext";
-import {useMemo, useState} from "react";
+import {Provider} from "react-redux";
+import store from "./store";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-    const [drugTakenChecker, setDrugTakenChecker] = useState([]); // Array for storing strings associated
-    // with dosing moment keys -> if user clicks confirmation button, key will be pushed to the array, so thanks to it
-    // dosing moment won't be rendered again later
-
     registerNNPushToken(APP_ID, APP_TOKEN);
 
     const appTitle = 'Moje-Tabsy.pl 💊';
@@ -23,14 +19,10 @@ export default function App() {
         },
         headerTintColor: '#fff'
     };
-    const value = useMemo(
-        () => ({drugTakenChecker, setDrugTakenChecker}),
-        [drugTakenChecker]
-    );
 
     return (
         <NavigationContainer>
-            <DrugTakenContext.Provider value={value}>
+            <Provider store={store}>
                 <Stack.Navigator initialRouteName="Login">
                     <Stack.Screen
                         name="Login"
@@ -50,7 +42,7 @@ export default function App() {
                         }}
                     />
                 </Stack.Navigator>
-            </DrugTakenContext.Provider>
+            </Provider>
         </NavigationContainer>
     );
 }

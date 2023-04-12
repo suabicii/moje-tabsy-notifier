@@ -1,54 +1,46 @@
-import React, {useContext, useState} from "react";
-import {View} from "react-native";
-import {Button, Paragraph} from "react-native-paper";
-import {DrugTakenContext} from "../../context/DrugTakenContext";
+import React, {useState} from "react";
+import dayjs from "dayjs";
+import DosingMoment from "./DosingMoment";
+import {useSelector} from "react-redux";
 
-function DosingMoments({drugName, content, handleConfirmDose}) {
-    const {drugTakenChecker, setDrugTakenChecker} = useContext(DrugTakenContext);
+const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
+dayjs.extend(isSameOrAfter);
+
+function DosingMoments({drug, content}) {
+    const drugsTaken = useSelector(state => state.drugsTaken);
+    const time = useSelector(state => state.time);
     const [dosingMomentsToShow, setDosingMomentsToShow] = useState(content);
 
     const result = [];
 
+    const handleSetDosingMomentsToShow = name => {
+        setDosingMomentsToShow(
+            dosingMomentsToShow.filter(dosingMoment => dosingMoment[0] !== name)
+        );
+    };
+
     for (const [key, value] of dosingMomentsToShow) {
-        const viewKey = `${drugName}_${key}`;
-        if (drugTakenChecker.find(string => string === viewKey)) {
+        const viewKey = `${drug.name}_${key}`;
+
+        if (drugsTaken.find(string => string === viewKey)) {
             continue;
         }
+
+        const [hour, minutes] = value.split(':');
+        const dosingDateTime = dayjs().hour(hour).minute(minutes);
+        const currentTimeParsed = dayjs(JSON.parse(time.now));
+        const confirmationBtnDisabled = !currentTimeParsed.isSameOrAfter(dosingDateTime);
+
         result.push(
-            <View
-                style={{
-                    alignItems: "center",
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    marginBottom: 10
-                }}
+            <DosingMoment
                 key={viewKey}
-            >
-                <Paragraph style={{textAlign: "center", fontSize: 16}}>
-                    – {`${value}`}
-                </Paragraph>
-                <Button
-                    testID={viewKey}
-                    style={{
-                        backgroundColor: "#6cc3d5",
-                        color: "#e8e8e8",
-                        marginLeft: 5
-                    }}
-                    contentStyle={{flexDirection: "row-reverse"}}
-                    icon="check"
-                    mode="contained"
-                    compact={true}
-                    onPress={() => {
-                        handleConfirmDose(viewKey);
-                        setDosingMomentsToShow(
-                            dosingMomentsToShow.filter(dosingMoment => dosingMoment[0] !== key)
-                        );
-                        setDrugTakenChecker([...drugTakenChecker, viewKey]);
-                    }}
-                >
-                    Już zażyłem/-am
-                </Button>
-            </View>
+                name={key}
+                drugId={drug.id}
+                time={value}
+                id={viewKey}
+                disabled={confirmationBtnDisabled}
+                handleSetDosingMomentsToShow={handleSetDosingMomentsToShow}
+            />
         );
     }
 
