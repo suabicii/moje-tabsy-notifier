@@ -66,7 +66,13 @@ function Home({navigation, route}) {
         e.preventDefault();
     });
 
-    // queue notifications
+    const checkIfNotificationWasSentOrDrugTaken = notificationName => {
+        return !sentNotifications.find(notification => notification.name === notificationName) &&
+            !notificationsQueue.find(notification => notification.name === notificationName) ||
+            !drugsTaken.find(drugTakenId => drugTakenId === notificationName);
+    };
+
+// queue notifications
     useEffect(() => {
         let i = 0;
         drugList.forEach(({dosing, dosingMoments, name, unit}) => {
@@ -74,7 +80,7 @@ function Home({navigation, route}) {
 
             for (const [key, value] of dosingMomentsArray) {
                 const notificationName = `${name}_${key}`;
-                if (!sentNotifications.find(notification => notification.name === notificationName) && !notificationsQueue.find(notification => notification.name === notificationName) && !drugsTaken.find(drugTakenId => drugTakenId === notificationName)) {
+                if (checkIfNotificationWasSentOrDrugTaken(notificationName)) {
                     dispatch(addNotification({
                         id: ++i,
                         name: `${name}_${key}`,
