@@ -14,7 +14,7 @@ export const ajaxCall = async (method, route, {body, customApiUrl} = {}) => {
         }
         const apiUrl = customApiUrl || API_URL;
         const response = await fetch(`${apiUrl}/api/${route}`, options);
-        return await response.json();
+        return response.json();
     } catch (err) {
         console.log(err);
     }
