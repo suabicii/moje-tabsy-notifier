@@ -14,8 +14,10 @@ import {setCurrentTime} from "../../features/time/timeSlice";
 import sendNotification from "../../utils/notifier";
 
 let currentTime;
+const mockGetHeaders = {get: args => 'application/json'}
 beforeAll(() => {
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+        headers: mockGetHeaders, // Avoid: "TypeError: Cannot read properties of undefined (reading 'get')"
         json: () => Promise.resolve({
             status: 200,
             message: 'successfully logged out'
@@ -167,6 +169,7 @@ it('should remove tomorrow time and save new value in local storage if current t
 describe('Queue/send notifications', () => {
     beforeAll(() => {
         jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+            headers: mockGetHeaders,
             json: () => Promise.resolve(drugList)
         }));
     });

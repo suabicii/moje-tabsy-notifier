@@ -8,9 +8,11 @@ import {generateToken} from "../../utils/tokenGenerator";
 import {Provider} from "react-redux";
 import store from "../../store";
 
+const mockGetHeaders = {get: args => 'application/json'}
 beforeEach(async () => {
     await AsyncStorage.clear();
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+        headers: mockGetHeaders,
         json: () => Promise.resolve({
             status: 200,
             user_id: 'john@doe.com'
@@ -68,6 +70,7 @@ it('should navigate to Home screen if logging in succeeded', async () => {
 it('should display error message if logging in failed due authentication error', async () => {
     renderLoginScreen();
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+        headers: mockGetHeaders,
         json: () => Promise.resolve({error: 'Something went wrong'})
     }));
 

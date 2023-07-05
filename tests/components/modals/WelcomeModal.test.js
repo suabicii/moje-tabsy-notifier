@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- * */
 import React from "react";
 import renderer from "react-test-renderer";
 import WelcomeModal from "../../../components/modals/WelcomeModal";

@@ -2,6 +2,9 @@ import {ajaxCall} from "../../utils/ajaxCall";
 
 beforeAll(() => {
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+        headers: {
+            get: args => 'application/json'
+        },
         json: () => Promise.resolve({status: 200})
     }));
 });
