@@ -12,6 +12,7 @@ import {drugList} from "../fixtures/drugList";
 import {fetchDrugs} from "../../features/drugs/drugsSlice";
 import {setCurrentTime} from "../../features/time/timeSlice";
 import sendNotification from "../../utils/notifier";
+import notifier from "../../utils/notifier";
 
 let currentTime;
 const mockGetHeaders = {get: args => 'application/json'}
@@ -172,6 +173,9 @@ describe('Queue/send notifications', () => {
             headers: mockGetHeaders,
             json: () => Promise.resolve(drugList)
         }));
+
+        const notifier = require('../../utils/notifier');
+        jest.spyOn(notifier, 'default');
     });
 
     it('should queue notifications', async () => {
@@ -189,13 +193,29 @@ describe('Queue/send notifications', () => {
         store.dispatch(setCurrentTime(JSON.stringify(dosingTime)));
         store.dispatch(fetchDrugs('mock_token'));
 
-        const notifier = require('../../utils/notifier');
-        jest.spyOn(notifier, 'default');
-
         render(<WrappedComponent/>);
 
         await waitFor(() => {
             expect(sendNotification).toBeCalledWith(name, dosing, unit, userId);
+        });
+    });
+
+    it('should send proper amount of notifications', async () => {
+        const dosingTime = dayjs().hour(12).minute(2);
+        store.dispatch(setCurrentTime(JSON.stringify(dosingTime)));
+        store.dispatch(fetchDrugs('mock_token'));
+
+        render(<WrappedComponent/>);
+
+        /**
+         * 3, because:
+         * Xanax: 7:00,
+         * Witamina C: 12:00
+         * Metanabol: 12:00
+         * */
+
+        await waitFor(() => {
+            expect(sendNotification).toBeCalledTimes(3);
         });
     });
 });
