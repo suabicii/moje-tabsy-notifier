@@ -207,7 +207,7 @@ describe('Queue/send notifications', () => {
         render(<WrappedComponent/>);
 
         /**
-         * 3, because:
+         * 3 because:
          * Xanax: 7:00,
          * Witamina C: 12:00
          * Metanabol: 12:00

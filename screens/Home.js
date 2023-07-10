@@ -32,6 +32,7 @@ function Home({navigation, route}) {
     const [drugsVisible, setDrugsVisible] = useState(false);
     const [refreshBtnLoading, setRefreshBtnLoading] = useState(false);
     const [sentNotifications, setSentNotifications] = useState([]);
+    const [lastSentNotificationId, setLastSentNotificationId] = useState(undefined);
 
     // if user checked earlier checkbox in modal
     const checkIfWelcomeMsgShouldBeVisible = async () => await AsyncStorage.getItem('welcome_msg_disable');
@@ -55,6 +56,19 @@ function Home({navigation, route}) {
         setDrugsVisible(false);
         dispatch(fetchDrugs(token));
         setDrugsVisible(true);
+    };
+
+    const handleNotification = async notification => {
+        const currentTimeParsed = dayjs(JSON.parse(time.now));
+        const [hours, minutes] = notification.hour.split(':');
+        const notificationDateTime = dayjs().hour(hours).minute(minutes);
+
+        if (currentTimeParsed.isSameOrAfter(notificationDateTime)) {
+            await sendNotification(notification.drugName, notification.dosing, notification.unit, userId);
+            setSentNotifications(prevState => [...prevState, notification]);
+            setLastSentNotificationId(notification.id);
+            dispatch(removeNotification(notification.id));
+        }
     };
 
     // block going back until user pushed logout button
@@ -99,19 +113,19 @@ function Home({navigation, route}) {
     // send notifications
     useEffect(() => {
         if (notificationsQueue.length > 0) {
-            notificationsQueue.forEach(async notification => {
-                const currentTimeParsed = dayjs(JSON.parse(time.now));
-                const [hours, minutes] = notification.hour.split(':');
-                const notificationDateTime = dayjs().hour(hours).minute(minutes);
-
-                if (currentTimeParsed.isSameOrAfter(notificationDateTime)) {
-                    await sendNotification(notification.drugName, notification.dosing, notification.unit, userId);
-                    setSentNotifications([...sentNotifications, notification]);
-                    dispatch(removeNotification(notification.id));
-                }
-            });
+            if (!lastSentNotificationId) {
+                (async function() {
+                    const notification = notificationsQueue[0];
+                    await handleNotification(notification);
+                })();
+            } else if (lastSentNotificationId < notificationsQueue.length) {
+                (async function() {
+                    const notification = notificationsQueue[lastSentNotificationId + 1];
+                    await handleNotification(notification);
+                })();
+            }
         }
-    }, [notificationsQueue]);
+    }, [lastSentNotificationId, notificationsQueue]);
 
     useEffect(() => {
         if (!isLogged) {
