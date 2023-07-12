@@ -4,8 +4,6 @@ import {Text} from "react-native";
 import UserInput from "../components/auth/UserInput";
 import PillButton from "../components/buttons/PillButton";
 import TextError from "../components/error/TextError";
-import {registerIndieID} from "native-notify";
-import {APP_ID, APP_TOKEN} from "@env";
 import {generateToken} from "../utils/tokenGenerator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ajaxCall} from "../utils/ajaxCall";
@@ -16,11 +14,9 @@ import {setCurrentTime} from "../features/time/timeSlice";
 function Login({navigation}) {
     const dispatch = useDispatch();
 
-    const registerIndieIDAndMoveToHomeScreen = async (data, token) => {
-        await registerIndieID(data.user_id, APP_ID, APP_TOKEN);
-
+    const setCurrentTimeAndMoveToHomeScreen = async (data, token) => {
         const currentTimeJSON = JSON.stringify(dayjs());
-        dispatch(dispatch(setCurrentTime(currentTimeJSON)));
+        dispatch(setCurrentTime(currentTimeJSON));
 
         navigation.navigate('Home', {
             logged: true,
@@ -39,7 +35,7 @@ function Login({navigation}) {
                         console.log(data.message);
                         await AsyncStorage.clear();
                     } else if (data.status === 200 && data.user_id) {
-                        await registerIndieIDAndMoveToHomeScreen(data, token);
+                        await setCurrentTimeAndMoveToHomeScreen(data, token);
                     }
                 })
                 .catch(err => {
@@ -49,8 +45,9 @@ function Login({navigation}) {
     };
 
     useEffect(() => {
-        autoLogin().then(() => {
-        });
+        (async function () {
+            await autoLogin();
+        })();
     }, []);
 
     const [email, setEmail] = useState('');
@@ -67,7 +64,7 @@ function Login({navigation}) {
                 if (data.error || data.status !== 200) {
                     setLoginError(data.error);
                 } else {
-                    await registerIndieIDAndMoveToHomeScreen(data, token);
+                    await setCurrentTimeAndMoveToHomeScreen(data, token);
                 }
             })
             .catch(err => {
