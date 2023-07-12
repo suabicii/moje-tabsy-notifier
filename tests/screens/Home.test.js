@@ -15,6 +15,8 @@ import sendNotification from "../../utils/notifier";
 
 let currentTime;
 const mockGetHeaders = {get: args => 'application/json'}
+const expoPushToken = 'mock_expo_push_token123';
+const loginToken = 'mock_login_token123';
 beforeAll(() => {
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
         headers: mockGetHeaders, // Avoid: "TypeError: Cannot read properties of undefined (reading 'get')"
@@ -52,7 +54,7 @@ function WrappedComponent({navigateCustom}) {
         <Provider store={store}>
             <Home
                 route={{
-                    params: {logged: true, userId}
+                    params: {logged: true, userId, expoPushToken}
                 }}
                 navigation={{
                     navigate: navigateLocal,
@@ -178,7 +180,7 @@ describe('Queue/send notifications', () => {
     });
 
     it('should queue notifications', async () => {
-        store.dispatch(fetchDrugs('mock_token'));
+        store.dispatch(fetchDrugs(loginToken));
         render(<WrappedComponent/>);
 
         await waitFor(() => {
@@ -189,20 +191,24 @@ describe('Queue/send notifications', () => {
     it('should send notification at the appropriate time', async () => {
         const {dosing, name, unit} = drugList[0];
         const dosingTime = dayjs().hour(7).minute(2);
-        store.dispatch(setCurrentTime(JSON.stringify(dosingTime)));
-        store.dispatch(fetchDrugs('mock_token'));
+        await act(() => {
+            store.dispatch(setCurrentTime(JSON.stringify(dosingTime)));
+            store.dispatch(fetchDrugs(loginToken));
+        });
 
         render(<WrappedComponent/>);
 
         await waitFor(() => {
-            expect(sendNotification).toBeCalledWith(name, dosing, unit, userId);
+            expect(sendNotification).toBeCalledWith(name, dosing, unit, expoPushToken);
         });
     });
 
     it('should send proper amount of notifications', async () => {
         const dosingTime = dayjs().hour(12).minute(2);
-        store.dispatch(setCurrentTime(JSON.stringify(dosingTime)));
-        store.dispatch(fetchDrugs('mock_token'));
+        await act(() => {
+            store.dispatch(setCurrentTime(JSON.stringify(dosingTime)));
+            store.dispatch(fetchDrugs(loginToken));
+        });
 
         render(<WrappedComponent/>);
 

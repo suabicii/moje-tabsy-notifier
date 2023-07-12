@@ -18,7 +18,7 @@ const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
 
 function Home({navigation, route}) {
-    const {userId, logged, token} = route.params;
+    const {userId, logged, loginToken, expoPushToken} = route.params;
 
     const time = useSelector(state => state.time);
     const drugList = useSelector(state => state.drugs);
@@ -54,7 +54,7 @@ function Home({navigation, route}) {
 
     const getDrugList = async () => {
         setDrugsVisible(false);
-        dispatch(fetchDrugs(token));
+        dispatch(fetchDrugs(loginToken));
         setDrugsVisible(true);
     };
 
@@ -64,7 +64,7 @@ function Home({navigation, route}) {
         const notificationDateTime = dayjs().hour(hours).minute(minutes);
 
         if (currentTimeParsed.isSameOrAfter(notificationDateTime)) {
-            await sendNotification(notification.drugName, notification.dosing, notification.unit, userId);
+            await sendNotification(notification.drugName, notification.dosing, notification.unit, expoPushToken);
             setSentNotifications(prevState => [...prevState, notification]);
             setLastSentNotificationId(notification.id);
             dispatch(removeNotification(notification.id));

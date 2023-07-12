@@ -10,18 +10,31 @@ import {ajaxCall} from "../utils/ajaxCall";
 import {useDispatch} from "react-redux";
 import dayjs from "dayjs";
 import {setCurrentTime} from "../features/time/timeSlice";
+import * as Notifications from 'expo-notifications';
+import registerForPushNotificationsAsync from "../utils/pushNotificationsRegistration";
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: false
+    })
+});
 
 function Login({navigation}) {
     const dispatch = useDispatch();
 
-    const setCurrentTimeAndMoveToHomeScreen = async (data, token) => {
+    const registerForNotificationsAndMoveToHomeScreen = async (data, loginToken) => {
         const currentTimeJSON = JSON.stringify(dayjs());
         dispatch(setCurrentTime(currentTimeJSON));
+
+        const expoPushToken = await registerForPushNotificationsAsync();
 
         navigation.navigate('Home', {
             logged: true,
             userId: data.user_id,
-            token
+            loginToken,
+            expoPushToken
         });
     };
 
@@ -35,7 +48,7 @@ function Login({navigation}) {
                         console.log(data.message);
                         await AsyncStorage.clear();
                     } else if (data.status === 200 && data.user_id) {
-                        await setCurrentTimeAndMoveToHomeScreen(data, token);
+                        await registerForNotificationsAndMoveToHomeScreen(data, token);
                     }
                 })
                 .catch(err => {
@@ -64,7 +77,7 @@ function Login({navigation}) {
                 if (data.error || data.status !== 200) {
                     setLoginError(data.error);
                 } else {
-                    await setCurrentTimeAndMoveToHomeScreen(data, token);
+                    await registerForNotificationsAndMoveToHomeScreen(data, token);
                 }
             })
             .catch(err => {
