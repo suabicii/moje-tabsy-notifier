@@ -1,4 +1,3 @@
-import {APP_ID, APP_TOKEN} from "@env";
 import {ajaxCall} from "./ajaxCall";
 
 const sendNotification = async (drugName, dosing, unit, expoPushToken) => {
