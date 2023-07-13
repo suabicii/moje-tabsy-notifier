@@ -1,0 +1,828 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should correctly render drug data 1`] = `
+Array [
+  <View>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#000000",
+            "fontFamily": "System",
+            "fontWeight": "400",
+          },
+          Object {
+            "textAlign": "left",
+          },
+          Array [
+            Object {
+              "textAlign": "left",
+            },
+            Object {
+              "color": "rgba(0, 0, 0, 0.87)",
+              "fontFamily": "System",
+              "fontWeight": "500",
+              "writingDirection": "ltr",
+            },
+            Array [
+              Object {
+                "fontSize": 20,
+                "letterSpacing": 0.15,
+                "lineHeight": 30,
+                "marginVertical": 2,
+              },
+              Object {
+                "textAlign": "center",
+              },
+            ],
+          ],
+        ]
+      }
+      testID="Xanax"
+    >
+      Xanax
+       
+      1
+       
+      szt.
+       w godz.
+    </Text>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "marginBottom": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#000000",
+              "fontFamily": "System",
+              "fontWeight": "400",
+            },
+            Object {
+              "textAlign": "left",
+            },
+            Array [
+              Object {
+                "textAlign": "left",
+              },
+              Object {
+                "color": "rgba(0, 0, 0, 0.87)",
+                "fontFamily": "System",
+                "fontWeight": "400",
+                "writingDirection": "ltr",
+              },
+              Array [
+                Object {
+                  "fontSize": 14,
+                  "letterSpacing": 0.25,
+                  "lineHeight": 20,
+                  "marginVertical": 2,
+                },
+                Object {
+                  "fontSize": 16,
+                  "textAlign": "center",
+                },
+              ],
+            ],
+          ]
+        }
+      >
+        – 
+        07:00
+      </Text>
+      <View
+        collapsable={false}
+        style={
+          Object {
+            "backgroundColor": "#6cc3d5",
+            "borderColor": "transparent",
+            "borderRadius": 4,
+            "borderStyle": "solid",
+            "borderWidth": 0,
+            "color": "#e8e8e8",
+            "elevation": 0,
+            "marginLeft": 5,
+            "minWidth": "auto",
+            "shadowColor": "#000000",
+            "shadowOffset": Object {
+              "height": 0,
+              "width": 0,
+            },
+            "shadowOpacity": 0,
+            "shadowRadius": 0,
+          }
+        }
+      >
+        <View
+          accessibilityRole="button"
+          accessibilityState={
+            Object {
+              "disabled": true,
+            }
+          }
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Object {
+                "overflow": "hidden",
+              },
+              Object {
+                "borderRadius": 4,
+              },
+            ]
+          }
+          testID="Xanax_hour1"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+                Object {
+                  "flexDirection": "row-reverse",
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Object {
+                  "marginLeft": -4,
+                  "marginRight": 12,
+                }
+              }
+            >
+              <Text />
+            </View>
+            <Text
+              numberOfLines={1}
+              selectable={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#000000",
+                    "fontFamily": "System",
+                    "fontWeight": "400",
+                  },
+                  Object {
+                    "textAlign": "left",
+                  },
+                  Array [
+                    Object {
+                      "letterSpacing": 1,
+                      "marginHorizontal": 16,
+                      "marginVertical": 9,
+                      "textAlign": "center",
+                    },
+                    Object {
+                      "marginHorizontal": 8,
+                    },
+                    Object {
+                      "textTransform": "uppercase",
+                    },
+                    Object {
+                      "color": "rgba(0, 0, 0, 0.32)",
+                      "fontFamily": "System",
+                      "fontWeight": "500",
+                    },
+                    Object {
+                      "fontFamily": "System",
+                      "fontWeight": "500",
+                    },
+                    undefined,
+                  ],
+                ]
+              }
+            >
+              Już zażyłem/-am
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "marginBottom": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#000000",
+              "fontFamily": "System",
+              "fontWeight": "400",
+            },
+            Object {
+              "textAlign": "left",
+            },
+            Array [
+              Object {
+                "textAlign": "left",
+              },
+              Object {
+                "color": "rgba(0, 0, 0, 0.87)",
+                "fontFamily": "System",
+                "fontWeight": "400",
+                "writingDirection": "ltr",
+              },
+              Array [
+                Object {
+                  "fontSize": 14,
+                  "letterSpacing": 0.25,
+                  "lineHeight": 20,
+                  "marginVertical": 2,
+                },
+                Object {
+                  "fontSize": 16,
+                  "textAlign": "center",
+                },
+              ],
+            ],
+          ]
+        }
+      >
+        – 
+        18:00
+      </Text>
+      <View
+        collapsable={false}
+        style={
+          Object {
+            "backgroundColor": "#6cc3d5",
+            "borderColor": "transparent",
+            "borderRadius": 4,
+            "borderStyle": "solid",
+            "borderWidth": 0,
+            "color": "#e8e8e8",
+            "elevation": 0,
+            "marginLeft": 5,
+            "minWidth": "auto",
+            "shadowColor": "#000000",
+            "shadowOffset": Object {
+              "height": 0,
+              "width": 0,
+            },
+            "shadowOpacity": 0,
+            "shadowRadius": 0,
+          }
+        }
+      >
+        <View
+          accessibilityRole="button"
+          accessibilityState={
+            Object {
+              "disabled": true,
+            }
+          }
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Object {
+                "overflow": "hidden",
+              },
+              Object {
+                "borderRadius": 4,
+              },
+            ]
+          }
+          testID="Xanax_hour2"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+                Object {
+                  "flexDirection": "row-reverse",
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Object {
+                  "marginLeft": -4,
+                  "marginRight": 12,
+                }
+              }
+            >
+              <Text />
+            </View>
+            <Text
+              numberOfLines={1}
+              selectable={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#000000",
+                    "fontFamily": "System",
+                    "fontWeight": "400",
+                  },
+                  Object {
+                    "textAlign": "left",
+                  },
+                  Array [
+                    Object {
+                      "letterSpacing": 1,
+                      "marginHorizontal": 16,
+                      "marginVertical": 9,
+                      "textAlign": "center",
+                    },
+                    Object {
+                      "marginHorizontal": 8,
+                    },
+                    Object {
+                      "textTransform": "uppercase",
+                    },
+                    Object {
+                      "color": "rgba(0, 0, 0, 0.32)",
+                      "fontFamily": "System",
+                      "fontWeight": "500",
+                    },
+                    Object {
+                      "fontFamily": "System",
+                      "fontWeight": "500",
+                    },
+                    undefined,
+                  ],
+                ]
+              }
+            >
+              Już zażyłem/-am
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>,
+  <View>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#000000",
+            "fontFamily": "System",
+            "fontWeight": "400",
+          },
+          Object {
+            "textAlign": "left",
+          },
+          Array [
+            Object {
+              "textAlign": "left",
+            },
+            Object {
+              "color": "rgba(0, 0, 0, 0.87)",
+              "fontFamily": "System",
+              "fontWeight": "500",
+              "writingDirection": "ltr",
+            },
+            Array [
+              Object {
+                "fontSize": 20,
+                "letterSpacing": 0.15,
+                "lineHeight": 30,
+                "marginVertical": 2,
+              },
+              Object {
+                "textAlign": "center",
+              },
+            ],
+          ],
+        ]
+      }
+      testID="Witamina C"
+    >
+      Witamina C
+       
+      1
+       
+      szt.
+       w godz.
+    </Text>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "marginBottom": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#000000",
+              "fontFamily": "System",
+              "fontWeight": "400",
+            },
+            Object {
+              "textAlign": "left",
+            },
+            Array [
+              Object {
+                "textAlign": "left",
+              },
+              Object {
+                "color": "rgba(0, 0, 0, 0.87)",
+                "fontFamily": "System",
+                "fontWeight": "400",
+                "writingDirection": "ltr",
+              },
+              Array [
+                Object {
+                  "fontSize": 14,
+                  "letterSpacing": 0.25,
+                  "lineHeight": 20,
+                  "marginVertical": 2,
+                },
+                Object {
+                  "fontSize": 16,
+                  "textAlign": "center",
+                },
+              ],
+            ],
+          ]
+        }
+      >
+        – 
+        12:00
+      </Text>
+      <View
+        collapsable={false}
+        style={
+          Object {
+            "backgroundColor": "#6cc3d5",
+            "borderColor": "transparent",
+            "borderRadius": 4,
+            "borderStyle": "solid",
+            "borderWidth": 0,
+            "color": "#e8e8e8",
+            "elevation": 0,
+            "marginLeft": 5,
+            "minWidth": "auto",
+            "shadowColor": "#000000",
+            "shadowOffset": Object {
+              "height": 0,
+              "width": 0,
+            },
+            "shadowOpacity": 0,
+            "shadowRadius": 0,
+          }
+        }
+      >
+        <View
+          accessibilityRole="button"
+          accessibilityState={
+            Object {
+              "disabled": true,
+            }
+          }
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Object {
+                "overflow": "hidden",
+              },
+              Object {
+                "borderRadius": 4,
+              },
+            ]
+          }
+          testID="Witamina C_hour1"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+                Object {
+                  "flexDirection": "row-reverse",
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Object {
+                  "marginLeft": -4,
+                  "marginRight": 12,
+                }
+              }
+            >
+              <Text />
+            </View>
+            <Text
+              numberOfLines={1}
+              selectable={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#000000",
+                    "fontFamily": "System",
+                    "fontWeight": "400",
+                  },
+                  Object {
+                    "textAlign": "left",
+                  },
+                  Array [
+                    Object {
+                      "letterSpacing": 1,
+                      "marginHorizontal": 16,
+                      "marginVertical": 9,
+                      "textAlign": "center",
+                    },
+                    Object {
+                      "marginHorizontal": 8,
+                    },
+                    Object {
+                      "textTransform": "uppercase",
+                    },
+                    Object {
+                      "color": "rgba(0, 0, 0, 0.32)",
+                      "fontFamily": "System",
+                      "fontWeight": "500",
+                    },
+                    Object {
+                      "fontFamily": "System",
+                      "fontWeight": "500",
+                    },
+                    undefined,
+                  ],
+                ]
+              }
+            >
+              Już zażyłem/-am
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>,
+  <View>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#000000",
+            "fontFamily": "System",
+            "fontWeight": "400",
+          },
+          Object {
+            "textAlign": "left",
+          },
+          Array [
+            Object {
+              "textAlign": "left",
+            },
+            Object {
+              "color": "rgba(0, 0, 0, 0.87)",
+              "fontFamily": "System",
+              "fontWeight": "500",
+              "writingDirection": "ltr",
+            },
+            Array [
+              Object {
+                "fontSize": 20,
+                "letterSpacing": 0.15,
+                "lineHeight": 30,
+                "marginVertical": 2,
+              },
+              Object {
+                "textAlign": "center",
+              },
+            ],
+          ],
+        ]
+      }
+      testID="Metanabol"
+    >
+      Metanabol
+       
+      1
+       
+      amp. 10 ml
+       w godz.
+    </Text>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "marginBottom": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#000000",
+              "fontFamily": "System",
+              "fontWeight": "400",
+            },
+            Object {
+              "textAlign": "left",
+            },
+            Array [
+              Object {
+                "textAlign": "left",
+              },
+              Object {
+                "color": "rgba(0, 0, 0, 0.87)",
+                "fontFamily": "System",
+                "fontWeight": "400",
+                "writingDirection": "ltr",
+              },
+              Array [
+                Object {
+                  "fontSize": 14,
+                  "letterSpacing": 0.25,
+                  "lineHeight": 20,
+                  "marginVertical": 2,
+                },
+                Object {
+                  "fontSize": 16,
+                  "textAlign": "center",
+                },
+              ],
+            ],
+          ]
+        }
+      >
+        – 
+        12:00
+      </Text>
+      <View
+        collapsable={false}
+        style={
+          Object {
+            "backgroundColor": "#6cc3d5",
+            "borderColor": "transparent",
+            "borderRadius": 4,
+            "borderStyle": "solid",
+            "borderWidth": 0,
+            "color": "#e8e8e8",
+            "elevation": 0,
+            "marginLeft": 5,
+            "minWidth": "auto",
+            "shadowColor": "#000000",
+            "shadowOffset": Object {
+              "height": 0,
+              "width": 0,
+            },
+            "shadowOpacity": 0,
+            "shadowRadius": 0,
+          }
+        }
+      >
+        <View
+          accessibilityRole="button"
+          accessibilityState={
+            Object {
+              "disabled": true,
+            }
+          }
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Object {
+                "overflow": "hidden",
+              },
+              Object {
+                "borderRadius": 4,
+              },
+            ]
+          }
+          testID="Metanabol_hour1"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+                Object {
+                  "flexDirection": "row-reverse",
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Object {
+                  "marginLeft": -4,
+                  "marginRight": 12,
+                }
+              }
+            >
+              <Text />
+            </View>
+            <Text
+              numberOfLines={1}
+              selectable={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#000000",
+                    "fontFamily": "System",
+                    "fontWeight": "400",
+                  },
+                  Object {
+                    "textAlign": "left",
+                  },
+                  Array [
+                    Object {
+                      "letterSpacing": 1,
+                      "marginHorizontal": 16,
+                      "marginVertical": 9,
+                      "textAlign": "center",
+                    },
+                    Object {
+                      "marginHorizontal": 8,
+                    },
+                    Object {
+                      "textTransform": "uppercase",
+                    },
+                    Object {
+                      "color": "rgba(0, 0, 0, 0.32)",
+                      "fontFamily": "System",
+                      "fontWeight": "500",
+                    },
+                    Object {
+                      "fontFamily": "System",
+                      "fontWeight": "500",
+                    },
+                    undefined,
+                  ],
+                ]
+              }
+            >
+              Już zażyłem/-am
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>,
+]
+`;
