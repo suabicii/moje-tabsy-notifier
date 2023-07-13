@@ -32,7 +32,6 @@ function Home({navigation, route}) {
     const [drugsVisible, setDrugsVisible] = useState(false);
     const [refreshBtnLoading, setRefreshBtnLoading] = useState(false);
     const [sentNotifications, setSentNotifications] = useState([]);
-    const [lastSentNotificationId, setLastSentNotificationId] = useState(undefined);
 
     // if user checked earlier checkbox in modal
     const checkIfWelcomeMsgShouldBeVisible = async () => await AsyncStorage.getItem('welcome_msg_disable');
@@ -66,7 +65,6 @@ function Home({navigation, route}) {
         if (currentTimeParsed.isSameOrAfter(notificationDateTime)) {
             await sendNotification(notification.drugName, notification.dosing, notification.unit, expoPushToken);
             setSentNotifications(prevState => [...prevState, notification]);
-            setLastSentNotificationId(notification.id);
             dispatch(removeNotification(notification.id));
         }
     };
@@ -113,19 +111,13 @@ function Home({navigation, route}) {
     // send notifications
     useEffect(() => {
         if (notificationsQueue.length > 0) {
-            if (!lastSentNotificationId) {
-                (async function() {
-                    const notification = notificationsQueue[0];
+            notificationsQueue.forEach(async notification => {
+                if (!checkIfNotificationWasSentOrDrugTaken(notification.name)) {
                     await handleNotification(notification);
-                })();
-            } else if (lastSentNotificationId < notificationsQueue.length) {
-                (async function() {
-                    const notification = notificationsQueue[lastSentNotificationId + 1];
-                    await handleNotification(notification);
-                })();
-            }
+                }
+            });
         }
-    }, [lastSentNotificationId, notificationsQueue]);
+    }, [notificationsQueue]);
 
     useEffect(() => {
         if (!isLogged) {
