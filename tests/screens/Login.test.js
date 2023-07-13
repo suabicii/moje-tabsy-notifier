@@ -8,7 +8,7 @@ import {generateToken} from "../../utils/tokenGenerator";
 import {Provider} from "react-redux";
 import store from "../../store";
 
-const mockGetHeaders = {get: args => 'application/json'}
+const mockGetHeaders = {get: arg => arg === 'content-type' ? 'application/json' : ''}
 beforeEach(async () => {
     await AsyncStorage.clear();
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({

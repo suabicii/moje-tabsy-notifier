@@ -14,7 +14,7 @@ import {setCurrentTime} from "../../features/time/timeSlice";
 import sendNotification from "../../utils/notifier";
 
 let currentTime;
-const mockGetHeaders = {get: args => 'application/json'}
+const mockGetHeaders = {get: arg => arg === 'content-type' ? 'application/json' : ''}
 const expoPushToken = 'mock_expo_push_token123';
 const loginToken = 'mock_login_token123';
 beforeAll(() => {
