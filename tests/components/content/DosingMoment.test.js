@@ -9,7 +9,7 @@ import store from "../../../store";
 import {setCurrentTime} from "../../../features/time/timeSlice";
 import {act, fireEvent, render, screen} from "@testing-library/react-native";
 
-const mockGetHeaders = {get: args => 'application/json'}
+const mockGetHeaders = {get: arg => arg === 'content-type' ? 'application/json' : ''};
 beforeAll(() => {
     MockDate.set('2020-01-01');
     const mockedCurrentTime = dayjs();
