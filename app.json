@@ -28,6 +28,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "471bfe01-05a0-4a00-a491-01fa09e45380"
+      }
+    },
+    "owner": "slabikovsky"
   }
 }
