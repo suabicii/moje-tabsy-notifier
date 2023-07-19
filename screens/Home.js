@@ -13,6 +13,9 @@ import {fetchDrugs} from "../features/drugs/drugsSlice";
 import {setDrugsTaken} from "../features/drugsTaken/drugsTakenSlice";
 import {addNotification, removeNotification} from "../features/notificationsQueue/notificationsQueueSlice";
 import sendNotification from "../utils/notifier";
+import * as Notifications from 'expo-notifications';
+import 'react-native-get-random-values';
+import {v4 as uuidv4} from "uuid";
 
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
@@ -65,7 +68,6 @@ function Home({navigation, route}) {
         if (currentTimeParsed.isSameOrAfter(notificationDateTime)) {
             await sendNotification(notification.drugName, notification.dosing, notification.unit, expoPushToken);
             setSentNotifications(prevState => [...prevState, notification]);
-            dispatch(removeNotification(notification.id));
         }
     };
 
@@ -86,38 +88,26 @@ function Home({navigation, route}) {
         );
     };
 
-// queue notifications
+    // send notifications
     useEffect(() => {
-        let i = 0;
-        drugList.forEach(({dosing, dosingMoments, name, unit}) => {
+        drugList.forEach(async ({dosing, dosingMoments, name, unit}) => {
             const dosingMomentsArray = Object.entries(dosingMoments);
 
             for (const [key, value] of dosingMomentsArray) {
                 const notificationName = `${name}_${key}`;
                 if (checkIfNotificationWasSentOrDrugTaken(notificationName)) {
-                    dispatch(addNotification({
-                        id: ++i,
-                        name: `${name}_${key}`,
+                    await handleNotification({
+                        id: uuidv4(),
                         drugName: name,
-                        dosing: dosing,
-                        unit: unit,
+                        name: notificationName,
+                        dosing,
+                        unit,
                         hour: value
-                    }));
+                    });
                 }
             }
         });
     }, [drugList]);
-
-    // send notifications
-    useEffect(() => {
-        if (notificationsQueue.length > 0) {
-            notificationsQueue.forEach(async notification => {
-                if (!checkIfNotificationWasSentOrDrugTaken(notification.name)) {
-                    await handleNotification(notification);
-                }
-            });
-        }
-    }, [notificationsQueue]);
 
     useEffect(() => {
         if (!isLogged) {
@@ -165,6 +155,9 @@ function Home({navigation, route}) {
         return () => {
             clearInterval(drugListInterval);
             clearInterval(updateCurrentTimeInterval);
+            (async function () {
+                await Notifications.cancelAllScheduledNotificationsAsync();
+            })();
         };
     }, []);
 

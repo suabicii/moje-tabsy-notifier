@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ * **/
 import React from "react";
 import renderer from "react-test-renderer";
 import Home from "../../screens/Home";
@@ -25,11 +28,6 @@ beforeAll(() => {
             message: 'successfully logged out'
         })
     }));
-
-    MockDate.set('2020-01-01');
-    currentTime = dayjs();
-
-    store.dispatch(setCurrentTime(JSON.stringify(currentTime)));
 });
 
 afterEach(() => {
@@ -177,6 +175,15 @@ describe('Queue/send notifications', () => {
 
         const notifier = require('../../utils/notifier');
         jest.spyOn(notifier, 'default');
+    });
+
+    beforeEach( async () => {
+        MockDate.set('2020-01-01');
+        currentTime = dayjs();
+
+        await act(() => {
+            store.dispatch(setCurrentTime(JSON.stringify(currentTime)));
+        });
     });
 
     it('should queue notifications', async () => {
