@@ -15,6 +15,7 @@ import {drugList} from "../fixtures/drugList";
 import {fetchDrugs} from "../../features/drugs/drugsSlice";
 import {setCurrentTime} from "../../features/time/timeSlice";
 import sendNotification from "../../utils/notifier";
+import notifier from "../../utils/notifier";
 
 let currentTime;
 const mockGetHeaders = {get: arg => arg === 'content-type' ? 'application/json' : ''}
@@ -167,23 +168,29 @@ it('should remove tomorrow time and save new value in local storage if current t
 });
 
 describe('Queue/send notifications', () => {
+    let notifier;
+
     beforeAll(() => {
         jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
             headers: mockGetHeaders,
             json: () => Promise.resolve(drugList)
         }));
-
-        const notifier = require('../../utils/notifier');
-        jest.spyOn(notifier, 'default');
     });
 
     beforeEach( async () => {
+        notifier = require('../../utils/notifier');
+        notifier = jest.spyOn(notifier, 'default');
         MockDate.set('2020-01-01');
         currentTime = dayjs();
 
         await act(() => {
             store.dispatch(setCurrentTime(JSON.stringify(currentTime)));
         });
+    });
+
+    afterEach(() => {
+        notifier.mockClear();
+        MockDate.reset();
     });
 
     it('should send notification at the appropriate time', async () => {
