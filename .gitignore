@@ -15,3 +15,10 @@ web-build/
 .DS_Store
 /.env
 /coverage/
+/yarn-error.log
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

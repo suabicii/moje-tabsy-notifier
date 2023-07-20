@@ -11,18 +11,18 @@ import {useDispatch, useSelector} from "react-redux";
 import {setCurrentTime, setTomorrowTime} from "../features/time/timeSlice";
 import {fetchDrugs} from "../features/drugs/drugsSlice";
 import {setDrugsTaken} from "../features/drugsTaken/drugsTakenSlice";
-import {addNotification, removeNotification} from "../features/notificationsQueue/notificationsQueueSlice";
 import sendNotification from "../utils/notifier";
+import 'react-native-get-random-values';
+import {v4 as uuidv4} from "uuid";
 
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
 
 function Home({navigation, route}) {
-    const {userId, logged, token} = route.params;
+    const {userId, logged, loginToken, expoPushToken} = route.params;
 
     const time = useSelector(state => state.time);
     const drugList = useSelector(state => state.drugs);
-    const notificationsQueue = useSelector(state => state.notificationsQueue);
     const drugsTaken = useSelector(state => state.drugsTaken);
     const dispatch = useDispatch();
 
@@ -53,8 +53,20 @@ function Home({navigation, route}) {
 
     const getDrugList = async () => {
         setDrugsVisible(false);
-        dispatch(fetchDrugs(token));
+        dispatch(fetchDrugs(loginToken));
         setDrugsVisible(true);
+    };
+
+    const handleNotification = async notification => {
+        const currentTimeParsed = dayjs(JSON.parse(time.now));
+        const {hour, dosing, unit, drugName} = notification;
+        const [hours, minutes] = hour.split(':');
+        const notificationDateTime = dayjs().hour(hours).minute(minutes);
+
+        if (currentTimeParsed.isSameOrAfter(notificationDateTime)) {
+            await sendNotification(drugName, dosing, unit, expoPushToken);
+            setSentNotifications(prevState => [...prevState, notification]);
+        }
     };
 
     // block going back until user pushed logout button
@@ -67,49 +79,32 @@ function Home({navigation, route}) {
     });
 
     const checkIfNotificationWasSentOrDrugTaken = notificationName => {
-        return !sentNotifications.find(notification => notification.name === notificationName) &&
-            !notificationsQueue.find(notification => notification.name === notificationName) ||
-            !drugsTaken.find(drugTakenId => drugTakenId === notificationName);
+        return !(
+            sentNotifications.find(notification => notification.name === notificationName) ||
+            drugsTaken.find(drugTakenId => drugTakenId === notificationName)
+        );
     };
 
-// queue notifications
+    // send notifications
     useEffect(() => {
-        let i = 0;
-        drugList.forEach(({dosing, dosingMoments, name, unit}) => {
+        drugList.forEach(async ({dosing, dosingMoments, name, unit}) => {
             const dosingMomentsArray = Object.entries(dosingMoments);
 
             for (const [key, value] of dosingMomentsArray) {
                 const notificationName = `${name}_${key}`;
                 if (checkIfNotificationWasSentOrDrugTaken(notificationName)) {
-                    dispatch(addNotification({
-                        id: ++i,
-                        name: `${name}_${key}`,
+                    await handleNotification({
+                        id: uuidv4(),
                         drugName: name,
-                        dosing: dosing,
-                        unit: unit,
+                        name: notificationName,
+                        dosing,
+                        unit,
                         hour: value
-                    }));
+                    });
                 }
             }
         });
     }, [drugList]);
-
-    // send notifications
-    useEffect(() => {
-        if (notificationsQueue.length > 0) {
-            notificationsQueue.forEach(async notification => {
-                const currentTimeParsed = dayjs(JSON.parse(time.now));
-                const [hours, minutes] = notification.hour.split(':');
-                const notificationDateTime = dayjs().hour(hours).minute(minutes);
-
-                if (currentTimeParsed.isSameOrAfter(notificationDateTime)) {
-                    await sendNotification(notification.drugName, notification.dosing, notification.unit, userId);
-                    setSentNotifications([...sentNotifications, notification]);
-                    dispatch(removeNotification(notification.id));
-                }
-            });
-        }
-    }, [notificationsQueue]);
 
     useEffect(() => {
         if (!isLogged) {

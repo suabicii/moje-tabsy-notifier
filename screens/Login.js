@@ -4,28 +4,37 @@ import {Text} from "react-native";
 import UserInput from "../components/auth/UserInput";
 import PillButton from "../components/buttons/PillButton";
 import TextError from "../components/error/TextError";
-import {registerIndieID} from "native-notify";
-import {APP_ID, APP_TOKEN} from "@env";
 import {generateToken} from "../utils/tokenGenerator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ajaxCall} from "../utils/ajaxCall";
 import {useDispatch} from "react-redux";
 import dayjs from "dayjs";
 import {setCurrentTime} from "../features/time/timeSlice";
+import * as Notifications from 'expo-notifications';
+import registerForPushNotificationsAsync from "../utils/pushNotificationsRegistration";
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: false
+    })
+});
 
 function Login({navigation}) {
     const dispatch = useDispatch();
 
-    const registerIndieIDAndMoveToHomeScreen = async (data, token) => {
-        await registerIndieID(data.user_id, APP_ID, APP_TOKEN);
-
+    const registerForNotificationsAndMoveToHomeScreen = async (data, loginToken) => {
         const currentTimeJSON = JSON.stringify(dayjs());
-        dispatch(dispatch(setCurrentTime(currentTimeJSON)));
+        dispatch(setCurrentTime(currentTimeJSON));
+
+        const expoPushToken = await registerForPushNotificationsAsync();
 
         navigation.navigate('Home', {
             logged: true,
             userId: data.user_id,
-            token
+            loginToken,
+            expoPushToken
         });
     };
 
@@ -39,7 +48,7 @@ function Login({navigation}) {
                         console.log(data.message);
                         await AsyncStorage.clear();
                     } else if (data.status === 200 && data.user_id) {
-                        await registerIndieIDAndMoveToHomeScreen(data, token);
+                        await registerForNotificationsAndMoveToHomeScreen(data, token);
                     }
                 })
                 .catch(err => {
@@ -49,8 +58,9 @@ function Login({navigation}) {
     };
 
     useEffect(() => {
-        autoLogin().then(() => {
-        });
+        (async function () {
+            await autoLogin();
+        })();
     }, []);
 
     const [email, setEmail] = useState('');
@@ -67,7 +77,7 @@ function Login({navigation}) {
                 if (data.error || data.status !== 200) {
                     setLoginError(data.error);
                 } else {
-                    await registerIndieIDAndMoveToHomeScreen(data, token);
+                    await registerForNotificationsAndMoveToHomeScreen(data, token);
                 }
             })
             .catch(err => {

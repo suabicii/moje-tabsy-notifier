@@ -1,19 +1,17 @@
-import {APP_ID, APP_TOKEN} from "@env";
 import {ajaxCall} from "./ajaxCall";
 
-const sendNotification = async (drugName, dosing, unit, userId) => {
+const sendNotification = async (drugName, dosing, unit, expoPushToken) => {
     await ajaxCall(
         'post',
-        'indie/notification',
+        'v2/push/send',
         {
             body: {
-                subID: userId,
-                appId: APP_ID,
-                appToken: APP_TOKEN,
+                to: expoPushToken,
+                sound: 'default',
                 title: 'Moje-Tabsy.pl – przypominajka',
-                message: `Czas przyjąć dawkę leku/suplementu ${drugName} w ilości ${dosing} ${unit}`
+                body: `Czas przyjąć dawkę leku/suplementu ${drugName} w ilości ${dosing} ${unit}`
             },
-            customApiUrl: 'https://app.nativenotify.com'
+            customApiUrl: 'https://exp.host/--'
         }
     );
 };

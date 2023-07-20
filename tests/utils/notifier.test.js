@@ -15,7 +15,7 @@ afterAll(() => {
 it('should send push notification', () => {
     const drug = drugList[0];
 
-    sendNotification(drug.name, drug.dosing, drug.unit, 'john@doe.com');
+    sendNotification(drug.name, drug.dosing, drug.unit, 'expo_push_token123');
 
     expect(global.fetch).toBeCalled();
 });

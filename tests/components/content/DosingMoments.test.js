@@ -43,6 +43,9 @@ it('should correctly render DosingMoments component', () => {
 
 it('should shorten dosing moment list after pressing the button to confirm the dose', async () => {
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+        headers: {
+            get: arg => arg === 'content-type' ? 'application/json' : ''
+        },
         json: () => Promise.resolve({
             status: 200
         })
