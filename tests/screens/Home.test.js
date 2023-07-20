@@ -15,7 +15,6 @@ import {drugList} from "../fixtures/drugList";
 import {fetchDrugs} from "../../features/drugs/drugsSlice";
 import {setCurrentTime} from "../../features/time/timeSlice";
 import sendNotification from "../../utils/notifier";
-import notifier from "../../utils/notifier";
 
 let currentTime;
 const mockGetHeaders = {get: arg => arg === 'content-type' ? 'application/json' : ''}
