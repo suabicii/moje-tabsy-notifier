@@ -12,7 +12,6 @@ import {setCurrentTime, setTomorrowTime} from "../features/time/timeSlice";
 import {fetchDrugs} from "../features/drugs/drugsSlice";
 import {setDrugsTaken} from "../features/drugsTaken/drugsTakenSlice";
 import sendNotification from "../utils/notifier";
-import * as Notifications from 'expo-notifications';
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from "uuid";
 
@@ -60,11 +59,12 @@ function Home({navigation, route}) {
 
     const handleNotification = async notification => {
         const currentTimeParsed = dayjs(JSON.parse(time.now));
-        const [hours, minutes] = notification.hour.split(':');
+        const {hour, dosing, unit, drugName} = notification;
+        const [hours, minutes] = hour.split(':');
         const notificationDateTime = dayjs().hour(hours).minute(minutes);
 
         if (currentTimeParsed.isSameOrAfter(notificationDateTime)) {
-            await sendNotification(notification.drugName, notification.dosing, notification.unit, expoPushToken);
+            await sendNotification(drugName, dosing, unit, expoPushToken);
             setSentNotifications(prevState => [...prevState, notification]);
         }
     };
@@ -152,9 +152,6 @@ function Home({navigation, route}) {
         return () => {
             clearInterval(drugListInterval);
             clearInterval(updateCurrentTimeInterval);
-            (async function () {
-                await Notifications.cancelAllScheduledNotificationsAsync();
-            })();
         };
     }, []);
 
