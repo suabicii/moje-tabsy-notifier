@@ -186,15 +186,6 @@ describe('Queue/send notifications', () => {
         });
     });
 
-    it('should queue notifications', async () => {
-        store.dispatch(fetchDrugs(loginToken));
-        render(<WrappedComponent/>);
-
-        await waitFor(() => {
-            expect(store.getState().notificationsQueue.length).toBeGreaterThan(0);
-        });
-    });
-
     it('should send notification at the appropriate time', async () => {
         const {dosing, name, unit} = drugList[0];
         const dosingTime = dayjs().hour(7).minute(2);

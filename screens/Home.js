@@ -11,7 +11,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {setCurrentTime, setTomorrowTime} from "../features/time/timeSlice";
 import {fetchDrugs} from "../features/drugs/drugsSlice";
 import {setDrugsTaken} from "../features/drugsTaken/drugsTakenSlice";
-import {addNotification, removeNotification} from "../features/notificationsQueue/notificationsQueueSlice";
 import sendNotification from "../utils/notifier";
 import * as Notifications from 'expo-notifications';
 import 'react-native-get-random-values';
@@ -25,7 +24,6 @@ function Home({navigation, route}) {
 
     const time = useSelector(state => state.time);
     const drugList = useSelector(state => state.drugs);
-    const notificationsQueue = useSelector(state => state.notificationsQueue);
     const drugsTaken = useSelector(state => state.drugsTaken);
     const dispatch = useDispatch();
 
@@ -83,7 +81,6 @@ function Home({navigation, route}) {
     const checkIfNotificationWasSentOrDrugTaken = notificationName => {
         return !(
             sentNotifications.find(notification => notification.name === notificationName) ||
-            notificationsQueue.find(notification => notification.name === notificationName) ||
             drugsTaken.find(drugTakenId => drugTakenId === notificationName)
         );
     };
