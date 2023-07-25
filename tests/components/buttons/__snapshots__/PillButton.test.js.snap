@@ -2,6 +2,23 @@
 
 exports[`should correctly render PillButton 1`] = `
 <View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
   accessible={true}
   collapsable={false}
   focusable={true}
@@ -13,7 +30,7 @@ exports[`should correctly render PillButton 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Object {
+    {
       "backgroundColor": "#525252",
       "borderRadius": 24,
       "height": 50,
@@ -27,7 +44,7 @@ exports[`should correctly render PillButton 1`] = `
 >
   <Text
     style={
-      Object {
+      {
         "color": "#fff",
         "fontSize": 24,
         "fontWeight": "300",
