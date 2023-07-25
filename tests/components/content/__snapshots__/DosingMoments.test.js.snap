@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should correctly render DosingMoments component 1`] = `
-Array [
+[
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "row",
         "justifyContent": "center",
@@ -14,33 +14,33 @@ Array [
   >
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#000000",
             "fontFamily": "System",
             "fontWeight": "400",
           },
-          Object {
+          {
             "textAlign": "left",
           },
-          Array [
-            Object {
+          [
+            {
               "textAlign": "left",
             },
-            Object {
+            {
               "color": "rgba(0, 0, 0, 0.87)",
               "fontFamily": "System",
               "fontWeight": "400",
               "writingDirection": "ltr",
             },
-            Array [
-              Object {
+            [
+              {
                 "fontSize": 14,
                 "letterSpacing": 0.25,
                 "lineHeight": 20,
                 "marginVertical": 2,
               },
-              Object {
+              {
                 "fontSize": 16,
                 "textAlign": "center",
               },
@@ -55,7 +55,7 @@ Array [
     <View
       collapsable={false}
       style={
-        Object {
+        {
           "backgroundColor": "#6cc3d5",
           "borderColor": "transparent",
           "borderRadius": 4,
@@ -66,7 +66,7 @@ Array [
           "marginLeft": 5,
           "minWidth": "auto",
           "shadowColor": "#000000",
-          "shadowOffset": Object {
+          "shadowOffset": {
             "height": 0.75,
             "width": 0,
           },
@@ -78,8 +78,16 @@ Array [
       <View
         accessibilityRole="button"
         accessibilityState={
-          Object {
+          {
             "disabled": false,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
           }
         }
         accessible={true}
@@ -92,11 +100,11 @@ Array [
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Object {
+          [
+            {
               "overflow": "hidden",
             },
-            Object {
+            {
               "borderRadius": 4,
             },
           ]
@@ -105,13 +113,13 @@ Array [
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "center",
                 "flexDirection": "row",
                 "justifyContent": "center",
               },
-              Object {
+              {
                 "flexDirection": "row-reverse",
               },
             ]
@@ -119,7 +127,7 @@ Array [
         >
           <View
             style={
-              Object {
+              {
                 "marginLeft": -4,
                 "marginRight": 12,
               }
@@ -131,34 +139,34 @@ Array [
             numberOfLines={1}
             selectable={false}
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#000000",
                   "fontFamily": "System",
                   "fontWeight": "400",
                 },
-                Object {
+                {
                   "textAlign": "left",
                 },
-                Array [
-                  Object {
+                [
+                  {
                     "letterSpacing": 1,
                     "marginHorizontal": 16,
                     "marginVertical": 9,
                     "textAlign": "center",
                   },
-                  Object {
+                  {
                     "marginHorizontal": 8,
                   },
-                  Object {
+                  {
                     "textTransform": "uppercase",
                   },
-                  Object {
+                  {
                     "color": "#ffffff",
                     "fontFamily": "System",
                     "fontWeight": "500",
                   },
-                  Object {
+                  {
                     "fontFamily": "System",
                     "fontWeight": "500",
                   },
@@ -175,7 +183,7 @@ Array [
   </View>,
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "row",
         "justifyContent": "center",
@@ -185,33 +193,33 @@ Array [
   >
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#000000",
             "fontFamily": "System",
             "fontWeight": "400",
           },
-          Object {
+          {
             "textAlign": "left",
           },
-          Array [
-            Object {
+          [
+            {
               "textAlign": "left",
             },
-            Object {
+            {
               "color": "rgba(0, 0, 0, 0.87)",
               "fontFamily": "System",
               "fontWeight": "400",
               "writingDirection": "ltr",
             },
-            Array [
-              Object {
+            [
+              {
                 "fontSize": 14,
                 "letterSpacing": 0.25,
                 "lineHeight": 20,
                 "marginVertical": 2,
               },
-              Object {
+              {
                 "fontSize": 16,
                 "textAlign": "center",
               },
@@ -226,7 +234,7 @@ Array [
     <View
       collapsable={false}
       style={
-        Object {
+        {
           "backgroundColor": "#6cc3d5",
           "borderColor": "transparent",
           "borderRadius": 4,
@@ -237,7 +245,7 @@ Array [
           "marginLeft": 5,
           "minWidth": "auto",
           "shadowColor": "#000000",
-          "shadowOffset": Object {
+          "shadowOffset": {
             "height": 0,
             "width": 0,
           },
@@ -249,8 +257,16 @@ Array [
       <View
         accessibilityRole="button"
         accessibilityState={
-          Object {
+          {
             "disabled": true,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
           }
         }
         accessible={true}
@@ -263,11 +279,11 @@ Array [
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Object {
+          [
+            {
               "overflow": "hidden",
             },
-            Object {
+            {
               "borderRadius": 4,
             },
           ]
@@ -276,13 +292,13 @@ Array [
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "center",
                 "flexDirection": "row",
                 "justifyContent": "center",
               },
-              Object {
+              {
                 "flexDirection": "row-reverse",
               },
             ]
@@ -290,7 +306,7 @@ Array [
         >
           <View
             style={
-              Object {
+              {
                 "marginLeft": -4,
                 "marginRight": 12,
               }
@@ -302,34 +318,34 @@ Array [
             numberOfLines={1}
             selectable={false}
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#000000",
                   "fontFamily": "System",
                   "fontWeight": "400",
                 },
-                Object {
+                {
                   "textAlign": "left",
                 },
-                Array [
-                  Object {
+                [
+                  {
                     "letterSpacing": 1,
                     "marginHorizontal": 16,
                     "marginVertical": 9,
                     "textAlign": "center",
                   },
-                  Object {
+                  {
                     "marginHorizontal": 8,
                   },
-                  Object {
+                  {
                     "textTransform": "uppercase",
                   },
-                  Object {
+                  {
                     "color": "rgba(0, 0, 0, 0.32)",
                     "fontFamily": "System",
                     "fontWeight": "500",
                   },
-                  Object {
+                  {
                     "fontFamily": "System",
                     "fontWeight": "500",
                   },
