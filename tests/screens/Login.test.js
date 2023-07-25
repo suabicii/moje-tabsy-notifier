@@ -9,6 +9,13 @@ import {Provider} from "react-redux";
 import store from "../../store";
 
 const mockGetHeaders = {get: arg => arg === 'content-type' ? 'application/json' : ''}
+const mockedExpoPushToken = '123!#*&abc456';
+
+beforeAll(() => {
+    const pushNotificationsRegistration = require("../../utils/pushNotificationsRegistration");
+    jest.spyOn(pushNotificationsRegistration, "default").mockReturnValue(mockedExpoPushToken);
+});
+
 beforeEach(async () => {
     await AsyncStorage.clear();
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
@@ -63,7 +70,8 @@ it('should navigate to Home screen if logging in succeeded', async () => {
     expect(navigate).toHaveBeenCalledWith('Home', {
         logged: true,
         userId: 'john@doe.com',
-        token: mockedToken
+        loginToken: mockedToken,
+        expoPushToken: mockedExpoPushToken
     });
 });
 
@@ -98,7 +106,8 @@ it('should automatically log in if token is correct', async () => {
         expect(navigate).toHaveBeenCalledWith('Home', {
             logged: true,
             userId: 'john@doe.com',
-            token: 'correct_token'
+            loginToken: 'correct_token',
+            expoPushToken: mockedExpoPushToken
         })
     });
 });
