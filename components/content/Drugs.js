@@ -1,5 +1,5 @@
 import React from "react";
-import {Title} from "react-native-paper";
+import {Button, Title} from "react-native-paper";
 import {View} from "react-native";
 import DosingMoments from "./DosingMoments";
 import {useSelector} from "react-redux";
@@ -29,7 +29,14 @@ function Drugs() {
                                 // do not render drug component (content) if all doses was already taken
                                 currentDrugsTaken.length !== dosingMomentsArray.length
                                 &&
-                                <>
+                                <View style={{
+                                    borderColor: '#dadada',
+                                    borderRadius: 4,
+                                    borderStyle: 'solid',
+                                    borderWidth: 1,
+                                    marginBottom: 10,
+                                    paddingHorizontal: 15
+                                }}>
                                     <Title
                                         testID={name}
                                         style={{textAlign: "center"}}
@@ -40,7 +47,17 @@ function Drugs() {
                                         drug={drug}
                                         content={dosingMomentsArray}
                                     />
-                                </>
+                                    <Button
+                                        testId="detailsBtn"
+                                        style={{marginBottom: 10}}
+                                        mode="contained"
+                                        icon="arrow-right"
+                                        contentStyle={{flexDirection: "row-reverse"}}
+                                        onPress={() => console.log('DetailsBtn pressed')}
+                                    >
+                                        Szczegóły
+                                    </Button>
+                                </View>
                             }
                         </View>
                     );

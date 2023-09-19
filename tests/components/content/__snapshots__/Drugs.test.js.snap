@@ -3,57 +3,15 @@
 exports[`should correctly render drug data 1`] = `
 [
   <View>
-    <Text
-      style={
-        [
-          {
-            "color": "#000000",
-            "fontFamily": "System",
-            "fontWeight": "400",
-          },
-          {
-            "textAlign": "left",
-          },
-          [
-            {
-              "textAlign": "left",
-            },
-            {
-              "color": "rgba(0, 0, 0, 0.87)",
-              "fontFamily": "System",
-              "fontWeight": "500",
-              "writingDirection": "ltr",
-            },
-            [
-              {
-                "fontSize": 20,
-                "letterSpacing": 0.15,
-                "lineHeight": 30,
-                "marginVertical": 2,
-              },
-              {
-                "textAlign": "center",
-              },
-            ],
-          ],
-        ]
-      }
-      testID="Xanax"
-    >
-      Xanax
-       
-      1
-       
-      szt.
-       w godz.
-    </Text>
     <View
       style={
         {
-          "alignItems": "center",
-          "flexDirection": "row",
-          "justifyContent": "center",
+          "borderColor": "#ccc",
+          "borderRadius": 10,
+          "borderStyle": "solid",
+          "borderWidth": 2,
           "marginBottom": 10,
+          "paddingHorizontal": 15,
         }
       }
     >
@@ -75,445 +33,402 @@ exports[`should correctly render drug data 1`] = `
               {
                 "color": "rgba(0, 0, 0, 0.87)",
                 "fontFamily": "System",
-                "fontWeight": "400",
+                "fontWeight": "500",
                 "writingDirection": "ltr",
               },
               [
                 {
-                  "fontSize": 14,
-                  "letterSpacing": 0.25,
-                  "lineHeight": 20,
+                  "fontSize": 20,
+                  "letterSpacing": 0.15,
+                  "lineHeight": 30,
                   "marginVertical": 2,
                 },
                 {
-                  "fontSize": 16,
                   "textAlign": "center",
                 },
               ],
             ],
           ]
         }
+        testID="Xanax"
       >
-        – 
-        07:00
+        Xanax
+         
+        1
+         
+        szt.
+         w godz.
       </Text>
       <View
-        collapsable={false}
         style={
           {
-            "backgroundColor": "#6cc3d5",
-            "borderColor": "transparent",
-            "borderRadius": 4,
-            "borderStyle": "solid",
-            "borderWidth": 0,
-            "color": "#e8e8e8",
-            "elevation": 0,
-            "marginLeft": 5,
-            "minWidth": "auto",
-            "shadowColor": "#000000",
-            "shadowOffset": {
-              "height": 0,
-              "width": 0,
-            },
-            "shadowOpacity": 0,
-            "shadowRadius": 0,
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "marginBottom": 10,
           }
         }
       >
-        <View
-          accessibilityRole="button"
-          accessibilityState={
-            {
-              "disabled": true,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          focusable={true}
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
+        <Text
           style={
             [
               {
-                "overflow": "hidden",
+                "color": "#000000",
+                "fontFamily": "System",
+                "fontWeight": "400",
               },
               {
-                "borderRadius": 4,
+                "textAlign": "left",
               },
+              [
+                {
+                  "textAlign": "left",
+                },
+                {
+                  "color": "rgba(0, 0, 0, 0.87)",
+                  "fontFamily": "System",
+                  "fontWeight": "400",
+                  "writingDirection": "ltr",
+                },
+                [
+                  {
+                    "fontSize": 14,
+                    "letterSpacing": 0.25,
+                    "lineHeight": 20,
+                    "marginVertical": 2,
+                  },
+                  {
+                    "fontSize": 16,
+                    "textAlign": "center",
+                  },
+                ],
+              ],
             ]
           }
-          testID="Xanax_hour1"
+        >
+          – 
+          07:00
+        </Text>
+        <View
+          collapsable={false}
+          style={
+            {
+              "backgroundColor": "#6cc3d5",
+              "borderColor": "transparent",
+              "borderRadius": 4,
+              "borderStyle": "solid",
+              "borderWidth": 0,
+              "color": "#e8e8e8",
+              "elevation": 0,
+              "marginLeft": 5,
+              "minWidth": "auto",
+              "shadowColor": "#000000",
+              "shadowOffset": {
+                "height": 0,
+                "width": 0,
+              },
+              "shadowOpacity": 0,
+              "shadowRadius": 0,
+            }
+          }
         >
           <View
+            accessibilityRole="button"
+            accessibilityState={
+              {
+                "disabled": true,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
             style={
               [
                 {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
+                  "overflow": "hidden",
                 },
                 {
-                  "flexDirection": "row-reverse",
+                  "borderRadius": 4,
                 },
               ]
             }
+            testID="Xanax_hour1"
           >
             <View
               style={
-                {
-                  "marginLeft": -4,
-                  "marginRight": 12,
-                }
-              }
-            >
-              <Text />
-            </View>
-            <Text
-              numberOfLines={1}
-              selectable={false}
-              style={
                 [
                   {
-                    "color": "#000000",
-                    "fontFamily": "System",
-                    "fontWeight": "400",
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
                   },
                   {
-                    "textAlign": "left",
+                    "flexDirection": "row-reverse",
                   },
-                  [
-                    {
-                      "letterSpacing": 1,
-                      "marginHorizontal": 16,
-                      "marginVertical": 9,
-                      "textAlign": "center",
-                    },
-                    {
-                      "marginHorizontal": 8,
-                    },
-                    {
-                      "textTransform": "uppercase",
-                    },
-                    {
-                      "color": "rgba(0, 0, 0, 0.32)",
-                      "fontFamily": "System",
-                      "fontWeight": "500",
-                    },
-                    {
-                      "fontFamily": "System",
-                      "fontWeight": "500",
-                    },
-                    undefined,
-                  ],
                 ]
               }
             >
-              Już zażyłem/-am
-            </Text>
+              <View
+                style={
+                  {
+                    "marginLeft": -4,
+                    "marginRight": 12,
+                  }
+                }
+              >
+                <Text />
+              </View>
+              <Text
+                numberOfLines={1}
+                selectable={false}
+                style={
+                  [
+                    {
+                      "color": "#000000",
+                      "fontFamily": "System",
+                      "fontWeight": "400",
+                    },
+                    {
+                      "textAlign": "left",
+                    },
+                    [
+                      {
+                        "letterSpacing": 1,
+                        "marginHorizontal": 16,
+                        "marginVertical": 9,
+                        "textAlign": "center",
+                      },
+                      {
+                        "marginHorizontal": 8,
+                      },
+                      {
+                        "textTransform": "uppercase",
+                      },
+                      {
+                        "color": "rgba(0, 0, 0, 0.32)",
+                        "fontFamily": "System",
+                        "fontWeight": "500",
+                      },
+                      {
+                        "fontFamily": "System",
+                        "fontWeight": "500",
+                      },
+                      undefined,
+                    ],
+                  ]
+                }
+              >
+                Już zażyłem/-am
+              </Text>
+            </View>
           </View>
         </View>
       </View>
-    </View>
-    <View
-      style={
-        {
-          "alignItems": "center",
-          "flexDirection": "row",
-          "justifyContent": "center",
-          "marginBottom": 10,
-        }
-      }
-    >
-      <Text
-        style={
-          [
-            {
-              "color": "#000000",
-              "fontFamily": "System",
-              "fontWeight": "400",
-            },
-            {
-              "textAlign": "left",
-            },
-            [
-              {
-                "textAlign": "left",
-              },
-              {
-                "color": "rgba(0, 0, 0, 0.87)",
-                "fontFamily": "System",
-                "fontWeight": "400",
-                "writingDirection": "ltr",
-              },
-              [
-                {
-                  "fontSize": 14,
-                  "letterSpacing": 0.25,
-                  "lineHeight": 20,
-                  "marginVertical": 2,
-                },
-                {
-                  "fontSize": 16,
-                  "textAlign": "center",
-                },
-              ],
-            ],
-          ]
-        }
-      >
-        – 
-        18:00
-      </Text>
       <View
-        collapsable={false}
         style={
           {
-            "backgroundColor": "#6cc3d5",
-            "borderColor": "transparent",
-            "borderRadius": 4,
-            "borderStyle": "solid",
-            "borderWidth": 0,
-            "color": "#e8e8e8",
-            "elevation": 0,
-            "marginLeft": 5,
-            "minWidth": "auto",
-            "shadowColor": "#000000",
-            "shadowOffset": {
-              "height": 0,
-              "width": 0,
-            },
-            "shadowOpacity": 0,
-            "shadowRadius": 0,
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "marginBottom": 10,
           }
         }
       >
-        <View
-          accessibilityRole="button"
-          accessibilityState={
-            {
-              "disabled": true,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          focusable={true}
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
+        <Text
           style={
             [
               {
-                "overflow": "hidden",
+                "color": "#000000",
+                "fontFamily": "System",
+                "fontWeight": "400",
               },
               {
-                "borderRadius": 4,
+                "textAlign": "left",
               },
+              [
+                {
+                  "textAlign": "left",
+                },
+                {
+                  "color": "rgba(0, 0, 0, 0.87)",
+                  "fontFamily": "System",
+                  "fontWeight": "400",
+                  "writingDirection": "ltr",
+                },
+                [
+                  {
+                    "fontSize": 14,
+                    "letterSpacing": 0.25,
+                    "lineHeight": 20,
+                    "marginVertical": 2,
+                  },
+                  {
+                    "fontSize": 16,
+                    "textAlign": "center",
+                  },
+                ],
+              ],
             ]
           }
-          testID="Xanax_hour2"
+        >
+          – 
+          18:00
+        </Text>
+        <View
+          collapsable={false}
+          style={
+            {
+              "backgroundColor": "#6cc3d5",
+              "borderColor": "transparent",
+              "borderRadius": 4,
+              "borderStyle": "solid",
+              "borderWidth": 0,
+              "color": "#e8e8e8",
+              "elevation": 0,
+              "marginLeft": 5,
+              "minWidth": "auto",
+              "shadowColor": "#000000",
+              "shadowOffset": {
+                "height": 0,
+                "width": 0,
+              },
+              "shadowOpacity": 0,
+              "shadowRadius": 0,
+            }
+          }
         >
           <View
+            accessibilityRole="button"
+            accessibilityState={
+              {
+                "disabled": true,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
             style={
               [
                 {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
+                  "overflow": "hidden",
                 },
                 {
-                  "flexDirection": "row-reverse",
+                  "borderRadius": 4,
                 },
               ]
             }
+            testID="Xanax_hour2"
           >
             <View
               style={
-                {
-                  "marginLeft": -4,
-                  "marginRight": 12,
-                }
-              }
-            >
-              <Text />
-            </View>
-            <Text
-              numberOfLines={1}
-              selectable={false}
-              style={
                 [
                   {
-                    "color": "#000000",
-                    "fontFamily": "System",
-                    "fontWeight": "400",
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
                   },
                   {
-                    "textAlign": "left",
+                    "flexDirection": "row-reverse",
                   },
-                  [
-                    {
-                      "letterSpacing": 1,
-                      "marginHorizontal": 16,
-                      "marginVertical": 9,
-                      "textAlign": "center",
-                    },
-                    {
-                      "marginHorizontal": 8,
-                    },
-                    {
-                      "textTransform": "uppercase",
-                    },
-                    {
-                      "color": "rgba(0, 0, 0, 0.32)",
-                      "fontFamily": "System",
-                      "fontWeight": "500",
-                    },
-                    {
-                      "fontFamily": "System",
-                      "fontWeight": "500",
-                    },
-                    undefined,
-                  ],
                 ]
               }
             >
-              Już zażyłem/-am
-            </Text>
+              <View
+                style={
+                  {
+                    "marginLeft": -4,
+                    "marginRight": 12,
+                  }
+                }
+              >
+                <Text />
+              </View>
+              <Text
+                numberOfLines={1}
+                selectable={false}
+                style={
+                  [
+                    {
+                      "color": "#000000",
+                      "fontFamily": "System",
+                      "fontWeight": "400",
+                    },
+                    {
+                      "textAlign": "left",
+                    },
+                    [
+                      {
+                        "letterSpacing": 1,
+                        "marginHorizontal": 16,
+                        "marginVertical": 9,
+                        "textAlign": "center",
+                      },
+                      {
+                        "marginHorizontal": 8,
+                      },
+                      {
+                        "textTransform": "uppercase",
+                      },
+                      {
+                        "color": "rgba(0, 0, 0, 0.32)",
+                        "fontFamily": "System",
+                        "fontWeight": "500",
+                      },
+                      {
+                        "fontFamily": "System",
+                        "fontWeight": "500",
+                      },
+                      undefined,
+                    ],
+                  ]
+                }
+              >
+                Już zażyłem/-am
+              </Text>
+            </View>
           </View>
         </View>
       </View>
-    </View>
-  </View>,
-  <View>
-    <Text
-      style={
-        [
-          {
-            "color": "#000000",
-            "fontFamily": "System",
-            "fontWeight": "400",
-          },
-          {
-            "textAlign": "left",
-          },
-          [
-            {
-              "textAlign": "left",
-            },
-            {
-              "color": "rgba(0, 0, 0, 0.87)",
-              "fontFamily": "System",
-              "fontWeight": "500",
-              "writingDirection": "ltr",
-            },
-            [
-              {
-                "fontSize": 20,
-                "letterSpacing": 0.15,
-                "lineHeight": 30,
-                "marginVertical": 2,
-              },
-              {
-                "textAlign": "center",
-              },
-            ],
-          ],
-        ]
-      }
-      testID="Witamina C"
-    >
-      Witamina C
-       
-      1
-       
-      szt.
-       w godz.
-    </Text>
-    <View
-      style={
-        {
-          "alignItems": "center",
-          "flexDirection": "row",
-          "justifyContent": "center",
-          "marginBottom": 10,
-        }
-      }
-    >
-      <Text
-        style={
-          [
-            {
-              "color": "#000000",
-              "fontFamily": "System",
-              "fontWeight": "400",
-            },
-            {
-              "textAlign": "left",
-            },
-            [
-              {
-                "textAlign": "left",
-              },
-              {
-                "color": "rgba(0, 0, 0, 0.87)",
-                "fontFamily": "System",
-                "fontWeight": "400",
-                "writingDirection": "ltr",
-              },
-              [
-                {
-                  "fontSize": 14,
-                  "letterSpacing": 0.25,
-                  "lineHeight": 20,
-                  "marginVertical": 2,
-                },
-                {
-                  "fontSize": 16,
-                  "textAlign": "center",
-                },
-              ],
-            ],
-          ]
-        }
-      >
-        – 
-        12:00
-      </Text>
       <View
         collapsable={false}
         style={
           {
-            "backgroundColor": "#6cc3d5",
-            "borderColor": "transparent",
+            "backgroundColor": "transparent",
+            "borderColor": "rgba(0, 0, 0, 0.29)",
             "borderRadius": 4,
             "borderStyle": "solid",
-            "borderWidth": 0,
-            "color": "#e8e8e8",
+            "borderWidth": 0.5,
             "elevation": 0,
-            "marginLeft": 5,
-            "minWidth": "auto",
+            "marginBottom": 10,
+            "minWidth": 64,
             "shadowColor": "#000000",
             "shadowOffset": {
               "height": 0,
@@ -523,12 +438,13 @@ exports[`should correctly render drug data 1`] = `
             "shadowRadius": 0,
           }
         }
+        testId="detailsBtn"
       >
         <View
           accessibilityRole="button"
           accessibilityState={
             {
-              "disabled": true,
+              "disabled": false,
             }
           }
           accessibilityValue={
@@ -558,7 +474,6 @@ exports[`should correctly render drug data 1`] = `
               },
             ]
           }
-          testID="Witamina C_hour1"
         >
           <View
             style={
@@ -604,14 +519,12 @@ exports[`should correctly render drug data 1`] = `
                       "marginVertical": 9,
                       "textAlign": "center",
                     },
-                    {
-                      "marginHorizontal": 8,
-                    },
+                    undefined,
                     {
                       "textTransform": "uppercase",
                     },
                     {
-                      "color": "rgba(0, 0, 0, 0.32)",
+                      "color": "#6200ee",
                       "fontFamily": "System",
                       "fontWeight": "500",
                     },
@@ -624,7 +537,7 @@ exports[`should correctly render drug data 1`] = `
                 ]
               }
             >
-              Już zażyłem/-am
+              Szczegóły
             </Text>
           </View>
         </View>
@@ -632,57 +545,15 @@ exports[`should correctly render drug data 1`] = `
     </View>
   </View>,
   <View>
-    <Text
-      style={
-        [
-          {
-            "color": "#000000",
-            "fontFamily": "System",
-            "fontWeight": "400",
-          },
-          {
-            "textAlign": "left",
-          },
-          [
-            {
-              "textAlign": "left",
-            },
-            {
-              "color": "rgba(0, 0, 0, 0.87)",
-              "fontFamily": "System",
-              "fontWeight": "500",
-              "writingDirection": "ltr",
-            },
-            [
-              {
-                "fontSize": 20,
-                "letterSpacing": 0.15,
-                "lineHeight": 30,
-                "marginVertical": 2,
-              },
-              {
-                "textAlign": "center",
-              },
-            ],
-          ],
-        ]
-      }
-      testID="Metanabol"
-    >
-      Metanabol
-       
-      1
-       
-      amp. 10 ml
-       w godz.
-    </Text>
     <View
       style={
         {
-          "alignItems": "center",
-          "flexDirection": "row",
-          "justifyContent": "center",
+          "borderColor": "#ccc",
+          "borderRadius": 10,
+          "borderStyle": "solid",
+          "borderWidth": 2,
           "marginBottom": 10,
+          "paddingHorizontal": 15,
         }
       }
     >
@@ -704,41 +575,223 @@ exports[`should correctly render drug data 1`] = `
               {
                 "color": "rgba(0, 0, 0, 0.87)",
                 "fontFamily": "System",
-                "fontWeight": "400",
+                "fontWeight": "500",
                 "writingDirection": "ltr",
               },
               [
                 {
-                  "fontSize": 14,
-                  "letterSpacing": 0.25,
-                  "lineHeight": 20,
+                  "fontSize": 20,
+                  "letterSpacing": 0.15,
+                  "lineHeight": 30,
                   "marginVertical": 2,
                 },
                 {
-                  "fontSize": 16,
                   "textAlign": "center",
                 },
               ],
             ],
           ]
         }
+        testID="Witamina C"
       >
-        – 
-        12:00
+        Witamina C
+         
+        1
+         
+        szt.
+         w godz.
       </Text>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "marginBottom": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "color": "#000000",
+                "fontFamily": "System",
+                "fontWeight": "400",
+              },
+              {
+                "textAlign": "left",
+              },
+              [
+                {
+                  "textAlign": "left",
+                },
+                {
+                  "color": "rgba(0, 0, 0, 0.87)",
+                  "fontFamily": "System",
+                  "fontWeight": "400",
+                  "writingDirection": "ltr",
+                },
+                [
+                  {
+                    "fontSize": 14,
+                    "letterSpacing": 0.25,
+                    "lineHeight": 20,
+                    "marginVertical": 2,
+                  },
+                  {
+                    "fontSize": 16,
+                    "textAlign": "center",
+                  },
+                ],
+              ],
+            ]
+          }
+        >
+          – 
+          12:00
+        </Text>
+        <View
+          collapsable={false}
+          style={
+            {
+              "backgroundColor": "#6cc3d5",
+              "borderColor": "transparent",
+              "borderRadius": 4,
+              "borderStyle": "solid",
+              "borderWidth": 0,
+              "color": "#e8e8e8",
+              "elevation": 0,
+              "marginLeft": 5,
+              "minWidth": "auto",
+              "shadowColor": "#000000",
+              "shadowOffset": {
+                "height": 0,
+                "width": 0,
+              },
+              "shadowOpacity": 0,
+              "shadowRadius": 0,
+            }
+          }
+        >
+          <View
+            accessibilityRole="button"
+            accessibilityState={
+              {
+                "disabled": true,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              [
+                {
+                  "overflow": "hidden",
+                },
+                {
+                  "borderRadius": 4,
+                },
+              ]
+            }
+            testID="Witamina C_hour1"
+          >
+            <View
+              style={
+                [
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  },
+                  {
+                    "flexDirection": "row-reverse",
+                  },
+                ]
+              }
+            >
+              <View
+                style={
+                  {
+                    "marginLeft": -4,
+                    "marginRight": 12,
+                  }
+                }
+              >
+                <Text />
+              </View>
+              <Text
+                numberOfLines={1}
+                selectable={false}
+                style={
+                  [
+                    {
+                      "color": "#000000",
+                      "fontFamily": "System",
+                      "fontWeight": "400",
+                    },
+                    {
+                      "textAlign": "left",
+                    },
+                    [
+                      {
+                        "letterSpacing": 1,
+                        "marginHorizontal": 16,
+                        "marginVertical": 9,
+                        "textAlign": "center",
+                      },
+                      {
+                        "marginHorizontal": 8,
+                      },
+                      {
+                        "textTransform": "uppercase",
+                      },
+                      {
+                        "color": "rgba(0, 0, 0, 0.32)",
+                        "fontFamily": "System",
+                        "fontWeight": "500",
+                      },
+                      {
+                        "fontFamily": "System",
+                        "fontWeight": "500",
+                      },
+                      undefined,
+                    ],
+                  ]
+                }
+              >
+                Już zażyłem/-am
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
       <View
         collapsable={false}
         style={
           {
-            "backgroundColor": "#6cc3d5",
-            "borderColor": "transparent",
+            "backgroundColor": "transparent",
+            "borderColor": "rgba(0, 0, 0, 0.29)",
             "borderRadius": 4,
             "borderStyle": "solid",
-            "borderWidth": 0,
-            "color": "#e8e8e8",
+            "borderWidth": 0.5,
             "elevation": 0,
-            "marginLeft": 5,
-            "minWidth": "auto",
+            "marginBottom": 10,
+            "minWidth": 64,
             "shadowColor": "#000000",
             "shadowOffset": {
               "height": 0,
@@ -748,12 +801,13 @@ exports[`should correctly render drug data 1`] = `
             "shadowRadius": 0,
           }
         }
+        testId="detailsBtn"
       >
         <View
           accessibilityRole="button"
           accessibilityState={
             {
-              "disabled": true,
+              "disabled": false,
             }
           }
           accessibilityValue={
@@ -783,7 +837,6 @@ exports[`should correctly render drug data 1`] = `
               },
             ]
           }
-          testID="Metanabol_hour1"
         >
           <View
             style={
@@ -829,14 +882,12 @@ exports[`should correctly render drug data 1`] = `
                       "marginVertical": 9,
                       "textAlign": "center",
                     },
-                    {
-                      "marginHorizontal": 8,
-                    },
+                    undefined,
                     {
                       "textTransform": "uppercase",
                     },
                     {
-                      "color": "rgba(0, 0, 0, 0.32)",
+                      "color": "#6200ee",
                       "fontFamily": "System",
                       "fontWeight": "500",
                     },
@@ -849,7 +900,370 @@ exports[`should correctly render drug data 1`] = `
                 ]
               }
             >
-              Już zażyłem/-am
+              Szczegóły
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>,
+  <View>
+    <View
+      style={
+        {
+          "borderColor": "#ccc",
+          "borderRadius": 10,
+          "borderStyle": "solid",
+          "borderWidth": 2,
+          "marginBottom": 10,
+          "paddingHorizontal": 15,
+        }
+      }
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "#000000",
+              "fontFamily": "System",
+              "fontWeight": "400",
+            },
+            {
+              "textAlign": "left",
+            },
+            [
+              {
+                "textAlign": "left",
+              },
+              {
+                "color": "rgba(0, 0, 0, 0.87)",
+                "fontFamily": "System",
+                "fontWeight": "500",
+                "writingDirection": "ltr",
+              },
+              [
+                {
+                  "fontSize": 20,
+                  "letterSpacing": 0.15,
+                  "lineHeight": 30,
+                  "marginVertical": 2,
+                },
+                {
+                  "textAlign": "center",
+                },
+              ],
+            ],
+          ]
+        }
+        testID="Metanabol"
+      >
+        Metanabol
+         
+        1
+         
+        amp. 10 ml
+         w godz.
+      </Text>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "marginBottom": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "color": "#000000",
+                "fontFamily": "System",
+                "fontWeight": "400",
+              },
+              {
+                "textAlign": "left",
+              },
+              [
+                {
+                  "textAlign": "left",
+                },
+                {
+                  "color": "rgba(0, 0, 0, 0.87)",
+                  "fontFamily": "System",
+                  "fontWeight": "400",
+                  "writingDirection": "ltr",
+                },
+                [
+                  {
+                    "fontSize": 14,
+                    "letterSpacing": 0.25,
+                    "lineHeight": 20,
+                    "marginVertical": 2,
+                  },
+                  {
+                    "fontSize": 16,
+                    "textAlign": "center",
+                  },
+                ],
+              ],
+            ]
+          }
+        >
+          – 
+          12:00
+        </Text>
+        <View
+          collapsable={false}
+          style={
+            {
+              "backgroundColor": "#6cc3d5",
+              "borderColor": "transparent",
+              "borderRadius": 4,
+              "borderStyle": "solid",
+              "borderWidth": 0,
+              "color": "#e8e8e8",
+              "elevation": 0,
+              "marginLeft": 5,
+              "minWidth": "auto",
+              "shadowColor": "#000000",
+              "shadowOffset": {
+                "height": 0,
+                "width": 0,
+              },
+              "shadowOpacity": 0,
+              "shadowRadius": 0,
+            }
+          }
+        >
+          <View
+            accessibilityRole="button"
+            accessibilityState={
+              {
+                "disabled": true,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              [
+                {
+                  "overflow": "hidden",
+                },
+                {
+                  "borderRadius": 4,
+                },
+              ]
+            }
+            testID="Metanabol_hour1"
+          >
+            <View
+              style={
+                [
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  },
+                  {
+                    "flexDirection": "row-reverse",
+                  },
+                ]
+              }
+            >
+              <View
+                style={
+                  {
+                    "marginLeft": -4,
+                    "marginRight": 12,
+                  }
+                }
+              >
+                <Text />
+              </View>
+              <Text
+                numberOfLines={1}
+                selectable={false}
+                style={
+                  [
+                    {
+                      "color": "#000000",
+                      "fontFamily": "System",
+                      "fontWeight": "400",
+                    },
+                    {
+                      "textAlign": "left",
+                    },
+                    [
+                      {
+                        "letterSpacing": 1,
+                        "marginHorizontal": 16,
+                        "marginVertical": 9,
+                        "textAlign": "center",
+                      },
+                      {
+                        "marginHorizontal": 8,
+                      },
+                      {
+                        "textTransform": "uppercase",
+                      },
+                      {
+                        "color": "rgba(0, 0, 0, 0.32)",
+                        "fontFamily": "System",
+                        "fontWeight": "500",
+                      },
+                      {
+                        "fontFamily": "System",
+                        "fontWeight": "500",
+                      },
+                      undefined,
+                    ],
+                  ]
+                }
+              >
+                Już zażyłem/-am
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "transparent",
+            "borderColor": "rgba(0, 0, 0, 0.29)",
+            "borderRadius": 4,
+            "borderStyle": "solid",
+            "borderWidth": 0.5,
+            "elevation": 0,
+            "marginBottom": 10,
+            "minWidth": 64,
+            "shadowColor": "#000000",
+            "shadowOffset": {
+              "height": 0,
+              "width": 0,
+            },
+            "shadowOpacity": 0,
+            "shadowRadius": 0,
+          }
+        }
+        testId="detailsBtn"
+      >
+        <View
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "disabled": false,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "overflow": "hidden",
+              },
+              {
+                "borderRadius": 4,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+                {
+                  "flexDirection": "row-reverse",
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                {
+                  "marginLeft": -4,
+                  "marginRight": 12,
+                }
+              }
+            >
+              <Text />
+            </View>
+            <Text
+              numberOfLines={1}
+              selectable={false}
+              style={
+                [
+                  {
+                    "color": "#000000",
+                    "fontFamily": "System",
+                    "fontWeight": "400",
+                  },
+                  {
+                    "textAlign": "left",
+                  },
+                  [
+                    {
+                      "letterSpacing": 1,
+                      "marginHorizontal": 16,
+                      "marginVertical": 9,
+                      "textAlign": "center",
+                    },
+                    undefined,
+                    {
+                      "textTransform": "uppercase",
+                    },
+                    {
+                      "color": "#6200ee",
+                      "fontFamily": "System",
+                      "fontWeight": "500",
+                    },
+                    {
+                      "fontFamily": "System",
+                      "fontWeight": "500",
+                    },
+                    undefined,
+                  ],
+                ]
+              }
+            >
+              Szczegóły
             </Text>
           </View>
         </View>
