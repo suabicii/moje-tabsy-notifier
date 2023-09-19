@@ -6,10 +6,10 @@ exports[`should correctly render drug data 1`] = `
     <View
       style={
         {
-          "borderColor": "#ccc",
-          "borderRadius": 10,
+          "borderColor": "#dadada",
+          "borderRadius": 4,
           "borderStyle": "solid",
-          "borderWidth": 2,
+          "borderWidth": 1,
           "marginBottom": 10,
           "paddingHorizontal": 15,
         }
@@ -421,21 +421,21 @@ exports[`should correctly render drug data 1`] = `
         collapsable={false}
         style={
           {
-            "backgroundColor": "transparent",
-            "borderColor": "rgba(0, 0, 0, 0.29)",
+            "backgroundColor": "#6200ee",
+            "borderColor": "transparent",
             "borderRadius": 4,
             "borderStyle": "solid",
-            "borderWidth": 0.5,
-            "elevation": 0,
+            "borderWidth": 0,
+            "elevation": 2,
             "marginBottom": 10,
             "minWidth": 64,
             "shadowColor": "#000000",
             "shadowOffset": {
-              "height": 0,
+              "height": 0.75,
               "width": 0,
             },
-            "shadowOpacity": 0,
-            "shadowRadius": 0,
+            "shadowOpacity": 0.24,
+            "shadowRadius": 1.5,
           }
         }
         testId="detailsBtn"
@@ -524,7 +524,7 @@ exports[`should correctly render drug data 1`] = `
                       "textTransform": "uppercase",
                     },
                     {
-                      "color": "#6200ee",
+                      "color": "#ffffff",
                       "fontFamily": "System",
                       "fontWeight": "500",
                     },
@@ -548,10 +548,10 @@ exports[`should correctly render drug data 1`] = `
     <View
       style={
         {
-          "borderColor": "#ccc",
-          "borderRadius": 10,
+          "borderColor": "#dadada",
+          "borderRadius": 4,
           "borderStyle": "solid",
-          "borderWidth": 2,
+          "borderWidth": 1,
           "marginBottom": 10,
           "paddingHorizontal": 15,
         }
@@ -784,21 +784,21 @@ exports[`should correctly render drug data 1`] = `
         collapsable={false}
         style={
           {
-            "backgroundColor": "transparent",
-            "borderColor": "rgba(0, 0, 0, 0.29)",
+            "backgroundColor": "#6200ee",
+            "borderColor": "transparent",
             "borderRadius": 4,
             "borderStyle": "solid",
-            "borderWidth": 0.5,
-            "elevation": 0,
+            "borderWidth": 0,
+            "elevation": 2,
             "marginBottom": 10,
             "minWidth": 64,
             "shadowColor": "#000000",
             "shadowOffset": {
-              "height": 0,
+              "height": 0.75,
               "width": 0,
             },
-            "shadowOpacity": 0,
-            "shadowRadius": 0,
+            "shadowOpacity": 0.24,
+            "shadowRadius": 1.5,
           }
         }
         testId="detailsBtn"
@@ -887,7 +887,7 @@ exports[`should correctly render drug data 1`] = `
                       "textTransform": "uppercase",
                     },
                     {
-                      "color": "#6200ee",
+                      "color": "#ffffff",
                       "fontFamily": "System",
                       "fontWeight": "500",
                     },
@@ -911,10 +911,10 @@ exports[`should correctly render drug data 1`] = `
     <View
       style={
         {
-          "borderColor": "#ccc",
-          "borderRadius": 10,
+          "borderColor": "#dadada",
+          "borderRadius": 4,
           "borderStyle": "solid",
-          "borderWidth": 2,
+          "borderWidth": 1,
           "marginBottom": 10,
           "paddingHorizontal": 15,
         }
@@ -1147,21 +1147,21 @@ exports[`should correctly render drug data 1`] = `
         collapsable={false}
         style={
           {
-            "backgroundColor": "transparent",
-            "borderColor": "rgba(0, 0, 0, 0.29)",
+            "backgroundColor": "#6200ee",
+            "borderColor": "transparent",
             "borderRadius": 4,
             "borderStyle": "solid",
-            "borderWidth": 0.5,
-            "elevation": 0,
+            "borderWidth": 0,
+            "elevation": 2,
             "marginBottom": 10,
             "minWidth": 64,
             "shadowColor": "#000000",
             "shadowOffset": {
-              "height": 0,
+              "height": 0.75,
               "width": 0,
             },
-            "shadowOpacity": 0,
-            "shadowRadius": 0,
+            "shadowOpacity": 0.24,
+            "shadowRadius": 1.5,
           }
         }
         testId="detailsBtn"
@@ -1250,7 +1250,7 @@ exports[`should correctly render drug data 1`] = `
                       "textTransform": "uppercase",
                     },
                     {
-                      "color": "#6200ee",
+                      "color": "#ffffff",
                       "fontFamily": "System",
                       "fontWeight": "500",
                     },
