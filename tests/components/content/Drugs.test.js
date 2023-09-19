@@ -16,8 +16,6 @@ beforeAll(() => {
     store.dispatch(setDrugs(drugList));
 });
 
-const drug = drugList[0];
-
 function WrappedComponent() {
     return (
         <Provider store={store}>
