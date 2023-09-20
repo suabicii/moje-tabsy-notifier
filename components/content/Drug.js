@@ -13,6 +13,12 @@ function Drug({drug}) {
 
     const {dosing, name, unit, dosingMoments} = drug;
     const dosingMomentsArray = Object.entries(dosingMoments);
+    const borderStyles = {
+        borderColor: '#dadada',
+        borderRadius: 4,
+        borderStyle: 'solid',
+        borderWidth: 1.75,
+    };
     let currentDrugsTaken = [];
 
     for (const [key] of dosingMomentsArray) {
@@ -29,10 +35,7 @@ function Drug({drug}) {
                 currentDrugsTaken.length !== dosingMomentsArray.length
                 &&
                 <View style={{
-                    borderColor: '#dadada',
-                    borderRadius: 4,
-                    borderStyle: 'solid',
-                    borderWidth: 1.75,
+                    ...borderStyles,
                     marginBottom: 10,
                     paddingBottom: 10,
                     paddingHorizontal: 15,
@@ -47,14 +50,18 @@ function Drug({drug}) {
                         drug={drug}
                         content={dosingMomentsArray}
                     />
-                    <List.Accordion
-                        title="Wszystkie godziny zażywania"
-                        expanded={expanded}
-                        onPress={handlePress}>
-                        {Object.values(dosingMoments).map((hour, index) => (
-                            <List.Item title={hour} titleStyle={{textAlign: "center"}} key={index}/>
-                        ))}
-                    </List.Accordion>
+                    <List.Section style={{...borderStyles}}>
+                        <List.Accordion
+                            title="Wszystkie godziny zażywania"
+                            style={{backgroundColor: 'rgba(227,226,226,0.3)'}}
+                            expanded={expanded}
+                            theme={{ colors: { primary: '#000' }}}
+                            onPress={handlePress}>
+                            {Object.values(dosingMoments).map((hour, index) => (
+                                <List.Item title={hour} titleStyle={{textAlign: "center"}} key={index}/>
+                            ))}
+                        </List.Accordion>
+                    </List.Section>
                 </View>
             }
         </>

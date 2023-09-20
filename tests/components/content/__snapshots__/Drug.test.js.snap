@@ -416,114 +416,172 @@ exports[`should correctly render Drug component 1`] = `
       </View>
     </View>
   </View>
-  <View>
-    <View
-      style={
+  <View
+    style={
+      [
         {
-          "backgroundColor": "#f6f6f6",
-        }
+          "marginVertical": 8,
+        },
+        {
+          "borderColor": "#dadada",
+          "borderRadius": 4,
+          "borderStyle": "solid",
+          "borderWidth": 1.75,
+        },
+      ]
+    }
+    theme={
+      {
+        "animation": {
+          "scale": 1,
+        },
+        "colors": {
+          "accent": "#03dac4",
+          "backdrop": "rgba(0, 0, 0, 0.5)",
+          "background": "#f6f6f6",
+          "disabled": "rgba(0, 0, 0, 0.26)",
+          "error": "#B00020",
+          "notification": "#f50057",
+          "onSurface": "#000000",
+          "placeholder": "rgba(0, 0, 0, 0.54)",
+          "primary": "#6200ee",
+          "surface": "#ffffff",
+          "text": "#000000",
+        },
+        "dark": false,
+        "fonts": {
+          "light": {
+            "fontFamily": "System",
+            "fontWeight": "300",
+          },
+          "medium": {
+            "fontFamily": "System",
+            "fontWeight": "500",
+          },
+          "regular": {
+            "fontFamily": "System",
+            "fontWeight": "400",
+          },
+          "thin": {
+            "fontFamily": "System",
+            "fontWeight": "100",
+          },
+        },
+        "roundness": 4,
       }
-    >
+    }
+  >
+    <View>
       <View
-        accessibilityRole="button"
-        accessibilityState={
-          {
-            "disabled": false,
-            "expanded": false,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={true}
-        focusable={true}
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         style={
-          [
-            {
-              "overflow": "hidden",
-            },
-            [
-              {
-                "padding": 8,
-              },
-              undefined,
-            ],
-          ]
+          {
+            "backgroundColor": "#f6f6f6",
+          }
         }
       >
         <View
-          pointerEvents="none"
-          style={
+          accessibilityRole="button"
+          accessibilityState={
             {
-              "alignItems": "center",
-              "flexDirection": "row",
+              "disabled": false,
+              "expanded": false,
             }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "overflow": "hidden",
+              },
+              [
+                {
+                  "padding": 8,
+                },
+                {
+                  "backgroundColor": "rgba(227,226,226,0.3)",
+                },
+              ],
+            ]
           }
         >
           <View
+            pointerEvents="none"
             style={
-              [
-                {
-                  "margin": 8,
-                },
-                {
-                  "flex": 1,
-                  "justifyContent": "center",
-                },
-              ]
+              {
+                "alignItems": "center",
+                "flexDirection": "row",
+              }
             }
           >
-            <Text
-              numberOfLines={1}
-              selectable={false}
+            <View
               style={
                 [
                   {
-                    "color": "#000000",
-                    "fontFamily": "System",
-                    "fontWeight": "400",
+                    "margin": 8,
                   },
                   {
-                    "textAlign": "left",
+                    "flex": 1,
+                    "justifyContent": "center",
                   },
-                  [
-                    {
-                      "fontSize": 16,
-                    },
-                    {
-                      "color": "rgba(0, 0, 0, 0.87)",
-                    },
-                    undefined,
-                  ],
                 ]
               }
             >
-              Wszystkie godziny zażywania
-            </Text>
-          </View>
-          <View
-            style={
-              [
-                {
-                  "margin": 8,
-                },
-                undefined,
-              ]
-            }
-          >
-            <Text />
+              <Text
+                numberOfLines={1}
+                selectable={false}
+                style={
+                  [
+                    {
+                      "color": "#000000",
+                      "fontFamily": "System",
+                      "fontWeight": "400",
+                    },
+                    {
+                      "textAlign": "left",
+                    },
+                    [
+                      {
+                        "fontSize": 16,
+                      },
+                      {
+                        "color": "rgba(0, 0, 0, 0.87)",
+                      },
+                      undefined,
+                    ],
+                  ]
+                }
+              >
+                Wszystkie godziny zażywania
+              </Text>
+            </View>
+            <View
+              style={
+                [
+                  {
+                    "margin": 8,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <Text />
+            </View>
           </View>
         </View>
       </View>
