@@ -1,11 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import {View} from "react-native";
-import {Button, Title} from "react-native-paper";
+import {Title} from "react-native-paper";
 import DosingMoments from "./DosingMoments";
 import {useSelector} from "react-redux";
+import {List} from 'react-native-paper';
 
 function Drug({drug}) {
     const drugsTaken = useSelector(state => state.drugsTaken);
+    const [expanded, setExpanded] = useState(false);
+
+    const handlePress = () => setExpanded(!expanded);
 
     const {dosing, name, unit, dosingMoments} = drug;
     const dosingMomentsArray = Object.entries(dosingMoments);
@@ -30,6 +34,7 @@ function Drug({drug}) {
                     borderStyle: 'solid',
                     borderWidth: 1.75,
                     marginBottom: 10,
+                    paddingBottom: 10,
                     paddingHorizontal: 15,
                 }}>
                     <Title
@@ -42,20 +47,14 @@ function Drug({drug}) {
                         drug={drug}
                         content={dosingMomentsArray}
                     />
-                    <Button
-                        testId="detailsBtn"
-                        style={{
-                            backgroundColor: '#525252',
-                            marginBottom: 10
-                        }}
-                        mode="contained"
-                        icon="arrow-right"
-                        contentStyle={{flexDirection: "row-reverse"}}
-                        onPress={() => console.log('DetailsBtn pressed')}
-                    >
-                        Szczegóły
-                    </Button>
-
+                    <List.Accordion
+                        title="Wszystkie godziny zażywania"
+                        expanded={expanded}
+                        onPress={handlePress}>
+                        {Object.values(dosingMoments).map((hour, index) => (
+                            <List.Item title={hour} titleStyle={{textAlign: "center"}} key={index}/>
+                        ))}
+                    </List.Accordion>
                 </View>
             }
         </>
