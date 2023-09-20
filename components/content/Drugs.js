@@ -10,7 +10,7 @@ function Drugs() {
         <>
             {drugList.map((drug, index) => (
                 <View key={`drug-${index}`}>
-                    <Drug drug={drug} index={index}/>
+                    <Drug drug={drug}/>
                 </View>
             ))}
         </>

@@ -32,7 +32,7 @@ const dispatchDrugsTaken = () => {
 function WrappedComponent() {
     return (
         <Provider store={store}>
-            <Drug drug={drugList[0]} index={0}/>
+            <Drug drug={drugList[0]}/>
         </Provider>
     );
 }

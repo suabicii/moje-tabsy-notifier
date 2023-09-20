@@ -4,7 +4,7 @@ import {Button, Title} from "react-native-paper";
 import DosingMoments from "./DosingMoments";
 import {useSelector} from "react-redux";
 
-function Drug({drug, index}) {
+function Drug({drug}) {
     const drugsTaken = useSelector(state => state.drugsTaken);
 
     const {dosing, name, unit, dosingMoments} = drug;
@@ -19,7 +19,7 @@ function Drug({drug, index}) {
     }
 
     return (
-        <View key={`${name}${index}`}>
+        <>
             {
                 // do not render drug component (content) if all doses was already taken
                 currentDrugsTaken.length !== dosingMomentsArray.length
@@ -58,7 +58,7 @@ function Drug({drug, index}) {
 
                 </View>
             }
-        </View>
+        </>
     );
 }
 
