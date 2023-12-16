@@ -6,12 +6,12 @@ import {useSelector} from "react-redux";
 import {List} from 'react-native-paper';
 
 function Drug({drug}) {
+    const {dosing, name, unit, dosingMoments} = drug;
     const drugsTaken = useSelector(state => state.drugsTaken);
     const [expanded, setExpanded] = useState(false);
 
     const handlePress = () => setExpanded(!expanded);
 
-    const {dosing, name, unit, dosingMoments} = drug;
     const dosingMomentsArray = Object.entries(dosingMoments);
     const borderStyles = {
         borderColor: '#dadada',
