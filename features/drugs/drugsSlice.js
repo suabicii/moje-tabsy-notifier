@@ -1,7 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {ajaxCall} from "../../utils/ajaxCall";
 
-
 const drugsSlice = createSlice({
     name: 'drugs',
     initialState: [],
