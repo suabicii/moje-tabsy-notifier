@@ -8,7 +8,8 @@ import {List} from 'react-native-paper';
 function Drug({drug}) {
     const {dosing, name, unit, dosingMoments} = drug;
     const drugsTaken = useSelector(state => state.drugsTaken);
-    const [expanded, setExpanded] = useState(false);
+    const expandedAccordions = useSelector(state => state.expandedAccordions);
+    const [expanded, setExpanded] = useState(expandedAccordions.find(accordion => accordion.id === name));
 
     const handlePress = () => setExpanded(!expanded);
 
