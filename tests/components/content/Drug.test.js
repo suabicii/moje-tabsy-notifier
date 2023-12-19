@@ -10,6 +10,8 @@ import {setCurrentTime} from "../../../features/time/timeSlice";
 import {setDrugs} from "../../../features/drugs/drugsSlice";
 import {act, fireEvent, render, screen, waitFor} from "@testing-library/react-native";
 import {setDrugsTaken} from "../../../features/drugsTaken/drugsTakenSlice";
+import {afterThis} from "jest-after-this";
+import {setExpandedAccordions} from "../../../features/detailsExpanded/expandedAccordionsSlice";
 
 const drug = drugList[0];
 
@@ -21,11 +23,9 @@ beforeAll(() => {
 });
 
 const dispatchDrugsTaken = () => {
-    const dosingMoments = Object.entries(drug.dosingMoments);
+    const dosingMomentsKeys = Object.keys(drug.dosingMoments);
     const drugsTaken = [];
-    for (const [key] of dosingMoments) {
-        drugsTaken.push(`${drug.name}_${key}`);
-    }
+    dosingMomentsKeys.forEach(key => drugsTaken.push(`${drug.name}_${key}`));
     store.dispatch(setDrugsTaken(drugsTaken));
 };
 
@@ -44,6 +44,7 @@ it('should correctly render Drug component', () => {
 
 it('should not render single drug component if all doses was already taken', async () => {
     dispatchDrugsTaken();
+    afterThis(() => store.dispatch(setDrugsTaken([])));
 
     render(<WrappedComponent/>);
 
@@ -58,6 +59,7 @@ it('should add id of accordion with drug details to global state after accordion
     await act(() => {
         fireEvent.press(screen.getByTestId(`details-${drug.name}`));
     });
+    afterThis(() => store.dispatch(setExpandedAccordions([])));
 
     expect(store.getState().expandedAccordions.length).toBeGreaterThan(0);
 });
