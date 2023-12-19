@@ -8,7 +8,7 @@ import MockDate from "mockdate";
 import dayjs from "dayjs";
 import {setCurrentTime} from "../../../features/time/timeSlice";
 import {setDrugs} from "../../../features/drugs/drugsSlice";
-import {render, screen, waitFor} from "@testing-library/react-native";
+import {act, fireEvent, render, screen, waitFor} from "@testing-library/react-native";
 import {setDrugsTaken} from "../../../features/drugsTaken/drugsTakenSlice";
 
 const drug = drugList[0];
@@ -50,4 +50,27 @@ it('should not render single drug component if all doses was already taken', asy
     await waitFor(() => {
         expect(screen.queryByTestId(drug.name)).toBeFalsy();
     });
+});
+
+it('should add id of accordion with drug details to global state after accordion expansion', async () => {
+    render(<WrappedComponent/>);
+
+    await act(() => {
+        fireEvent.press(screen.getByTestId(`details-${drug.name}`));
+    });
+
+    expect(store.getState().expandedAccordions.length).toBeGreaterThan(0);
+});
+
+it('should remove id of accordion with drug details from global state after accordion narrowing', async () => {
+    render(<WrappedComponent/>);
+
+    await act(() => {
+        fireEvent.press(screen.getByTestId(`details-${drug.name}`)); // expand accordion
+    });
+    await act(() => {
+        fireEvent.press(screen.getByTestId(`details-${drug.name}`)); // return to previous state
+    });
+
+    expect(store.getState().expandedAccordions.length).toBeLessThan(1);
 });

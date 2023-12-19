@@ -519,6 +519,7 @@ exports[`should correctly render Drug component 1`] = `
               ],
             ]
           }
+          testID="details-Xanax"
         >
           <View
             pointerEvents="none"

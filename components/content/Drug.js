@@ -2,16 +2,26 @@ import React, {useState} from "react";
 import {View} from "react-native";
 import {Title} from "react-native-paper";
 import DosingMoments from "./DosingMoments";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {List} from 'react-native-paper';
+import {addExpandedAccordion, removeExpandedAccordion} from "../../features/detailsExpanded/expandedAccordionsSlice";
 
 function Drug({drug}) {
     const {dosing, name, unit, dosingMoments} = drug;
     const drugsTaken = useSelector(state => state.drugsTaken);
     const expandedAccordions = useSelector(state => state.expandedAccordions);
-    const [expanded, setExpanded] = useState(expandedAccordions.find(accordion => accordion.id === name));
+    const dispatch = useDispatch();
+    const [expanded, setExpanded] = useState(!!expandedAccordions.find(accordion => accordion.id === name));
 
-    const handlePress = () => setExpanded(!expanded);
+    const handlePress = () => {
+        if (!expanded) {
+            dispatch(addExpandedAccordion({id: name}));
+            setExpanded(true);
+        } else {
+            dispatch(removeExpandedAccordion(name));
+            setExpanded(false);
+        }
+    };
 
     const dosingMomentsArray = Object.entries(dosingMoments);
     const borderStyles = {
@@ -53,6 +63,7 @@ function Drug({drug}) {
                     />
                     <List.Section style={{...borderStyles}}>
                         <List.Accordion
+                            testID={`details-${name}`}
                             title="Wszystkie godziny zażywania"
                             style={{backgroundColor: 'rgba(227,226,226,0.3)'}}
                             expanded={expanded}
