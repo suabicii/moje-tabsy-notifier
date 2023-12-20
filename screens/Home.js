@@ -206,6 +206,7 @@ function Home({navigation, route}) {
                         style={{backgroundColor: '#78c2ad'}}
                         mode="contained"
                         icon="refresh"
+                        contentStyle={{flexDirection: "row-reverse"}}
                         onPress={() => {
                             setRefreshBtnLoading(true);
                             setTimeout(async () => {

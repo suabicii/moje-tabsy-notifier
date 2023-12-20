@@ -416,15 +416,17 @@ exports[`should correctly render Home screen 1`] = `
                       "flexDirection": "row",
                       "justifyContent": "center",
                     },
-                    undefined,
+                    {
+                      "flexDirection": "row-reverse",
+                    },
                   ]
                 }
               >
                 <View
                   style={
                     {
-                      "marginLeft": 12,
-                      "marginRight": -4,
+                      "marginLeft": -4,
+                      "marginRight": 12,
                     }
                   }
                 >
