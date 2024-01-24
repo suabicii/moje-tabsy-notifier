@@ -19,10 +19,9 @@ function WelcomeModal() {
                         <Text style={styles.modalText}>
                             Od teraz będziesz otrzymywał/-a powiadomienia 🔔,
                             które będą Ci przypominać o zażyciu leków/suplementów 💊
-                            lub kończących się zapasach
                         </Text>
                         <Text style={[styles.modalText, styles.modalTextSecondary]}>
-                            W godzinie zażycia medykamentu pojawi się przycisk,
+                            W godzinie zażycia medykamentu uaktywni się przycisk,
                             dzięki któremu potwierdzisz, że właśnie został
                             przez Ciebie przyjęty ✅
                         </Text>
