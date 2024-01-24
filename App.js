@@ -8,7 +8,7 @@ import store from "./store";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-    const appTitle = 'Moje-Tabsy.pl 💊';
+    const appTitle = 'MediMinder 💊';
     const headerBarStyles = {
         headerStyle: {
             backgroundColor: "#78c2ad"
