@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "moje-tabsy-alerts",
-    "slug": "moje-tabsy-alerts",
+    "name": "mediminder-alerts",
+    "slug": "mediminder-alerts",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

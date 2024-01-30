@@ -45,7 +45,7 @@ function Login({navigation}) {
 
 // Check if user is already saved in back-end -> if yes, login automatically
     const autoLogin = async () => {
-        const token = await AsyncStorage.getItem('moje_tabsy_token');
+        const token = await AsyncStorage.getItem('mediminder_token');
         if (token) {
             setLoading(true);
             await ajaxCall('post', 'login-auto', {body: {token}})
@@ -73,7 +73,7 @@ function Login({navigation}) {
     const handleSubmit = async () => {
         setLoading(true);
         const token = generateToken();
-        await AsyncStorage.setItem('moje_tabsy_token', token);
+        await AsyncStorage.setItem('mediminder_token', token);
         await ajaxCall('post', 'login', {body: {email, password, token}})
             .then(async data => {
                 if (data.error || data.status !== 200) {

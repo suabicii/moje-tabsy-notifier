@@ -98,7 +98,7 @@ it('should display error message if logging in failed due connection problem', a
 
 it('should automatically log in if token is correct', async () => {
     const navigate = jest.fn();
-    await AsyncStorage.setItem('moje_tabsy_token', 'correct_token');
+    await AsyncStorage.setItem('mediminder_token', 'correct_token');
 
     renderLoginScreen(navigate);
 
@@ -120,7 +120,7 @@ it('should stay in Login screen if token was not found', () => {
 });
 
 it('should stay in Login screen and clear AsyncStorage if token was incorrect', async () => {
-    await AsyncStorage.setItem('moje_tabsy_token', 'incorrect_token');
+    await AsyncStorage.setItem('mediminder_token', 'incorrect_token');
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
         json: () => Promise.resolve({
             status: 200,
