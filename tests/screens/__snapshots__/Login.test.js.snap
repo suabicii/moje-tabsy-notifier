@@ -4,6 +4,7 @@ exports[`should correctly render Login screen 1`] = `
 <View
   style={
     {
+      "backgroundColor": "rgb(242, 242, 242)",
       "flex": 1,
       "justifyContent": "center",
     }
@@ -12,7 +13,7 @@ exports[`should correctly render Login screen 1`] = `
   <Text
     style={
       {
-        "color": "#414959",
+        "color": "rgb(28, 28, 30)",
         "fontSize": 32,
         "fontWeight": "400",
         "marginBottom": 20,
@@ -32,7 +33,7 @@ exports[`should correctly render Login screen 1`] = `
     <Text
       style={
         {
-          "color": "#414959",
+          "color": "rgb(28, 28, 30)",
           "fontWeight": "300",
         }
       }
@@ -47,6 +48,7 @@ exports[`should correctly render Login screen 1`] = `
         {
           "borderBottomColor": "#8e93a1",
           "borderBottomWidth": 0.5,
+          "color": "rgb(28, 28, 30)",
           "height": 48,
           "marginBottom": 30,
         }
@@ -65,7 +67,7 @@ exports[`should correctly render Login screen 1`] = `
     <Text
       style={
         {
-          "color": "#414959",
+          "color": "rgb(28, 28, 30)",
           "fontWeight": "300",
         }
       }
@@ -80,6 +82,7 @@ exports[`should correctly render Login screen 1`] = `
         {
           "borderBottomColor": "#8e93a1",
           "borderBottomWidth": 0.5,
+          "color": "rgb(28, 28, 30)",
           "height": 48,
           "marginBottom": 30,
         }

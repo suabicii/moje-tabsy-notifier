@@ -1,12 +1,15 @@
 import React from "react";
 import {TextInput, View} from "react-native";
 import {Text} from "react-native";
+import {useTheme} from "@react-navigation/native";
 
 function UserInput({name, value, setValue, keyboardType = "default", secureTextEntry = false, testID}) {
+    const {colors} = useTheme();
+
     return (
         <View style={{marginHorizontal: 24}}>
             <Text style={{
-                color: "#414959",
+                color: colors.text,
                 fontWeight: "300"
             }}>
                 {name}
@@ -16,6 +19,7 @@ function UserInput({name, value, setValue, keyboardType = "default", secureTextE
                 keyboardType={keyboardType}
                 secureTextEntry={secureTextEntry}
                 style={{
+                    color: colors.text,
                     borderBottomWidth: 0.5,
                     height: 48,
                     borderBottomColor: '#8e93a1',

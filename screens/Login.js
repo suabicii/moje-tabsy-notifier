@@ -7,12 +7,13 @@ import TextError from "../components/error/TextError";
 import {generateToken} from "../utils/tokenGenerator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ajaxCall} from "../utils/ajaxCall";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import dayjs from "dayjs";
 import {setCurrentTime} from "../features/time/timeSlice";
 import * as Notifications from 'expo-notifications';
 import registerForPushNotificationsAsync from "../utils/pushNotificationsRegistration";
 import {ActivityIndicator, Colors} from "react-native-paper";
+import {useTheme} from "@react-navigation/native";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -24,6 +25,7 @@ Notifications.setNotificationHandler({
 
 function Login({navigation}) {
     const dispatch = useDispatch();
+    const {colors} = useTheme();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -94,9 +96,13 @@ function Login({navigation}) {
     };
 
     return (
-        <View style={{flex: 1, justifyContent: "center"}}>
+        <View style={{
+            flex: 1,
+            justifyContent: "center",
+            backgroundColor: colors.background
+        }}>
             <Text style={{
-                color: "#414959",
+                color: colors.text,
                 fontWeight: "400",
                 fontSize: 32,
                 marginBottom: 20,
