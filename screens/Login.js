@@ -7,7 +7,7 @@ import TextError from "../components/error/TextError";
 import {generateToken} from "../utils/tokenGenerator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ajaxCall} from "../utils/ajaxCall";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import dayjs from "dayjs";
 import {setCurrentTime} from "../features/time/timeSlice";
 import * as Notifications from 'expo-notifications';
