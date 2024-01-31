@@ -6,13 +6,16 @@ import {Provider} from "react-redux";
 import store from "./store";
 import React, {useState} from "react";
 import {Button} from "react-native-paper";
+import {Appearance, useColorScheme} from "react-native";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+    const colorScheme = useColorScheme();
     const lightModeIcon = 'white-balance-sunny';
     const darkModeIcon = 'weather-night';
-    const [themeTogglerIcon, setThemeTogglerIcon] = useState(lightModeIcon);
+    const themeTogglerIconDefault = colorScheme === "light" ? lightModeIcon : darkModeIcon;
+    const [themeTogglerIcon, setThemeTogglerIcon] = useState(themeTogglerIconDefault);
 
     const appTitle = 'MediMinder 💊';
     const headerBarStyles = {
@@ -28,7 +31,7 @@ export default function App() {
             color="#fff"
             compact={true}
             icon={themeTogglerIcon}
-            style={{marginTop: 5}}
+            style={{marginTop: 3}}
             contentStyle={{
                 padding: 0,
                 height: 25,
@@ -40,8 +43,10 @@ export default function App() {
 
     const toggleTheme = () => {
         if (themeTogglerIcon === lightModeIcon) {
+            Appearance.setColorScheme('dark');
             setThemeTogglerIcon(darkModeIcon);
         } else {
+            Appearance.setColorScheme('light');
             setThemeTogglerIcon(lightModeIcon);
         }
     };
