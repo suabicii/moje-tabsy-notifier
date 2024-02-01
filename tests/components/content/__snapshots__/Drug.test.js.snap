@@ -43,6 +43,7 @@ exports[`should correctly render Drug component 1`] = `
               "marginVertical": 2,
             },
             {
+              "color": "rgb(28, 28, 30)",
               "textAlign": "center",
             },
           ],
@@ -97,6 +98,7 @@ exports[`should correctly render Drug component 1`] = `
                 "marginVertical": 2,
               },
               {
+                "color": "rgb(28, 28, 30)",
                 "fontSize": 16,
                 "textAlign": "center",
               },
@@ -276,6 +278,7 @@ exports[`should correctly render Drug component 1`] = `
                 "marginVertical": 2,
               },
               {
+                "color": "rgb(28, 28, 30)",
                 "fontSize": 16,
                 "textAlign": "center",
               },
@@ -514,7 +517,7 @@ exports[`should correctly render Drug component 1`] = `
                   "padding": 8,
                 },
                 {
-                  "backgroundColor": "rgba(227,226,226,0.3)",
+                  "backgroundColor": undefined,
                 },
               ],
             ]

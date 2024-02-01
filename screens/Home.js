@@ -14,6 +14,7 @@ import {setDrugsTaken} from "../features/drugsTaken/drugsTakenSlice";
 import sendNotification from "../utils/notifier";
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from "uuid";
+import {useTheme} from "@react-navigation/native";
 
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
@@ -26,6 +27,7 @@ function Home({navigation, route}) {
     const drugsTaken = useSelector(state => state.drugsTaken);
     const dispatch = useDispatch();
 
+    const {colors} = useTheme();
     const [isLogged, setIsLogged] = useState(logged);
     const [loading, setLoading] = useState(false);
     const [welcomeModalVisible, setWelcomeModalVisible] = useState(true);
@@ -173,6 +175,7 @@ function Home({navigation, route}) {
     return (
         <ScrollView>
             <Text style={{
+                color: colors.text,
                 fontSize: 32,
                 fontWeight: "500",
                 marginTop: 10,
@@ -180,15 +183,20 @@ function Home({navigation, route}) {
             }}>
                 Monitorowanie rozpoczęte 👁
             </Text>
-            <Card style={{alignContent: "center", margin: 10, marginBottom: 20}}>
+            <Card style={{
+                alignContent: "center",
+                backgroundColor: colors.card,
+                margin: 10,
+                marginBottom: 20
+            }}>
                 <Card.Title
                     title="W najbliższym czasie muszę zażyć:"
                     titleStyle={{
-                        color: "#252525",
+                        color: colors.text,
                         textAlign: "center"
                     }}
                 />
-                <Card.Content>
+                <Card.Content style={{color: colors.text}}>
                     {
                         drugsVisible
                             ?

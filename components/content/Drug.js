@@ -5,12 +5,14 @@ import DosingMoments from "./DosingMoments";
 import {useDispatch, useSelector} from "react-redux";
 import {List} from 'react-native-paper';
 import {addExpandedAccordion, removeExpandedAccordion} from "../../features/detailsExpanded/expandedAccordionsSlice";
+import {useTheme} from "@react-navigation/native";
 
 function Drug({drug}) {
     const {dosing, name, unit, dosingMoments} = drug;
     const drugsTaken = useSelector(state => state.drugsTaken);
     const expandedAccordions = useSelector(state => state.expandedAccordions);
     const dispatch = useDispatch();
+    const {colors} = useTheme();
     const [expanded, setExpanded] = useState(!!expandedAccordions.find(accordion => accordion.id === name));
 
     const handlePress = () => {
@@ -53,7 +55,7 @@ function Drug({drug}) {
                 }}>
                     <Title
                         testID={name}
-                        style={{textAlign: "center"}}
+                        style={{color: colors.text, textAlign: "center"}}
                     >
                         {name} {dosing} {unit} w godz.
                     </Title>
@@ -65,12 +67,16 @@ function Drug({drug}) {
                         <List.Accordion
                             testID={`details-${name}`}
                             title="Wszystkie godziny zażywania"
-                            style={{backgroundColor: 'rgba(227,226,226,0.3)'}}
+                            style={{backgroundColor: colors.accordion}}
                             expanded={expanded}
                             theme={{ colors: { primary: '#000' }}}
                             onPress={handlePress}>
                             {Object.values(dosingMoments).map((hour, index) => (
-                                <List.Item title={hour} titleStyle={{textAlign: "center"}} key={index}/>
+                                <List.Item
+                                    title={hour}
+                                    titleStyle={{color: colors.text, textAlign: "center"}}
+                                    key={index}
+                                />
                             ))}
                         </List.Accordion>
                     </List.Section>
