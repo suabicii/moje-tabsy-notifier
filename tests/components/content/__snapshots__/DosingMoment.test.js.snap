@@ -40,6 +40,7 @@ exports[`should correctly render single DosingMoment component 1`] = `
               "marginVertical": 2,
             },
             {
+              "color": "rgb(28, 28, 30)",
               "fontSize": 16,
               "textAlign": "center",
             },

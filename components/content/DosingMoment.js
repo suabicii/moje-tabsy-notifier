@@ -5,10 +5,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ajaxCall} from "../../utils/ajaxCall";
 import {useDispatch, useSelector} from "react-redux";
 import {setDrugsTaken} from "../../features/drugsTaken/drugsTakenSlice";
+import {useTheme} from "@react-navigation/native";
 
 function DosingMoment({name, drugId, time, id, disabled, handleSetDosingMomentsToShow}) {
     const drugsTaken = useSelector(state => state.drugsTaken);
     const dispatch = useDispatch();
+    const {colors} = useTheme();
     const [btnLoading, setBtnLoading] = useState(false);
 
     const handleConfirmDose = async () => {
@@ -39,7 +41,11 @@ function DosingMoment({name, drugId, time, id, disabled, handleSetDosingMomentsT
                 marginBottom: 10
             }}
         >
-            <Paragraph style={{textAlign: "center", fontSize: 16}}>
+            <Paragraph style={{
+                color: colors.text,
+                textAlign: "center",
+                fontSize: 16
+            }}>
                 – {`${time}`}
             </Paragraph>
             <Button

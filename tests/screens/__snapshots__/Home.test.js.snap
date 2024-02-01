@@ -6,6 +6,7 @@ exports[`should correctly render Home screen 1`] = `
     <Text
       style={
         {
+          "color": "rgb(28, 28, 30)",
           "fontSize": 32,
           "fontWeight": "500",
           "marginTop": 10,
@@ -20,7 +21,7 @@ exports[`should correctly render Home screen 1`] = `
       style={
         {
           "alignContent": "center",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "rgb(255, 255, 255)",
           "borderColor": "rgba(0, 0, 0, 0.12)",
           "borderRadius": 4,
           "elevation": 1,
@@ -127,7 +128,7 @@ exports[`should correctly render Home screen 1`] = `
                           "marginBottom": 2,
                         },
                         {
-                          "color": "#252525",
+                          "color": "rgb(28, 28, 30)",
                           "textAlign": "center",
                         },
                       ],
@@ -150,7 +151,9 @@ exports[`should correctly render Home screen 1`] = `
               {
                 "paddingBottom": 16,
               },
-              undefined,
+              {
+                "color": "rgb(28, 28, 30)",
+              },
             ]
           }
         >

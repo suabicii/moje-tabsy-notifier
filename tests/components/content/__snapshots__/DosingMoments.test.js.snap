@@ -41,6 +41,7 @@ exports[`should correctly render DosingMoments component 1`] = `
                 "marginVertical": 2,
               },
               {
+                "color": "rgb(28, 28, 30)",
                 "fontSize": 16,
                 "textAlign": "center",
               },
@@ -220,6 +221,7 @@ exports[`should correctly render DosingMoments component 1`] = `
                 "marginVertical": 2,
               },
               {
+                "color": "rgb(28, 28, 30)",
                 "fontSize": 16,
                 "textAlign": "center",
               },

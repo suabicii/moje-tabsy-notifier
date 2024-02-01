@@ -5,8 +5,10 @@ const AppLightTheme = {
     dark: false,
     colors: {
         ...DefaultTheme.colors,
-        text: '#414959',
-        background: '#fff'
+        accordion: 'rgba(227,226,226,0.3)',
+        background: '#fff',
+        card: '#fff',
+        text: '#414959'
     }
 }
 

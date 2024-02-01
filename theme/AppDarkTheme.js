@@ -5,8 +5,10 @@ const AppDarkTheme = {
     dark: true,
     colors: {
         ...DefaultTheme.colors,
-        text: '#ECEEEF',
-        background: '#1C1E1F'
+        accordion: 'rgba(134,134,134,0.3)',
+        background: '#1C1E1F',
+        card: '#212529',
+        text: '#ECEEEF'
     }
 }
 
