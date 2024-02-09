@@ -5731,6 +5731,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-barcode-scanner@npm:~12.5.3":
+  version: 12.5.3
+  resolution: "expo-barcode-scanner@npm:12.5.3"
+  dependencies:
+    expo-image-loader: ~4.3.0
+  peerDependencies:
+    expo: "*"
+  checksum: 10923168c29620c64935f9b171c37e2a22d86bedc7dd263460683c2e27c9620c857b3f852194f58cc7109a68380174a4c0faa502e715445aacec95f622d38e54
+  languageName: node
+  linkType: hard
+
 "expo-camera@npm:~13.4.4":
   version: 13.4.4
   resolution: "expo-camera@npm:13.4.4"
@@ -5784,6 +5795,15 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 3eff92ba5c62de5f37cfdfd86a5daf1d448e4f3e82a9ff401b4c4da1c4e5a7241da26edf32fb049763147e442d74ae8b4575b7e5a4ae0d935750c6d3f70f4355
+  languageName: node
+  linkType: hard
+
+"expo-image-loader@npm:~4.3.0":
+  version: 4.3.0
+  resolution: "expo-image-loader@npm:4.3.0"
+  peerDependencies:
+    expo: "*"
+  checksum: 0440ac80a7b2331cdfd0db88aac0ba2fe61689e6347e2c6bedba6bf3220b95410c724ac9004252486870b582fc36d47d4bff008bba7052dcee2830256950974f
   languageName: node
   linkType: hard
 
@@ -9378,6 +9398,7 @@ __metadata:
     babel-preset-expo: ^9.5.0
     dayjs: ^1.11.7
     expo: ^49.0.0
+    expo-barcode-scanner: ~12.5.3
     expo-camera: ~13.4.4
     expo-constants: ~14.4.2
     expo-device: ~5.4.0

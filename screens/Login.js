@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {View} from "react-native";
+import {TouchableOpacity, View} from "react-native";
 import {Text} from "react-native";
 import UserInput from "../components/auth/UserInput";
 import PillButton from "../components/buttons/PillButton";
@@ -14,6 +14,7 @@ import * as Notifications from 'expo-notifications';
 import registerForPushNotificationsAsync from "../utils/pushNotificationsRegistration";
 import {ActivityIndicator, Colors} from "react-native-paper";
 import {useTheme} from "@react-navigation/native";
+import {BarCodeScanner} from "expo-barcode-scanner";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -26,6 +27,8 @@ Notifications.setNotificationHandler({
 function Login({navigation}) {
     const dispatch = useDispatch();
     const {colors} = useTheme();
+    const [hasPermission, setHasPermission] = useState(null);
+    const [scanned, setScanned] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -66,9 +69,42 @@ function Login({navigation}) {
         }
     };
 
+    const handleBarCodeScanned = ({type, data}) => {
+        setScanned(true);
+        alert(`Zeskanowano kod typu ${type} z następującymi danymi: ${data}`);
+    };
+
+    function CameraView() {
+        return (
+            <>
+                {
+                    hasPermission === true
+                        ?
+                        <View style={{
+                            aspectRatio: 4 / 3,
+                            borderRadius: 10,
+                            marginBottom: 20,
+                            marginLeft: 25,
+                        }}>
+                            <BarCodeScanner
+                                style={{flex: 1}}
+                                onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                            />
+                        </View>
+                        :
+                        <></>
+                }
+            </>
+        )
+    }
+
     useEffect(() => {
         (async function () {
             await autoLogin();
+        })();
+        (async () => {
+            const {status} = await BarCodeScanner.requestPermissionsAsync();
+            setHasPermission(status === 'granted');
         })();
     }, []);
 
@@ -110,6 +146,22 @@ function Login({navigation}) {
             }}>
                 Zaloguj się, aby otrzymywać powiadomienia
             </Text>
+            <CameraView/>
+            <TouchableOpacity
+                style={{
+                    backgroundColor: 'blue',
+                    borderRadius: 5,
+                    marginBottom: 25,
+                    marginHorizontal: 20,
+                    marginTop: 10,
+                    paddingHorizontal: 20,
+                    paddingVertical: 10
+                }}
+                onPress={() => setScanned(false)}
+                disabled={scanned}
+            >
+                <Text style={{color: "#fff", textAlign: "center"}}>Zaloguj się za pomocą kodu QR</Text>
+            </TouchableOpacity>
             {
                 loading
                     ?
