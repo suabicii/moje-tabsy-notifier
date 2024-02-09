@@ -5731,6 +5731,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-camera@npm:~13.4.4":
+  version: 13.4.4
+  resolution: "expo-camera@npm:13.4.4"
+  dependencies:
+    invariant: ^2.2.4
+  peerDependencies:
+    expo: "*"
+  checksum: d2730038029e770de2f5106c24d6b5ec58131ac77bb06efc7892fd2dde9e813fd0141950d15ea3a2a997f0271916bc33a659341660b3ad357354630ed56adbbf
+  languageName: node
+  linkType: hard
+
 "expo-constants@npm:~14.4.2":
   version: 14.4.2
   resolution: "expo-constants@npm:14.4.2"
@@ -9367,6 +9378,7 @@ __metadata:
     babel-preset-expo: ^9.5.0
     dayjs: ^1.11.7
     expo: ^49.0.0
+    expo-camera: ~13.4.4
     expo-constants: ~14.4.2
     expo-device: ~5.4.0
     expo-notifications: ~0.20.1
