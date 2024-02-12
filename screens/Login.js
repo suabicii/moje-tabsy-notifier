@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {TouchableOpacity, View} from "react-native";
+import {ScrollView, TouchableOpacity, View} from "react-native";
 import {Text} from "react-native";
 import UserInput from "../components/auth/UserInput";
 import PillButton from "../components/buttons/PillButton";
@@ -28,6 +28,7 @@ function Login({navigation}) {
     const dispatch = useDispatch();
     const {colors} = useTheme();
     const [hasPermission, setHasPermission] = useState(null);
+    const [isCameraViewOpen, setIsCameraViewOpen] = useState(false);
     const [scanned, setScanned] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -80,12 +81,15 @@ function Login({navigation}) {
                 {
                     hasPermission === true
                         ?
-                        <View style={{
-                            aspectRatio: 4 / 3,
-                            borderRadius: 10,
-                            marginBottom: 20,
-                            marginLeft: 25,
-                        }}>
+                        <View
+                            testID="camera-view"
+                            style={{
+                                aspectRatio: 4 / 3,
+                                borderRadius: 10,
+                                marginBottom: 20,
+                                marginLeft: 25,
+                            }}
+                        >
                             <BarCodeScanner
                                 style={{flex: 1}}
                                 onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
@@ -132,56 +136,64 @@ function Login({navigation}) {
     };
 
     return (
-        <View style={{
-            flex: 1,
-            justifyContent: "center",
-            backgroundColor: colors.background
-        }}>
-            <Text style={{
-                color: colors.text,
-                fontWeight: "400",
-                fontSize: 32,
-                marginBottom: 20,
-                textAlign: "center"
+        <ScrollView>
+            <View style={{
+                backgroundColor: colors.background,
+                marginTop: 15
             }}>
-                Zaloguj się, aby otrzymywać powiadomienia
-            </Text>
-            <CameraView/>
-            <TouchableOpacity
-                style={{
-                    backgroundColor: 'blue',
-                    borderRadius: 5,
-                    marginBottom: 25,
-                    marginHorizontal: 20,
-                    marginTop: 10,
-                    paddingHorizontal: 20,
-                    paddingVertical: 10
-                }}
-                onPress={() => setScanned(false)}
-                disabled={scanned}
-            >
-                <Text style={{color: "#fff", textAlign: "center"}}>Zaloguj się za pomocą kodu QR</Text>
-            </TouchableOpacity>
-            {
-                loading
-                    ?
-                    <ActivityIndicator
-                        testID="auto-login-loader"
-                        animating={true}
-                        size="large"
-                        style={{marginBottom: 20}}
-                        color={Colors.lightBlueA100}
-                    />
-                    :
-                    <>
-                        <UserInput testID="email" name="EMAIL" value={email} setValue={setEmail}/>
-                        <UserInput testID="password" name="HASŁO" value={password} setValue={setPassword}
-                                   secureTextEntry={true}/>
-                    </>
-            }
-            {loginError && <TextError content={loginError}/>}
-            <PillButton loading={loading} handlePress={handleSubmit} variant="primary" text="Zaloguj się"/>
-        </View>
+                <Text style={{
+                    color: colors.text,
+                    fontWeight: "400",
+                    fontSize: 32,
+                    marginBottom: 20,
+                    textAlign: "center"
+                }}>
+                    Zaloguj się, aby otrzymywać powiadomienia
+                </Text>
+                {isCameraViewOpen && <CameraView/>}
+                <TouchableOpacity
+                    testID="camera-view-toggler"
+                    style={{
+                        backgroundColor: '#6cc3d5',
+                        borderRadius: 5,
+                        marginBottom: 25,
+                        marginHorizontal: 20,
+                        marginTop: 5,
+                        paddingHorizontal: 20,
+                        paddingVertical: 10
+                    }}
+                    onPress={() => setIsCameraViewOpen(prevState => !prevState)}
+                >
+                    <Text style={{
+                        color: "#fff",
+                        fontSize: 18,
+                        fontWeight: "300",
+                        textAlign: "center"
+                    }}>
+                        Zaloguj się kodem QR
+                    </Text>
+                </TouchableOpacity>
+                {
+                    loading
+                        ?
+                        <ActivityIndicator
+                            testID="auto-login-loader"
+                            animating={true}
+                            size="large"
+                            style={{marginBottom: 20}}
+                            color={Colors.lightBlueA100}
+                        />
+                        :
+                        <>
+                            <UserInput testID="email" name="EMAIL" value={email} setValue={setEmail}/>
+                            <UserInput testID="password" name="HASŁO" value={password} setValue={setPassword}
+                                       secureTextEntry={true}/>
+                        </>
+                }
+                {loginError && <TextError content={loginError}/>}
+                <PillButton loading={loading} handlePress={handleSubmit} variant="primary" text="Zaloguj się"/>
+            </View>
+        </ScrollView>
     );
 }
 

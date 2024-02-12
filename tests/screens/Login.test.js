@@ -7,12 +7,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {generateToken} from "../../utils/tokenGenerator";
 import {Provider} from "react-redux";
 import store from "../../store";
+import {BarCodeScanner} from "expo-barcode-scanner";
 
 const mockGetHeaders = {get: arg => arg === 'content-type' ? 'application/json' : ''}
 const mockedExpoPushToken = '123!#*&abc456';
 
 beforeAll(() => {
     const pushNotificationsRegistration = require("../../utils/pushNotificationsRegistration");
+    jest.spyOn(BarCodeScanner, 'requestPermissionsAsync').mockImplementation(() => ({
+        status: 'granted'
+    }));
     jest.spyOn(pushNotificationsRegistration, "default").mockReturnValue(mockedExpoPushToken);
 });
 
@@ -132,4 +136,14 @@ it('should stay in Login screen and clear AsyncStorage if token was incorrect', 
     const token = await AsyncStorage.getItem('incorrect_token');
 
     expect(token).toBeFalsy();
+});
+
+it('should open camera view after pressing toggler',  async () => {
+    renderLoginScreen();
+
+    await act(() => {
+        fireEvent.press(screen.getByTestId('camera-view-toggler'));
+    });
+
+    expect(screen.queryByTestId('camera-view')).toBeTruthy();
 });
