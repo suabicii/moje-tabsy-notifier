@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should correctly render CameraView with granted permission 1`] = `
+<View
+  style={
+    {
+      "aspectRatio": 1.3333333333333333,
+      "borderRadius": 10,
+      "marginBottom": 20,
+      "marginLeft": 25,
+    }
+  }
+  testID="camera-view"
+>
+  <ViewManagerAdapter_ExpoBarCodeScanner
+    barCodeTypes={[]}
+    onBarCodeScanned={[Function]}
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  />
+</View>
+`;

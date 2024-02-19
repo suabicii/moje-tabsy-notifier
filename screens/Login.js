@@ -15,6 +15,7 @@ import registerForPushNotificationsAsync from "../utils/pushNotificationsRegistr
 import {ActivityIndicator, Colors} from "react-native-paper";
 import {useTheme} from "@react-navigation/native";
 import {BarCodeScanner} from "expo-barcode-scanner";
+import CameraView from "../components/views/CameraView";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -70,37 +71,10 @@ function Login({navigation}) {
         }
     };
 
-    const handleBarCodeScanned = ({type, data}) => {
+    const handleBarcodeScanned = ({type, data}) => {
         setScanned(true);
         alert(`Zeskanowano kod typu ${type} z następującymi danymi: ${data}`);
     };
-
-    function CameraView() {
-        return (
-            <>
-                {
-                    hasPermission === true
-                        ?
-                        <View
-                            testID="camera-view"
-                            style={{
-                                aspectRatio: 4 / 3,
-                                borderRadius: 10,
-                                marginBottom: 20,
-                                marginLeft: 25,
-                            }}
-                        >
-                            <BarCodeScanner
-                                style={{flex: 1}}
-                                onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-                            />
-                        </View>
-                        :
-                        <></>
-                }
-            </>
-        )
-    }
 
     useEffect(() => {
         (async function () {
@@ -150,7 +124,14 @@ function Login({navigation}) {
                 }}>
                     Zaloguj się, aby otrzymywać powiadomienia
                 </Text>
-                {isCameraViewOpen && <CameraView/>}
+                {
+                    isCameraViewOpen &&
+                    <CameraView
+                        handleBarcodeScanned={handleBarcodeScanned}
+                        hasPermission={hasPermission}
+                        scanned={scanned}
+                    />
+                }
                 <TouchableOpacity
                     testID="camera-view-toggler"
                     style={{
