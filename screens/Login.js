@@ -73,7 +73,27 @@ function Login({navigation}) {
 
     const handleBarcodeScanned = ({type, data}) => {
         setScanned(true);
-        alert(`Zeskanowano kod typu ${type} z następującymi danymi: ${data}`);
+        if (type === 256) {
+            const urlParts = data.split('/');
+            const lastPart = urlParts.pop();
+            const queryIndex = lastPart.indexOf('?');
+
+            if (queryIndex !== -1) {
+                const query = lastPart.substring(queryIndex + 1);
+                urlParts.push(lastPart.substring(0, queryIndex), query);
+            } else {
+                urlParts.push(lastPart);
+            }
+
+            const urlPartsSliced = urlParts.slice(2); // Remove https and empty string
+
+            const API_URL = process.env['API_URL'];
+            const apiPath = API_URL.substring(API_URL.lastIndexOf('/') + 1);
+
+            alert(`${!!urlPartsSliced.find(part => part === apiPath) ? 'Prawidłowy URL' : 'Nieprawidłowy URL'}`);
+        } else {
+            alert('To nie jest prawidłowy kod QR!');
+        }
     };
 
     useEffect(() => {
@@ -119,7 +139,7 @@ function Login({navigation}) {
                     color: colors.text,
                     fontWeight: "400",
                     fontSize: 32,
-                    marginBottom: 20,
+                    marginBottom: 15,
                     textAlign: "center"
                 }}>
                     Zaloguj się, aby otrzymywać powiadomienia
@@ -132,28 +152,15 @@ function Login({navigation}) {
                         scanned={scanned}
                     />
                 }
-                <TouchableOpacity
-                    testID="camera-view-toggler"
-                    style={{
-                        backgroundColor: '#6cc3d5',
-                        borderRadius: 5,
-                        marginBottom: 25,
-                        marginHorizontal: 20,
-                        marginTop: 5,
-                        paddingHorizontal: 20,
-                        paddingVertical: 10
+                <PillButton
+                    id="camera"
+                    handlePress={() => {
+                        setIsCameraViewOpen(prevState => !prevState);
+                        setScanned(false);
                     }}
-                    onPress={() => setIsCameraViewOpen(prevState => !prevState)}
-                >
-                    <Text style={{
-                        color: "#fff",
-                        fontSize: 18,
-                        fontWeight: "300",
-                        textAlign: "center"
-                    }}>
-                        Zaloguj się kodem QR
-                    </Text>
-                </TouchableOpacity>
+                    variant="info"
+                    text="Zaloguj się kodem QR"
+                />
                 {
                     loading
                         ?

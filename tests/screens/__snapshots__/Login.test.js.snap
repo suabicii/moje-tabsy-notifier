@@ -17,7 +17,7 @@ exports[`should correctly render Login screen 1`] = `
             "color": "rgb(28, 28, 30)",
             "fontSize": 32,
             "fontWeight": "400",
-            "marginBottom": 20,
+            "marginBottom": 15,
             "textAlign": "center",
           }
         }
@@ -55,22 +55,21 @@ exports[`should correctly render Login screen 1`] = `
         style={
           {
             "backgroundColor": "#6cc3d5",
-            "borderRadius": 5,
-            "marginBottom": 25,
-            "marginHorizontal": 20,
-            "marginTop": 5,
+            "borderRadius": 24,
+            "height": 50,
+            "justifyContent": "center",
+            "marginBottom": 20,
+            "marginHorizontal": 15,
             "opacity": 1,
-            "paddingHorizontal": 20,
-            "paddingVertical": 10,
           }
         }
-        testID="camera-view-toggler"
+        testID="btn-pill-camera"
       >
         <Text
           style={
             {
               "color": "#fff",
-              "fontSize": 18,
+              "fontSize": 24,
               "fontWeight": "300",
               "textAlign": "center",
             }

@@ -142,7 +142,7 @@ it('should open camera view after pressing toggler',  async () => {
     renderLoginScreen();
 
     await act(() => {
-        fireEvent.press(screen.getByTestId('camera-view-toggler'));
+        fireEvent.press(screen.getByTestId('btn-pill-camera'));
     });
 
     expect(screen.queryByTestId('camera-view')).toBeTruthy();
