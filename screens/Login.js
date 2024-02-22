@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {ScrollView, TouchableOpacity, View} from "react-native";
+import {ScrollView, View} from "react-native";
 import {Text} from "react-native";
 import UserInput from "../components/auth/UserInput";
 import PillButton from "../components/buttons/PillButton";
