@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import renderer from "react-test-renderer";
 import Login from "../../screens/Login";
 import {fireEvent, render, screen, waitFor} from "@testing-library/react-native";
