@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import renderer from "react-test-renderer";
 import Login from "../../screens/Login";
 import {fireEvent, render, screen, waitFor} from "@testing-library/react-native";
@@ -8,6 +8,7 @@ import {generateToken} from "../../utils/tokenGenerator";
 import {Provider} from "react-redux";
 import store from "../../store";
 import {BarCodeScanner} from "expo-barcode-scanner";
+import {Alert} from "react-native";
 
 const mockGetHeaders = {get: arg => arg === 'content-type' ? 'application/json' : ''}
 const mockedExpoPushToken = '123!#*&abc456';
@@ -38,7 +39,7 @@ afterAll(() => {
 
 const renderLoginScreen = (navigateCustom = null) => {
     const navigate = navigateCustom || jest.fn();
-    render(
+    return render(
         <Provider store={store}>
             <Login navigation={{navigate}}/>
         </Provider>
@@ -138,7 +139,7 @@ it('should stay in Login screen and clear AsyncStorage if token was incorrect', 
     expect(token).toBeFalsy();
 });
 
-it('should open camera view after pressing toggler',  async () => {
+it('should open camera view after pressing toggler', async () => {
     renderLoginScreen();
 
     await act(() => {
@@ -146,4 +147,40 @@ it('should open camera view after pressing toggler',  async () => {
     });
 
     expect(screen.queryByTestId('camera-view')).toBeTruthy();
+});
+
+it('should log in by correct QR code', async () => {
+    jest.mock('expo-barcode-scanner', () => ({
+        BarCodeScanner: {
+            Constants: {},
+            ConversionUtilities: {},
+            requestPermissionsAsync: jest.fn(),
+            getPermissionsAsync: jest.fn(),
+            scanFromURLAsync: jest.fn(),
+            scanFromCameraAsync: jest.fn(),
+            onBarCodeScanned: jest.fn()
+        }
+    }));
+    const navigate = jest.fn();
+    const alert = jest.spyOn(Alert, 'alert').mockImplementation(msg => console.log(msg));
+    const userId = 'john@doe.com';
+    const token = '123abc456xyz';
+    const {findByTestId} = renderLoginScreen(navigate);
+
+    await act(async () => {
+        fireEvent.press(screen.getByTestId('btn-pill-camera'));
+        const barcodeScanner = await findByTestId('barcode-scanner');
+        fireEvent(
+            barcodeScanner,
+            'onBarCodeScanned',
+            {
+                nativeEvent: {
+                    type: 256,
+                    data: `${process.env['API_URL']}/api/login-qr?userId=${userId}&token=${token}`
+                }
+            }
+        );
+    });
+
+    expect(alert).toBeCalledWith(`userId: ${userId}; token: ${token}`);
 });

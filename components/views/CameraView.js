@@ -18,6 +18,7 @@ function CameraView({hasPermission, scanned, handleBarcodeScanned}) {
                         }}
                     >
                         <BarCodeScanner
+                            testID="barcode-scanner"
                             style={{flex: 1}}
                             onBarCodeScanned={scanned ? undefined : handleBarcodeScanned}
                         />
