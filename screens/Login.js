@@ -16,6 +16,7 @@ import {ActivityIndicator, Colors} from "react-native-paper";
 import {useTheme} from "@react-navigation/native";
 import {BarCodeScanner} from "expo-barcode-scanner";
 import CameraView from "../components/views/CameraView";
+import {UrlVerifier} from "../utils/UrlVerifier";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -74,33 +75,7 @@ function Login({navigation}) {
     const handleBarcodeScanned = ({type, data}) => {
         setScanned(true);
         if (type === 256) {
-            const urlParts = data.split('/');
-            const urlPartsSliced = urlParts.slice(2); // Remove https and empty string
-
-            const API_URL = process.env['API_URL'];
-            const apiPath = API_URL.substring(API_URL.lastIndexOf('/') + 1);
-
-            if (!!urlPartsSliced.find(part => part === apiPath) && !!urlPartsSliced.find(part => part === 'api')) {
-                const lastPart = urlPartsSliced.pop();
-                const queryIndex = lastPart.indexOf('?');
-
-                if (queryIndex !== -1) {
-                    const query = lastPart.substring(queryIndex + 1);
-                    const queryPairs = query.split('&');
-                    if (queryPairs.length === 2) {
-                        const userIdPair = queryPairs.filter(pair => pair.includes('userId'))[0];
-                        const userId = userIdPair.split('=')[1];
-                        const tokenPair = queryPairs.filter(pair => pair.includes('token'))[0];
-                        const token = tokenPair.split('=')[1];
-                        Alert.alert(`userId: ${userId}; token: ${token}`);
-                    }
-                    urlPartsSliced.push(lastPart.substring(0, queryIndex), query);
-                } else {
-                    urlPartsSliced.push(lastPart);
-                }
-            } else {
-                Alert.alert('Nieprawidłowy URL');
-            }
+            UrlVerifier.verifyQrLoginUrl(data);
         } else {
             Alert.alert('To nie jest prawidłowy kod QR!');
         }

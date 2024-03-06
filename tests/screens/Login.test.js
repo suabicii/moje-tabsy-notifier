@@ -149,38 +149,67 @@ it('should open camera view after pressing toggler', async () => {
     expect(screen.queryByTestId('camera-view')).toBeTruthy();
 });
 
-it('should log in by correct QR code', async () => {
-    jest.mock('expo-barcode-scanner', () => ({
-        BarCodeScanner: {
-            Constants: {},
-            ConversionUtilities: {},
-            requestPermissionsAsync: jest.fn(),
-            getPermissionsAsync: jest.fn(),
-            scanFromURLAsync: jest.fn(),
-            scanFromCameraAsync: jest.fn(),
-            onBarCodeScanned: jest.fn()
-        }
-    }));
-    const navigate = jest.fn();
-    const alert = jest.spyOn(Alert, 'alert').mockImplementation(msg => console.log(msg));
-    const userId = 'john@doe.com';
-    const token = '123abc456xyz';
-    const {findByTestId} = renderLoginScreen(navigate);
+describe('Login by QR code', () => {
+    let alert;
 
-    await act(async () => {
-        fireEvent.press(screen.getByTestId('btn-pill-camera'));
-        const barcodeScanner = await findByTestId('barcode-scanner');
-        fireEvent(
-            barcodeScanner,
-            'onBarCodeScanned',
-            {
-                nativeEvent: {
-                    type: 256,
-                    data: `${process.env['API_URL']}/api/login-qr?userId=${userId}&token=${token}`
-                }
+    beforeAll(() => {
+        jest.mock('expo-barcode-scanner', () => ({
+            BarCodeScanner: {
+                Constants: {},
+                ConversionUtilities: {},
+                requestPermissionsAsync: jest.fn(),
+                getPermissionsAsync: jest.fn(),
+                scanFromURLAsync: jest.fn(),
+                scanFromCameraAsync: jest.fn(),
+                onBarCodeScanned: jest.fn()
             }
-        );
+        }));
+        alert = jest.spyOn(Alert, 'alert').mockImplementation(msg => console.log(msg));
     });
 
-    expect(alert).toBeCalledWith(`userId: ${userId}; token: ${token}`);
+    it('should log in by correct QR code', async () => {
+        const navigate = jest.fn();
+        const userId = 'john@doe.com';
+        const token = '123abc456xyz';
+        const {findByTestId} = renderLoginScreen(navigate);
+
+        await act(async () => {
+            fireEvent.press(screen.getByTestId('btn-pill-camera'));
+            const barcodeScanner = await findByTestId('barcode-scanner');
+            fireEvent(
+                barcodeScanner,
+                'onBarCodeScanned',
+                {
+                    nativeEvent: {
+                        type: 256,
+                        data: `${process.env['API_URL']}/api/login-qr?userId=${userId}&token=${token}`
+                    }
+                }
+            );
+        });
+
+        expect(alert).toBeCalledWith(`userId: ${userId}; token: ${token}`);
+    });
+
+    it('should display error if scanned barcode is not correct QR code',  async () => {
+        const navigate = jest.fn();
+        const {findByTestId} = renderLoginScreen(navigate);
+
+        await act(async () => {
+            fireEvent.press(screen.getByTestId('btn-pill-camera'));
+            const barcodeScanner = await findByTestId('barcode-scanner');
+            fireEvent(
+                barcodeScanner,
+                'onBarCodeScanned',
+                {
+                    nativeEvent: {
+                        type: 128,
+                        data: 'Some data'
+                    }
+                }
+            );
+        });
+
+        expect(alert).toBeCalledWith('To nie jest prawidłowy kod QR!');
+    });
 });
