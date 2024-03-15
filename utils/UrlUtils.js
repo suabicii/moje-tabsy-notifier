@@ -1,5 +1,3 @@
-import {Alert} from "react-native";
-
 export class UrlUtils {
     static extractUserDataFromQrLoginUrl(url) {
         // https://some-url.domain/api/login-qr?userId=john@doe.com&token=9345rjfe98uyrst809we4
