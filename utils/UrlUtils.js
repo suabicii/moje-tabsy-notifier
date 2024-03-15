@@ -1,7 +1,7 @@
 import {Alert} from "react-native";
 
-export class UrlVerifier {
-    static verifyQrLoginUrl(url) {
+export class UrlUtils {
+    static extractUserDataFromQrLoginUrl(url) {
         // https://some-url.domain/api/login-qr?userId=john@doe.com&token=9345rjfe98uyrst809we4
         const urlParts = url.split('/');
         const urlPartsSliced = urlParts.slice(2); // Remove https and empty string
@@ -23,12 +23,11 @@ export class UrlVerifier {
                     const userId = userIdPair.split('=')[1];
                     const tokenPair = queryPairs.filter(pair => pair.includes('token'))[0];
                     const token = tokenPair.split('=')[1];
-                    Alert.alert(`userId: ${userId}; token: ${token}`);
-                    return;
+                    return {userId, token};
                 }
             }
         }
-        Alert.alert('Nieprawidłowy URL');
+        return null;
     }
 
     /**

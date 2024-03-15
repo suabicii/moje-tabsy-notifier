@@ -16,7 +16,7 @@ import {ActivityIndicator, Colors} from "react-native-paper";
 import {useTheme} from "@react-navigation/native";
 import {BarCodeScanner} from "expo-barcode-scanner";
 import CameraView from "../components/views/CameraView";
-import {UrlVerifier} from "../utils/UrlVerifier";
+import {UrlUtils} from "../utils/UrlUtils";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -75,7 +75,12 @@ function Login({navigation}) {
     const handleBarcodeScanned = ({type, data}) => {
         setScanned(true);
         if (type === 256) {
-            UrlVerifier.verifyQrLoginUrl(data);
+            const userData = UrlUtils.extractUserDataFromQrLoginUrl(data);
+            if (userData) {
+                Alert.alert('URL jest OK');
+            } else {
+                Alert.alert('Nieprawidłowy URL');
+            }
         } else {
             Alert.alert('To nie jest prawidłowy kod QR!');
         }
