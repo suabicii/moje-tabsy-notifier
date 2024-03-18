@@ -72,12 +72,32 @@ function Login({navigation}) {
         }
     };
 
-    const handleBarcodeScanned = ({type, data}) => {
+    const handleBarcodeScanned = async ({type, data}) => {
         setScanned(true);
+        setIsCameraViewOpen(false);
+        setScanned(false);
         if (type === 256) {
             const userData = UrlUtils.extractUserDataFromQrLoginUrl(data);
             if (userData) {
-                Alert.alert('URL jest OK');
+                await AsyncStorage.setItem('mediminder_token', userData.token);
+                setLoading(true);
+                await ajaxCall('post', `login-qr?userId=${userData.userId}&token=${userData.token}`)
+                    .then(async data => {
+                        if (data.status === 200 && data.user_id === userData.userId) {
+                            await registerForNotificationsAndMoveToHomeScreen(data, userData.token);
+                        } else {
+                            setLoginError('Logowanie przez kod QR nie powiodło się');
+                        }
+                    })
+                    .catch(err => {
+                        setLoginError(`${err}`);
+                    });
+                if (!loginError) {
+                    setTimeout(() => {
+                        setLoginError('');
+                    }, 5000);
+                }
+                setLoading(false);
             } else {
                 Alert.alert('Nieprawidłowy URL');
             }

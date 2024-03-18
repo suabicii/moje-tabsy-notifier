@@ -151,6 +151,8 @@ it('should open camera view after pressing toggler', async () => {
 
 describe('Login by QR code', () => {
     let alert;
+    const getQrLoginUrl = (userId, token) => `${process.env['API_URL']}/api/login-qr?userId=${userId}&token=${token}`;
+    const getOnBarcodeScannedData = (type, data) =>  ({type, data});
 
     beforeAll(() => {
         jest.mock('expo-barcode-scanner', () => ({
@@ -180,15 +182,65 @@ describe('Login by QR code', () => {
                 barcodeScanner,
                 'onBarCodeScanned',
                 {
-                    nativeEvent: {
-                        type: 256,
-                        data: `${process.env['API_URL']}/api/login-qr?userId=${userId}&token=${token}`
-                    }
+                    nativeEvent: getOnBarcodeScannedData(256, getQrLoginUrl(userId, token))
                 }
             );
         });
 
-        expect(alert).toBeCalledWith(`userId: ${userId}; token: ${token}`);
+        expect(navigate).toBeCalledWith('Home', {
+            logged: true,
+            userId,
+            loginToken: token,
+            expoPushToken: mockedExpoPushToken
+        });
+    });
+
+    it('should display error if login attempt by QR code failed due', async () => {
+        const userId = 'john@doe.com';
+        const token = '123abc456xyz';
+        jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+            headers: mockGetHeaders,
+            json: () => Promise.resolve({
+                status: 404,
+                detail: 'Login by QR code failed'
+            })
+        }));
+        const {findByTestId} = renderLoginScreen();
+
+        await act(async () => {
+            fireEvent.press(screen.getByTestId('btn-pill-camera'));
+            const barcodeScanner = await findByTestId('barcode-scanner');
+            fireEvent(
+                barcodeScanner,
+                'onBarCodeScanned',
+                {
+                    nativeEvent: getOnBarcodeScannedData(256, getQrLoginUrl(userId, token))
+                }
+            );
+        });
+
+        expect(screen.getByTestId('error')).toBeTruthy();
+    });
+
+    it('should display error if login attempt by QR code failed due to connection problem', async () => {
+        const userId = 'john@doe.com';
+        const token = '123abc456xyz';
+        jest.spyOn(global, 'fetch').mockImplementation(() => Promise.reject('Something went wrong'));
+        const {findByTestId} = renderLoginScreen();
+
+        await act(async () => {
+            fireEvent.press(screen.getByTestId('btn-pill-camera'));
+            const barcodeScanner = await findByTestId('barcode-scanner');
+            fireEvent(
+                barcodeScanner,
+                'onBarCodeScanned',
+                {
+                    nativeEvent: getOnBarcodeScannedData(256, getQrLoginUrl(userId, token))
+                }
+            );
+        });
+
+        expect(screen.getByTestId('error')).toBeTruthy();
     });
 
     it('should display error if scanned barcode is not correct QR code',  async () => {
@@ -202,10 +254,7 @@ describe('Login by QR code', () => {
                 barcodeScanner,
                 'onBarCodeScanned',
                 {
-                    nativeEvent: {
-                        type: 128,
-                        data: 'Some data'
-                    }
+                    nativeEvent: getOnBarcodeScannedData(128, 'some-data')
                 }
             );
         });
