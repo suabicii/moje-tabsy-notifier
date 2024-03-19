@@ -13,12 +13,14 @@ import {Alert} from "react-native";
 const mockGetHeaders = {get: arg => arg === 'content-type' ? 'application/json' : ''}
 const mockedExpoPushToken = '123!#*&abc456';
 
+let alert;
 beforeAll(() => {
     const pushNotificationsRegistration = require("../../utils/pushNotificationsRegistration");
     jest.spyOn(BarCodeScanner, 'requestPermissionsAsync').mockImplementation(() => ({
         status: 'granted'
     }));
     jest.spyOn(pushNotificationsRegistration, "default").mockReturnValue(mockedExpoPushToken);
+    alert = jest.spyOn(Alert, 'alert').mockImplementation(msg => console.log(msg));
 });
 
 beforeEach(async () => {
@@ -127,6 +129,7 @@ it('should stay in Login screen if token was not found', () => {
 it('should stay in Login screen and clear AsyncStorage if token was incorrect', async () => {
     await AsyncStorage.setItem('mediminder_token', 'incorrect_token');
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+        headers: mockGetHeaders,
         json: () => Promise.resolve({
             status: 200,
             message: 'Mobile app user is not logged in'
@@ -137,6 +140,17 @@ it('should stay in Login screen and clear AsyncStorage if token was incorrect', 
     const token = await AsyncStorage.getItem('incorrect_token');
 
     expect(token).toBeFalsy();
+});
+
+it('should display error if autoLogin function failed due to connection error',  async () => {
+    await AsyncStorage.setItem('mediminder_token', 'login_token');
+    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.reject('Error'));
+
+    renderLoginScreen();
+
+    await waitFor(() => {
+        expect(alert).toBeCalled();
+    });
 });
 
 it('should open camera view after pressing toggler', async () => {
@@ -150,7 +164,6 @@ it('should open camera view after pressing toggler', async () => {
 });
 
 describe('Login by QR code', () => {
-    let alert;
     const getQrLoginUrl = (userId, token) => `${process.env['API_URL']}/api/login-qr?userId=${userId}&token=${token}`;
     const getOnBarcodeScannedData = (type, data) =>  ({type, data});
 
@@ -166,7 +179,6 @@ describe('Login by QR code', () => {
                 onBarCodeScanned: jest.fn()
             }
         }));
-        alert = jest.spyOn(Alert, 'alert').mockImplementation(msg => console.log(msg));
     });
 
     it('should log in by correct QR code', async () => {
@@ -195,7 +207,7 @@ describe('Login by QR code', () => {
         });
     });
 
-    it('should display error if login attempt by QR code failed due', async () => {
+    it('should display error if login attempt by QR code failed', async () => {
         const userId = 'john@doe.com';
         const token = '123abc456xyz';
         jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
@@ -260,5 +272,23 @@ describe('Login by QR code', () => {
         });
 
         expect(alert).toBeCalledWith('To nie jest prawidłowy kod QR!');
+    });
+
+    it('should display error if QR login URL is incorrect',  async () => {
+        const {findByTestId} = renderLoginScreen();
+
+        await act(async () => {
+            fireEvent.press(screen.getByTestId('btn-pill-camera'));
+            const barcodeScanner = await findByTestId('barcode-scanner');
+            fireEvent(
+                barcodeScanner,
+                'onBarCodeScanned',
+                {
+                    nativeEvent: getOnBarcodeScannedData(256, 'incorrect-url')
+                }
+            );
+        });
+
+        expect(alert).toBeCalledWith('Nieprawidłowy URL');
     });
 });
