@@ -37,6 +37,14 @@ function Login({navigation}) {
     const [loading, setLoading] = useState(false);
     const [loginError, setLoginError] = useState('');
 
+    const clearLoginError = () => {
+        if (!loginError) {
+            setTimeout(() => {
+                setLoginError('');
+            }, 5000);
+        }
+    };
+
     const registerForNotificationsAndMoveToHomeScreen = async (data, loginToken) => {
         const currentTimeJSON = JSON.stringify(dayjs());
         dispatch(setCurrentTime(currentTimeJSON));
@@ -66,9 +74,32 @@ function Login({navigation}) {
                     }
                 })
                 .catch(err => {
-                    console.log(err);
+                    Alert.alert(`${err}`);
                 });
             setLoading(false);
+        }
+    };
+
+    const loginByQrCode = async url => {
+        const userData = UrlUtils.extractUserDataFromQrLoginUrl(url);
+        if (userData) {
+            await AsyncStorage.setItem('mediminder_token', userData.token);
+            setLoading(true);
+            await ajaxCall('post', `login-qr?userId=${userData.userId}&token=${userData.token}`)
+                .then(async data => {
+                    if (data.status === 200 && data.user_id === userData.userId) {
+                        await registerForNotificationsAndMoveToHomeScreen(data, userData.token);
+                    } else {
+                        setLoginError('Logowanie przez kod QR nie powiodło się');
+                    }
+                })
+                .catch(err => {
+                    setLoginError(`${err}`);
+                });
+            clearLoginError();
+            setLoading(false);
+        } else {
+            Alert.alert('Nieprawidłowy URL');
         }
     };
 
@@ -77,30 +108,7 @@ function Login({navigation}) {
         setIsCameraViewOpen(false);
         setScanned(false);
         if (type === 256) {
-            const userData = UrlUtils.extractUserDataFromQrLoginUrl(data);
-            if (userData) {
-                await AsyncStorage.setItem('mediminder_token', userData.token);
-                setLoading(true);
-                await ajaxCall('post', `login-qr?userId=${userData.userId}&token=${userData.token}`)
-                    .then(async data => {
-                        if (data.status === 200 && data.user_id === userData.userId) {
-                            await registerForNotificationsAndMoveToHomeScreen(data, userData.token);
-                        } else {
-                            setLoginError('Logowanie przez kod QR nie powiodło się');
-                        }
-                    })
-                    .catch(err => {
-                        setLoginError(`${err}`);
-                    });
-                if (!loginError) {
-                    setTimeout(() => {
-                        setLoginError('');
-                    }, 5000);
-                }
-                setLoading(false);
-            } else {
-                Alert.alert('Nieprawidłowy URL');
-            }
+            await loginByQrCode(data);
         } else {
             Alert.alert('To nie jest prawidłowy kod QR!');
         }
@@ -131,11 +139,7 @@ function Login({navigation}) {
             .catch(err => {
                 setLoginError(`${err}`);
             });
-        if (!loginError) {
-            setTimeout(() => {
-                setLoginError('');
-            }, 5000);
-        }
+        clearLoginError();
         setLoading(false);
     };
 
