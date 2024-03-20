@@ -5,7 +5,9 @@ import BarcodeMask from "react-native-barcode-mask";
 
 function CameraView({hasPermission, scanned, handleBarcodeScanned}) {
     return (
-        <>
+        <View style={{
+            marginBottom: 20
+        }}>
             {
                 hasPermission === true
                     ?
@@ -13,9 +15,7 @@ function CameraView({hasPermission, scanned, handleBarcodeScanned}) {
                         testID="camera-view"
                         style={{
                             aspectRatio: 1,
-                            borderRadius: 10,
-                            marginBottom: 20,
-                            marginLeft: 25
+                            borderRadius: 10
                         }}
                     >
                         <BarCodeScanner
@@ -28,7 +28,7 @@ function CameraView({hasPermission, scanned, handleBarcodeScanned}) {
                     :
                     <></>
             }
-        </>
+        </View>
     );
 }
 
