@@ -8594,6 +8594,7 @@ __metadata:
     mockdate: ^3.0.5
     react: 18.2.0
     react-native: 0.72.6
+    react-native-barcode-mask: ^1.2.4
     react-native-bouncy-checkbox: ^3.0.6
     react-native-dotenv: ^3.3.1
     react-native-elements: ^3.4.2
@@ -9425,7 +9426,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:*, prop-types@npm:^15.7.2":
+"prop-types@npm:*, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -9590,6 +9591,15 @@ __metadata:
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 9d6d111d8990dc98bc5402c1266a808b0459b5d54830bbea24c12d908b536df7883f268a7868cfaedde3dd9d4e0d574db456f84d2e6df9c4526f99bb4b5344d8
+  languageName: node
+  linkType: hard
+
+"react-native-barcode-mask@npm:^1.2.4":
+  version: 1.2.4
+  resolution: "react-native-barcode-mask@npm:1.2.4"
+  dependencies:
+    prop-types: ^15.6.2
+  checksum: 1cdf2b3497fdaaa6a39a42393a0265e9a47e9dba82258cc027a7ab3503f6f56a3c4721816cd6adc272c3ee30b5e386bd0be0a1aa76073616c583d9a4de5a883c
   languageName: node
   linkType: hard
 
