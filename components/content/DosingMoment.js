@@ -15,7 +15,7 @@ function DosingMoment({name, drugId, time, id, disabled, handleSetDosingMomentsT
 
     const handleConfirmDose = async () => {
         setBtnLoading(true);
-        const token = await AsyncStorage.getItem('moje_tabsy_token');
+        const token = await AsyncStorage.getItem('mediminder_token');
         await ajaxCall('put', `drug-taken/${token}/${drugId}`)
             .then(async response => {
                 if (response.status === 200) {
