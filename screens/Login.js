@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {View} from "react-native";
+import {Alert, ScrollView, View} from "react-native";
 import {Text} from "react-native";
 import UserInput from "../components/auth/UserInput";
 import PillButton from "../components/buttons/PillButton";
@@ -14,6 +14,9 @@ import * as Notifications from 'expo-notifications';
 import registerForPushNotificationsAsync from "../utils/pushNotificationsRegistration";
 import {ActivityIndicator, Colors} from "react-native-paper";
 import {useTheme} from "@react-navigation/native";
+import {BarCodeScanner} from "expo-barcode-scanner";
+import CameraView from "../components/views/CameraView";
+import {UrlUtils} from "../utils/UrlUtils";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -26,10 +29,21 @@ Notifications.setNotificationHandler({
 function Login({navigation}) {
     const dispatch = useDispatch();
     const {colors} = useTheme();
+    const [hasPermission, setHasPermission] = useState(null);
+    const [isCameraViewOpen, setIsCameraViewOpen] = useState(false);
+    const [scanned, setScanned] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [loginError, setLoginError] = useState('');
+
+    const clearLoginError = () => {
+        if (!loginError) {
+            setTimeout(() => {
+                setLoginError('');
+            }, 5000);
+        }
+    };
 
     const registerForNotificationsAndMoveToHomeScreen = async (data, loginToken) => {
         const currentTimeJSON = JSON.stringify(dayjs());
@@ -60,15 +74,53 @@ function Login({navigation}) {
                     }
                 })
                 .catch(err => {
-                    console.log(err);
+                    Alert.alert(`${err}`);
                 });
             setLoading(false);
+        }
+    };
+
+    const loginByQrCode = async url => {
+        const userData = UrlUtils.extractUserDataFromQrLoginUrl(url);
+        if (userData) {
+            await AsyncStorage.setItem('mediminder_token', userData.token);
+            setLoading(true);
+            await ajaxCall('post', `login-qr?userId=${userData.userId}&token=${userData.token}`)
+                .then(async data => {
+                    if (data.status === 200 && data.user_id === userData.userId) {
+                        await registerForNotificationsAndMoveToHomeScreen(data, userData.token);
+                    } else {
+                        setLoginError('Logowanie przez kod QR nie powiodło się');
+                    }
+                })
+                .catch(err => {
+                    setLoginError(`${err}`);
+                });
+            clearLoginError();
+            setLoading(false);
+        } else {
+            Alert.alert('Nieprawidłowy URL');
+        }
+    };
+
+    const handleBarcodeScanned = async ({type, data}) => {
+        setScanned(true);
+        setIsCameraViewOpen(false);
+        setScanned(false);
+        if (type === 256) {
+            await loginByQrCode(data);
+        } else {
+            Alert.alert('To nie jest prawidłowy kod QR!');
         }
     };
 
     useEffect(() => {
         (async function () {
             await autoLogin();
+        })();
+        (async () => {
+            const {status} = await BarCodeScanner.requestPermissionsAsync();
+            setHasPermission(status === 'granted');
         })();
     }, []);
 
@@ -87,49 +139,63 @@ function Login({navigation}) {
             .catch(err => {
                 setLoginError(`${err}`);
             });
-        if (!loginError) {
-            setTimeout(() => {
-                setLoginError('');
-            }, 5000);
-        }
+        clearLoginError();
         setLoading(false);
     };
 
     return (
-        <View style={{
-            flex: 1,
-            justifyContent: "center",
-            backgroundColor: colors.background
-        }}>
-            <Text style={{
-                color: colors.text,
-                fontWeight: "400",
-                fontSize: 32,
-                marginBottom: 20,
-                textAlign: "center"
+        <ScrollView>
+            <View style={{
+                backgroundColor: colors.background,
+                marginTop: 15
             }}>
-                Zaloguj się, aby otrzymywać powiadomienia
-            </Text>
-            {
-                loading
-                    ?
-                    <ActivityIndicator
-                        testID="auto-login-loader"
-                        animating={true}
-                        size="large"
-                        style={{marginBottom: 20}}
-                        color={Colors.lightBlueA100}
+                <Text style={{
+                    color: colors.text,
+                    fontWeight: "400",
+                    fontSize: 32,
+                    marginBottom: 15,
+                    textAlign: "center"
+                }}>
+                    Zaloguj się, aby otrzymywać powiadomienia
+                </Text>
+                {
+                    isCameraViewOpen &&
+                    <CameraView
+                        handleBarcodeScanned={handleBarcodeScanned}
+                        hasPermission={hasPermission}
+                        scanned={scanned}
                     />
-                    :
-                    <>
-                        <UserInput testID="email" name="EMAIL" value={email} setValue={setEmail}/>
-                        <UserInput testID="password" name="HASŁO" value={password} setValue={setPassword}
-                                   secureTextEntry={true}/>
-                    </>
-            }
-            {loginError && <TextError content={loginError}/>}
-            <PillButton loading={loading} handlePress={handleSubmit} variant="primary" text="Zaloguj się"/>
-        </View>
+                }
+                <PillButton
+                    id="camera"
+                    handlePress={() => {
+                        setIsCameraViewOpen(prevState => !prevState);
+                        setScanned(false);
+                    }}
+                    variant="info"
+                    text="Zaloguj się kodem QR"
+                />
+                {
+                    loading
+                        ?
+                        <ActivityIndicator
+                            testID="auto-login-loader"
+                            animating={true}
+                            size="large"
+                            style={{marginBottom: 20}}
+                            color={Colors.lightBlueA100}
+                        />
+                        :
+                        <>
+                            <UserInput testID="email" name="EMAIL" value={email} setValue={setEmail}/>
+                            <UserInput testID="password" name="HASŁO" value={password} setValue={setPassword}
+                                       secureTextEntry={true}/>
+                        </>
+                }
+                {loginError && <TextError content={loginError}/>}
+                <PillButton loading={loading} handlePress={handleSubmit} variant="primary" text="Zaloguj się"/>
+            </View>
+        </ScrollView>
     );
 }
 

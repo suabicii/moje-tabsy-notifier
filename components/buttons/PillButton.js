@@ -2,7 +2,7 @@ import React from "react";
 import {TouchableOpacity} from "react-native";
 import {Text} from "react-native";
 
-function PillButton({handlePress, loading, variant, text}) {
+function PillButton({id, handlePress, loading, variant, text}) {
     let backgroundColor;
 
     switch (variant) {
@@ -22,7 +22,7 @@ function PillButton({handlePress, loading, variant, text}) {
     
     return (
         <TouchableOpacity
-            testID="btn-pill"
+            testID={`btn-pill${!!id ? `-${id}` : ''}`}
             onPress={handlePress}
             style={{
                 backgroundColor,

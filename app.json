@@ -17,6 +17,14 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Zezwól $(PRODUCT_NAME) na dostęp do aparatu."
+        }
+      ]
+    ],
     "ios": {
       "supportsTablet": true
     },

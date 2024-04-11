@@ -1,149 +1,206 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should correctly render Login screen 1`] = `
-<View
-  style={
-    {
-      "backgroundColor": "rgb(242, 242, 242)",
-      "flex": 1,
-      "justifyContent": "center",
-    }
-  }
->
-  <Text
-    style={
-      {
-        "color": "rgb(28, 28, 30)",
-        "fontSize": 32,
-        "fontWeight": "400",
-        "marginBottom": 20,
-        "textAlign": "center",
-      }
-    }
-  >
-    Zaloguj się, aby otrzymywać powiadomienia
-  </Text>
-  <View
-    style={
-      {
-        "marginHorizontal": 24,
-      }
-    }
-  >
-    <Text
+<RCTScrollView>
+  <View>
+    <View
       style={
         {
-          "color": "rgb(28, 28, 30)",
-          "fontWeight": "300",
+          "backgroundColor": "rgb(242, 242, 242)",
+          "marginTop": 15,
         }
       }
     >
-      EMAIL
-    </Text>
-    <TextInput
-      keyboardType="default"
-      onChangeText={[Function]}
-      secureTextEntry={false}
-      style={
-        {
-          "borderBottomColor": "#8e93a1",
-          "borderBottomWidth": 0.5,
-          "color": "rgb(28, 28, 30)",
-          "height": 48,
-          "marginBottom": 30,
+      <Text
+        style={
+          {
+            "color": "rgb(28, 28, 30)",
+            "fontSize": 32,
+            "fontWeight": "400",
+            "marginBottom": 15,
+            "textAlign": "center",
+          }
         }
-      }
-      testID="email"
-      value=""
-    />
+      >
+        Zaloguj się, aby otrzymywać powiadomienia
+      </Text>
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "backgroundColor": "#6cc3d5",
+            "borderRadius": 24,
+            "height": 50,
+            "justifyContent": "center",
+            "marginBottom": 20,
+            "marginHorizontal": 15,
+            "opacity": 1,
+          }
+        }
+        testID="btn-pill-camera"
+      >
+        <Text
+          style={
+            {
+              "color": "#fff",
+              "fontSize": 24,
+              "fontWeight": "300",
+              "textAlign": "center",
+            }
+          }
+        >
+          Zaloguj się kodem QR
+        </Text>
+      </View>
+      <View
+        style={
+          {
+            "marginHorizontal": 24,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "rgb(28, 28, 30)",
+              "fontWeight": "300",
+            }
+          }
+        >
+          EMAIL
+        </Text>
+        <TextInput
+          keyboardType="default"
+          onChangeText={[Function]}
+          secureTextEntry={false}
+          style={
+            {
+              "borderBottomColor": "#8e93a1",
+              "borderBottomWidth": 0.5,
+              "color": "rgb(28, 28, 30)",
+              "height": 48,
+              "marginBottom": 30,
+            }
+          }
+          testID="email"
+          value=""
+        />
+      </View>
+      <View
+        style={
+          {
+            "marginHorizontal": 24,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "rgb(28, 28, 30)",
+              "fontWeight": "300",
+            }
+          }
+        >
+          HASŁO
+        </Text>
+        <TextInput
+          keyboardType="default"
+          onChangeText={[Function]}
+          secureTextEntry={true}
+          style={
+            {
+              "borderBottomColor": "#8e93a1",
+              "borderBottomWidth": 0.5,
+              "color": "rgb(28, 28, 30)",
+              "height": 48,
+              "marginBottom": 30,
+            }
+          }
+          testID="password"
+          value=""
+        />
+      </View>
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "backgroundColor": "#78c2ad",
+            "borderRadius": 24,
+            "height": 50,
+            "justifyContent": "center",
+            "marginBottom": 20,
+            "marginHorizontal": 15,
+            "opacity": 1,
+          }
+        }
+        testID="btn-pill"
+      >
+        <Text
+          style={
+            {
+              "color": "#fff",
+              "fontSize": 24,
+              "fontWeight": "300",
+              "textAlign": "center",
+            }
+          }
+        >
+          Zaloguj się
+        </Text>
+      </View>
+    </View>
   </View>
-  <View
-    style={
-      {
-        "marginHorizontal": 24,
-      }
-    }
-  >
-    <Text
-      style={
-        {
-          "color": "rgb(28, 28, 30)",
-          "fontWeight": "300",
-        }
-      }
-    >
-      HASŁO
-    </Text>
-    <TextInput
-      keyboardType="default"
-      onChangeText={[Function]}
-      secureTextEntry={true}
-      style={
-        {
-          "borderBottomColor": "#8e93a1",
-          "borderBottomWidth": 0.5,
-          "color": "rgb(28, 28, 30)",
-          "height": 48,
-          "marginBottom": 30,
-        }
-      }
-      testID="password"
-      value=""
-    />
-  </View>
-  <View
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": undefined,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onClick={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
-    style={
-      {
-        "backgroundColor": "#78c2ad",
-        "borderRadius": 24,
-        "height": 50,
-        "justifyContent": "center",
-        "marginBottom": 20,
-        "marginHorizontal": 15,
-        "opacity": 1,
-      }
-    }
-    testID="btn-pill"
-  >
-    <Text
-      style={
-        {
-          "color": "#fff",
-          "fontSize": 24,
-          "fontWeight": "300",
-          "textAlign": "center",
-        }
-      }
-    >
-      Zaloguj się
-    </Text>
-  </View>
-</View>
+</RCTScrollView>
 `;
