@@ -17,6 +17,7 @@ import {useTheme} from "@react-navigation/native";
 import {BarCodeScanner} from "expo-barcode-scanner";
 import CameraView from "../components/views/CameraView";
 import {UrlUtils} from "../utils/UrlUtils";
+import * as Device from 'expo-device';
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -36,6 +37,11 @@ function Login({navigation}) {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [loginError, setLoginError] = useState('');
+
+    const deviceInfo = {
+        name: Device.deviceName || `${Device.brand} ${Device.modelName}`,
+        system: `${Device.osName} ${Device.osVersion}`
+    };
 
     const clearLoginError = () => {
         if (!loginError) {
@@ -85,7 +91,7 @@ function Login({navigation}) {
         if (userData) {
             await AsyncStorage.setItem('mediminder_token', userData.token);
             setLoading(true);
-            await ajaxCall('post', `login-qr?userId=${userData.userId}&token=${userData.token}`)
+            await ajaxCall('post', `login-qr?userId=${userData.userId}&token=${userData.token}`, {body: deviceInfo})
                 .then(async data => {
                     if (data.status === 200 && data.user_id === userData.userId) {
                         await registerForNotificationsAndMoveToHomeScreen(data, userData.token);
@@ -128,7 +134,7 @@ function Login({navigation}) {
         setLoading(true);
         const token = generateToken();
         await AsyncStorage.setItem('mediminder_token', token);
-        await ajaxCall('post', 'login', {body: {email, password, token}})
+        await ajaxCall('post', 'login', {body: {email, password, token, ...deviceInfo}})
             .then(async data => {
                 if (data.error || data.status !== 200) {
                     setLoginError(data.error);
