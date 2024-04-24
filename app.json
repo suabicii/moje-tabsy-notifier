@@ -23,12 +23,6 @@
         {
           "cameraPermission": "Zezwól $(PRODUCT_NAME) na dostęp do aparatu."
         }
-      ],
-      [
-        "expo-location",
-        {
-          "locationAlwaysAndWhenInUsePermission": "Zezwól $(PRODUCT_NAME) na dostęp do lokalizacji."
-        }
       ]
     ],
     "ios": {

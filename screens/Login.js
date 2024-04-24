@@ -18,7 +18,6 @@ import {BarCodeScanner} from "expo-barcode-scanner";
 import CameraView from "../components/views/CameraView";
 import {UrlUtils} from "../utils/UrlUtils";
 import * as Device from "expo-device";
-import * as Location from "expo-location";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -31,7 +30,6 @@ Notifications.setNotificationHandler({
 function Login({navigation}) {
     const dispatch = useDispatch();
     const {colors} = useTheme();
-    const [location, setLocation] = useState(null);
     const [hasPermission, setHasPermission] = useState(null);
     const [isCameraViewOpen, setIsCameraViewOpen] = useState(false);
     const [scanned, setScanned] = useState(false);
@@ -123,37 +121,10 @@ function Login({navigation}) {
     };
 
     useEffect(() => {
-        if (location) {
-            console.log(location);
-        }
-    }, [location]);
-
-    useEffect(() => {
         (async () => await autoLogin())();
         (async () => {
             let {status} = await BarCodeScanner.requestPermissionsAsync();
             setHasPermission(status === 'granted');
-
-            ({status} = await Location.requestForegroundPermissionsAsync());
-            if (status === 'granted') {
-                const {coords} = await Location.getCurrentPositionAsync();
-                if (coords) {
-                    const {latitude, longitude} = coords;
-                    let fullLocation;
-                    await Location.reverseGeocodeAsync({latitude, longitude})
-                        .then(res => {
-                            fullLocation = res[0];
-                        })
-                        .catch(err => console.log(err));
-                    if (fullLocation) {
-                        setLocation({
-                            city: fullLocation.city,
-                            country: fullLocation.country,
-                            subregion: fullLocation.subregion
-                        });
-                    }
-                }
-            }
         })();
     }, []);
 
