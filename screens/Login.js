@@ -18,6 +18,7 @@ import {BarCodeScanner} from "expo-barcode-scanner";
 import CameraView from "../components/views/CameraView";
 import {UrlUtils} from "../utils/UrlUtils";
 import * as Device from "expo-device";
+import IpLocation from "../utils/IpLocation";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -91,7 +92,8 @@ function Login({navigation}) {
         if (userData) {
             await AsyncStorage.setItem('mediminder_token', userData.token);
             setLoading(true);
-            await ajaxCall('post', `login-qr?userId=${userData.userId}&token=${userData.token}`, {body: deviceInfo})
+            const location = await IpLocation.getIpLocation();
+            await ajaxCall('post', `login-qr?userId=${userData.userId}&token=${userData.token}`, {body: deviceInfo, ...location})
                 .then(async data => {
                     if (data.status === 200 && data.user_id === userData.userId) {
                         await registerForNotificationsAndMoveToHomeScreen(data, userData.token);
@@ -132,7 +134,8 @@ function Login({navigation}) {
         setLoading(true);
         const token = generateToken();
         await AsyncStorage.setItem('mediminder_token', token);
-        await ajaxCall('post', 'login', {body: {email, password, token, ...deviceInfo}})
+        const location = await IpLocation.getIpLocation();
+        await ajaxCall('post', 'login', {body: {email, password, token, ...deviceInfo, ...location}})
             .then(async data => {
                 if (data.error || data.status !== 200) {
                     setLoginError(data.error);

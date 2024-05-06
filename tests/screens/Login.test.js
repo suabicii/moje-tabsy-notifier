@@ -9,6 +9,8 @@ import {Provider} from "react-redux";
 import store from "../../store";
 import {BarCodeScanner} from "expo-barcode-scanner";
 import {Alert} from "react-native";
+import IpLocation from "../../utils/IpLocation";
+import location from "../fixtures/location";
 
 const mockGetHeaders = {get: arg => arg === 'content-type' ? 'application/json' : ''}
 const mockedExpoPushToken = '123!#*&abc456';
@@ -19,6 +21,7 @@ beforeAll(() => {
     jest.spyOn(BarCodeScanner, 'requestPermissionsAsync').mockImplementation(() => ({
         status: 'granted'
     }));
+    jest.spyOn(IpLocation, 'getIpLocation').mockImplementation(() => location);
     jest.spyOn(pushNotificationsRegistration, "default").mockReturnValue(mockedExpoPushToken);
     alert = jest.spyOn(Alert, 'alert').mockImplementation(msg => console.log(msg));
 });
