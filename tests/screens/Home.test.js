@@ -15,11 +15,13 @@ import {drugList} from "../fixtures/drugList";
 import {fetchDrugs} from "../../features/drugs/drugsSlice";
 import {setCurrentTime} from "../../features/time/timeSlice";
 import sendNotification from "../../utils/notifier";
+import {setActiveSession} from "../../features/activeSession/activeSessionSlice";
 
 let currentTime;
 const mockGetHeaders = {get: arg => arg === 'content-type' ? 'application/json' : ''}
 const expoPushToken = 'mock_expo_push_token123';
 const loginToken = 'mock_login_token123';
+
 beforeAll(() => {
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
         headers: mockGetHeaders, // Avoid: "TypeError: Cannot read properties of undefined (reading 'get')"
@@ -28,6 +30,10 @@ beforeAll(() => {
             message: 'successfully logged out'
         })
     }));
+});
+
+beforeEach(() => {
+    store.dispatch(setActiveSession(true));
 });
 
 afterEach(() => {
@@ -176,7 +182,7 @@ describe('Queue/send notifications', () => {
         }));
     });
 
-    beforeEach( async () => {
+    beforeEach(async () => {
         notifier = require('../../utils/notifier');
         notifier = jest.spyOn(notifier, 'default');
         MockDate.set('2020-01-01');

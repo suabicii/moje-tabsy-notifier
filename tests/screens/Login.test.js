@@ -78,7 +78,6 @@ it('should navigate to Home screen if logging in succeeded', async () => {
     await submitUserData();
 
     expect(navigate).toHaveBeenCalledWith('Home', {
-        logged: true,
         userId: 'john@doe.com',
         loginToken: mockedToken,
         expoPushToken: mockedExpoPushToken
@@ -114,7 +113,6 @@ it('should automatically log in if token is correct', async () => {
 
     await waitFor(() => {
         expect(navigate).toHaveBeenCalledWith('Home', {
-            logged: true,
             userId: 'john@doe.com',
             loginToken: 'correct_token',
             expoPushToken: mockedExpoPushToken
@@ -203,7 +201,6 @@ describe('Login by QR code', () => {
         });
 
         expect(navigate).toBeCalledWith('Home', {
-            logged: true,
             userId,
             loginToken: token,
             expoPushToken: mockedExpoPushToken

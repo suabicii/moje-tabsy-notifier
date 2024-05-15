@@ -19,6 +19,7 @@ import CameraView from "../components/views/CameraView";
 import {UrlUtils} from "../utils/UrlUtils";
 import * as Device from "expo-device";
 import IpLocation from "../utils/IpLocation";
+import {setActiveSession} from "../features/activeSession/activeSessionSlice";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -54,12 +55,12 @@ function Login({navigation}) {
 
     const registerForNotificationsAndMoveToHomeScreen = async (data, loginToken) => {
         const currentTimeJSON = JSON.stringify(dayjs());
+        dispatch(setActiveSession(true));
         dispatch(setCurrentTime(currentTimeJSON));
 
         const expoPushToken = await registerForPushNotificationsAsync();
 
         navigation.navigate('Home', {
-            logged: true,
             userId: data.user_id,
             loginToken,
             expoPushToken
