@@ -15,20 +15,21 @@ import sendNotification from "../utils/notifier";
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from "uuid";
 import {useTheme} from "@react-navigation/native";
+import {setActiveSession} from "../features/activeSession/activeSessionSlice";
 
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
 
 function Home({navigation, route}) {
-    const {userId, logged, loginToken, expoPushToken} = route.params;
+    const {userId, loginToken, expoPushToken} = route.params;
 
+    const activeSession = useSelector(state => state.activeSession);
     const time = useSelector(state => state.time);
     const drugList = useSelector(state => state.drugs);
     const drugsTaken = useSelector(state => state.drugsTaken);
     const dispatch = useDispatch();
 
     const {colors} = useTheme();
-    const [isLogged, setIsLogged] = useState(logged);
     const [loading, setLoading] = useState(false);
     const [welcomeModalVisible, setWelcomeModalVisible] = useState(true);
     const [drugsVisible, setDrugsVisible] = useState(false);
@@ -73,7 +74,7 @@ function Home({navigation, route}) {
 
     // block going back until user pushed logout button
     navigation.addListener('beforeRemove', e => {
-        if (!isLogged) {
+        if (!activeSession) {
             navigation.dispatch(e.data.action); // unblock going back action
             return;
         }
@@ -109,10 +110,10 @@ function Home({navigation, route}) {
     }, [drugList]);
 
     useEffect(() => {
-        if (!isLogged) {
+        if (!activeSession) {
             navigation.navigate('Login');
         }
-    }, [isLogged]);
+    }, [activeSession]);
 
     useEffect(() => {
         getTomorrowTimeFromLocalStorage().then(async tomorrowTimeStr => {
@@ -163,7 +164,7 @@ function Home({navigation, route}) {
             .then(async data => {
                 if (data.status === 200) {
                     await AsyncStorage.clear();
-                    setIsLogged(false);
+                    dispatch(setActiveSession(false));
                 }
             })
             .catch(err => {

@@ -17,6 +17,9 @@ import {useTheme} from "@react-navigation/native";
 import {BarCodeScanner} from "expo-barcode-scanner";
 import CameraView from "../components/views/CameraView";
 import {UrlUtils} from "../utils/UrlUtils";
+import * as Device from "expo-device";
+import IpLocation from "../utils/IpLocation";
+import {setActiveSession} from "../features/activeSession/activeSessionSlice";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -37,6 +40,11 @@ function Login({navigation}) {
     const [loading, setLoading] = useState(false);
     const [loginError, setLoginError] = useState('');
 
+    const deviceInfo = {
+        name: Device.deviceName || `${Device.brand} ${Device.modelName}`,
+        system: `${Device.osName} ${Device.osVersion}`
+    };
+
     const clearLoginError = () => {
         if (!loginError) {
             setTimeout(() => {
@@ -47,12 +55,12 @@ function Login({navigation}) {
 
     const registerForNotificationsAndMoveToHomeScreen = async (data, loginToken) => {
         const currentTimeJSON = JSON.stringify(dayjs());
+        dispatch(setActiveSession(true));
         dispatch(setCurrentTime(currentTimeJSON));
 
         const expoPushToken = await registerForPushNotificationsAsync();
 
         navigation.navigate('Home', {
-            logged: true,
             userId: data.user_id,
             loginToken,
             expoPushToken
@@ -85,7 +93,8 @@ function Login({navigation}) {
         if (userData) {
             await AsyncStorage.setItem('mediminder_token', userData.token);
             setLoading(true);
-            await ajaxCall('post', `login-qr?userId=${userData.userId}&token=${userData.token}`)
+            const location = await IpLocation.getIpLocation();
+            await ajaxCall('post', `login-qr?userId=${userData.userId}&token=${userData.token}`, {body: deviceInfo, ...location})
                 .then(async data => {
                     if (data.status === 200 && data.user_id === userData.userId) {
                         await registerForNotificationsAndMoveToHomeScreen(data, userData.token);
@@ -115,11 +124,9 @@ function Login({navigation}) {
     };
 
     useEffect(() => {
-        (async function () {
-            await autoLogin();
-        })();
+        (async () => await autoLogin())();
         (async () => {
-            const {status} = await BarCodeScanner.requestPermissionsAsync();
+            let {status} = await BarCodeScanner.requestPermissionsAsync();
             setHasPermission(status === 'granted');
         })();
     }, []);
@@ -128,7 +135,8 @@ function Login({navigation}) {
         setLoading(true);
         const token = generateToken();
         await AsyncStorage.setItem('mediminder_token', token);
-        await ajaxCall('post', 'login', {body: {email, password, token}})
+        const location = await IpLocation.getIpLocation();
+        await ajaxCall('post', 'login', {body: {email, password, token, ...deviceInfo, ...location}})
             .then(async data => {
                 if (data.error || data.status !== 200) {
                     setLoginError(data.error);
