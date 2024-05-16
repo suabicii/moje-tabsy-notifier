@@ -113,6 +113,15 @@ function Login({navigation}) {
         }
     };
 
+    const requestCameraPermissionAndOpenCameraView = async () => {
+        let {status} = await Camera.requestCameraPermissionsAsync();
+        const isStatusGranted = status === 'granted';
+        setHasPermission(isStatusGranted);
+        if (isStatusGranted) {
+            setIsCameraViewOpen(prevState => !prevState);
+        }
+    };
+
     const handleBarcodeScanned = async ({type, data}) => {
         setScanned(true);
         setIsCameraViewOpen(false);
@@ -126,10 +135,6 @@ function Login({navigation}) {
 
     useEffect(() => {
         (async () => await autoLogin())();
-        (async () => {
-            let {status} = await Camera.requestCameraPermissionsAsync();
-            setHasPermission(status === 'granted');
-        })();
     }, []);
 
     const handleSubmit = async () => {
@@ -177,8 +182,8 @@ function Login({navigation}) {
                 }
                 <PillButton
                     id="camera"
-                    handlePress={() => {
-                        setIsCameraViewOpen(prevState => !prevState);
+                    handlePress={async () => {
+                        await requestCameraPermissionAndOpenCameraView();
                         setScanned(false);
                     }}
                     variant="info"
