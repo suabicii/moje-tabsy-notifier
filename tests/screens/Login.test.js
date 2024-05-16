@@ -7,10 +7,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {generateToken} from "../../utils/tokenGenerator";
 import {Provider} from "react-redux";
 import store from "../../store";
-import {BarCodeScanner} from "expo-barcode-scanner";
 import {Alert} from "react-native";
 import IpLocation from "../../utils/IpLocation";
 import location from "../fixtures/location";
+import {Camera} from "expo-camera";
 
 const mockGetHeaders = {get: arg => arg === 'content-type' ? 'application/json' : ''}
 const mockedExpoPushToken = '123!#*&abc456';
@@ -18,7 +18,7 @@ const mockedExpoPushToken = '123!#*&abc456';
 let alert;
 beforeAll(() => {
     const pushNotificationsRegistration = require("../../utils/pushNotificationsRegistration");
-    jest.spyOn(BarCodeScanner, 'requestPermissionsAsync').mockImplementation(() => ({
+    jest.spyOn(Camera, 'requestCameraPermissionsAsync').mockImplementation(() => ({
         status: 'granted'
     }));
     jest.spyOn(IpLocation, 'getIpLocation').mockImplementation(() => location);
@@ -169,15 +169,14 @@ describe('Login by QR code', () => {
     const getOnBarcodeScannedData = (type, data) =>  ({type, data});
 
     beforeAll(() => {
-        jest.mock('expo-barcode-scanner', () => ({
-            BarCodeScanner: {
+        jest.mock('expo-camera', () => ({
+            Camera: {
                 Constants: {},
                 ConversionUtilities: {},
-                requestPermissionsAsync: jest.fn(),
-                getPermissionsAsync: jest.fn(),
+                requestCameraPermissionsAsync: jest.fn(),
+                getCameraPermissionsAsync: jest.fn(),
                 scanFromURLAsync: jest.fn(),
-                scanFromCameraAsync: jest.fn(),
-                onBarCodeScanned: jest.fn()
+                onBarcodeScanned: jest.fn()
             }
         }));
     });
@@ -193,7 +192,7 @@ describe('Login by QR code', () => {
             const barcodeScanner = await findByTestId('barcode-scanner');
             fireEvent(
                 barcodeScanner,
-                'onBarCodeScanned',
+                'onBarcodeScanned',
                 {
                     nativeEvent: getOnBarcodeScannedData(256, getQrLoginUrl(userId, token))
                 }
@@ -224,7 +223,7 @@ describe('Login by QR code', () => {
             const barcodeScanner = await findByTestId('barcode-scanner');
             fireEvent(
                 barcodeScanner,
-                'onBarCodeScanned',
+                'onBarcodeScanned',
                 {
                     nativeEvent: getOnBarcodeScannedData(256, getQrLoginUrl(userId, token))
                 }
@@ -245,7 +244,7 @@ describe('Login by QR code', () => {
             const barcodeScanner = await findByTestId('barcode-scanner');
             fireEvent(
                 barcodeScanner,
-                'onBarCodeScanned',
+                'onBarcodeScanned',
                 {
                     nativeEvent: getOnBarcodeScannedData(256, getQrLoginUrl(userId, token))
                 }
@@ -264,7 +263,7 @@ describe('Login by QR code', () => {
             const barcodeScanner = await findByTestId('barcode-scanner');
             fireEvent(
                 barcodeScanner,
-                'onBarCodeScanned',
+                'onBarcodeScanned',
                 {
                     nativeEvent: getOnBarcodeScannedData(128, 'some-data')
                 }
@@ -282,7 +281,7 @@ describe('Login by QR code', () => {
             const barcodeScanner = await findByTestId('barcode-scanner');
             fireEvent(
                 barcodeScanner,
-                'onBarCodeScanned',
+                'onBarcodeScanned',
                 {
                     nativeEvent: getOnBarcodeScannedData(256, 'incorrect-url')
                 }

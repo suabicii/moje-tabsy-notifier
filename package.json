@@ -29,7 +29,6 @@
     "@react-navigation/native-stack": "^6.9.1",
     "dayjs": "^1.11.7",
     "expo": "51",
-    "expo-barcode-scanner": "~13.0.1",
     "expo-camera": "~15.0.8",
     "expo-constants": "~16.0.1",
     "expo-device": "~6.0.2",

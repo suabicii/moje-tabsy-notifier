@@ -1,9 +1,9 @@
 import React from "react";
 import {View} from "react-native";
-import {BarCodeScanner} from "expo-barcode-scanner";
 import BarcodeMask from "react-native-barcode-mask";
+import {CameraView} from "expo-camera";
 
-function CameraView({hasPermission, scanned, handleBarcodeScanned}) {
+function BarcodeScannerView({hasPermission, scanned, handleBarcodeScanned}) {
     return (
         <View style={{
             marginBottom: 20
@@ -18,10 +18,10 @@ function CameraView({hasPermission, scanned, handleBarcodeScanned}) {
                             borderRadius: 10
                         }}
                     >
-                        <BarCodeScanner
+                        <CameraView
                             testID="barcode-scanner"
                             style={{flex: 1}}
-                            onBarCodeScanned={scanned ? undefined : handleBarcodeScanned}
+                            onBarcodeScanned={scanned ? undefined : handleBarcodeScanned}
                         />
                         <BarcodeMask edgeColor="#62B1F6" showAnimatedLine animatedLineColor="#FF0000"/>
                     </View>
@@ -32,4 +32,4 @@ function CameraView({hasPermission, scanned, handleBarcodeScanned}) {
     );
 }
 
-export default CameraView;
+export default BarcodeScannerView;
