@@ -1,10 +1,10 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import CameraView from "../../../components/views/CameraView";
+import BarcodeScannerView from "../../../components/views/BarcodeScannerView";
 
-it('should correctly render CameraView with granted permission', () => {
+it('should correctly render BarcodeScannerView with granted permission', () => {
     const tree = renderer.create(
-        <CameraView
+        <BarcodeScannerView
             hasPermission={true}
             scanned={true}
             handleBarcodeScanned={jest.fn()}

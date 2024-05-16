@@ -14,12 +14,12 @@ import * as Notifications from 'expo-notifications';
 import registerForPushNotificationsAsync from "../utils/pushNotificationsRegistration";
 import {ActivityIndicator, Colors} from "react-native-paper";
 import {useTheme} from "@react-navigation/native";
-import {BarCodeScanner} from "expo-barcode-scanner";
-import CameraView from "../components/views/CameraView";
+import BarcodeScannerView from "../components/views/BarcodeScannerView";
 import {UrlUtils} from "../utils/UrlUtils";
 import * as Device from "expo-device";
 import IpLocation from "../utils/IpLocation";
 import {setActiveSession} from "../features/activeSession/activeSessionSlice";
+import {Camera} from "expo-camera";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -94,11 +94,12 @@ function Login({navigation}) {
             await AsyncStorage.setItem('mediminder_token', userData.token);
             setLoading(true);
             const location = await IpLocation.getIpLocation();
-            await ajaxCall('post', `login-qr?userId=${userData.userId}&token=${userData.token}`, {body: deviceInfo, ...location})
+            await ajaxCall('post', `login-qr?userId=${userData.userId}&token=${userData.token}`, {body: {...deviceInfo, ...location}})
                 .then(async data => {
                     if (data.status === 200 && data.user_id === userData.userId) {
                         await registerForNotificationsAndMoveToHomeScreen(data, userData.token);
                     } else {
+                        console.log(data);
                         setLoginError('Logowanie przez kod QR nie powiodło się');
                     }
                 })
@@ -109,6 +110,15 @@ function Login({navigation}) {
             setLoading(false);
         } else {
             Alert.alert('Nieprawidłowy URL');
+        }
+    };
+
+    const requestCameraPermissionAndOpenCameraView = async () => {
+        let {status} = await Camera.requestCameraPermissionsAsync();
+        const isStatusGranted = status === 'granted';
+        setHasPermission(isStatusGranted);
+        if (isStatusGranted) {
+            setIsCameraViewOpen(prevState => !prevState);
         }
     };
 
@@ -125,10 +135,6 @@ function Login({navigation}) {
 
     useEffect(() => {
         (async () => await autoLogin())();
-        (async () => {
-            let {status} = await BarCodeScanner.requestPermissionsAsync();
-            setHasPermission(status === 'granted');
-        })();
     }, []);
 
     const handleSubmit = async () => {
@@ -168,7 +174,7 @@ function Login({navigation}) {
                 </Text>
                 {
                     isCameraViewOpen &&
-                    <CameraView
+                    <BarcodeScannerView
                         handleBarcodeScanned={handleBarcodeScanned}
                         hasPermission={hasPermission}
                         scanned={scanned}
@@ -176,8 +182,8 @@ function Login({navigation}) {
                 }
                 <PillButton
                     id="camera"
-                    handlePress={() => {
-                        setIsCameraViewOpen(prevState => !prevState);
+                    handlePress={async () => {
+                        await requestCameraPermissionAndOpenCameraView();
                         setScanned(false);
                     }}
                     variant="info"
